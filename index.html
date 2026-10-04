@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -33,7 +32,7 @@
     .btn-dark:hover { background: #1e293b; }
     .btn-full { width: 100%; margin-top: 8px; }
 
-    /* Раскладываемые секции (Accordion) */
+    /* Аккордеоны */
     .section-wrap { margin-top: 12px; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; background: #fff; }
     .section-header { font-size: 13px; font-weight: 700; background: var(--header-bg); color: #fff; padding: 9px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
     .section-header:hover { background: #1e2b37; }
@@ -49,7 +48,7 @@
     .input-box input, .input-box select, .input-box textarea { width: 100%; padding: 7px 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 13px; background: #fff; outline: none; }
     .input-box input:focus, .input-box select:focus, .input-box textarea:focus { border-color: var(--primary); }
 
-    /* Сетка планировок */
+    /* Планировки */
     .plan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
     .plan-card { border: 2px solid var(--border-color); border-radius: 6px; padding: 6px 4px; text-align: center; cursor: pointer; background: #fff; transition: all 0.15s; }
     .plan-card:hover { border-color: #94a3b8; }
@@ -57,9 +56,10 @@
     .plan-card svg { width: 100%; height: 50px; display: block; margin: 0 auto 3px; }
     .plan-card span { font-size: 11px; font-weight: 600; color: #475569; }
 
-    /* Строки опций — у всех теперь чекбокс! */
+    /* Опции с чекбоксами */
     .option-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; margin-bottom: 5px; }
-    .option-row:hover { background: #f8fafc; }
+    .option-row.disabled { opacity: 0.55; background: #f1f5f9; pointer-events: none; }
+    .option-row:hover:not(.disabled) { background: #f8fafc; }
     .option-left { display: flex; align-items: center; gap: 8px; flex: 1; }
     .option-left input[type="radio"], .option-left input[type="checkbox"] { width: 17px; height: 17px; cursor: pointer; accent-color: var(--primary); }
     .option-left label { font-size: 12.5px; font-weight: 600; cursor: pointer; user-select: none; }
@@ -69,10 +69,11 @@
     .reset-sub-btn { font-size: 11px; padding: 4px 6px; background: #e2e8f0; border: none; border-radius: 3px; cursor: pointer; color: #475569; }
     .reset-sub-btn:hover { background: #cbd5e1; }
 
-    /* Доставка */
+    /* Блок Доставки */
     .delivery-box { background: #1e293b; color: #fff; padding: 12px 14px; border-radius: 4px; font-weight: 700; margin-top: 8px; }
     .delivery-calc-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
-    .delivery-calc-row input { width: 90px; text-align: right; padding: 5px 8px; border-radius: 4px; border: none; font-weight: 700; }
+    .delivery-calc-row input, .delivery-calc-row select { width: 140px; padding: 5px 8px; border-radius: 4px; border: none; font-weight: 700; font-size: 12px; }
+    .delivery-calc-row input { text-align: right; width: 90px; }
 
     /* Итог слева */
     .total-box-left { background: #ea580c; color: #fff; padding: 12px 16px; border-radius: 4px; margin-top: 16px; font-size: 16px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
@@ -91,7 +92,6 @@
     .kp-info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 10px 14px; margin-bottom: 14px; font-size: 12.5px; line-height: 1.5; }
     .kp-info-box span { font-weight: 700; color: #0f172a; }
 
-    /* Таблица КП точь-в-точь по фото */
     .kp-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
     .kp-table th { background: #f8fafc; padding: 8px 10px; font-weight: 700; text-align: left; border-bottom: 2px solid #cbd5e1; font-size: 12.5px; color: #334155; }
     .kp-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; font-size: 12.5px; vertical-align: top; line-height: 1.6; }
@@ -108,7 +108,7 @@
     .kp-total-banner { background: #1e3a8a; color: #fff; padding: 12px 18px; border-radius: 6px; font-size: 19px; font-weight: 900; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     .kp-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-    /* Модальное окно по фото */
+    /* Модальное окно */
     .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
     .modal-overlay.active { display: flex; }
     .modal-window { background: #fff; width: 100%; max-width: 780px; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25); display: flex; flex-direction: column; max-height: 92vh; }
@@ -132,7 +132,7 @@
 <body>
 
 <div class="app-container">
-  <!-- ЛЕВАЯ ПАНЕЛЬ: КОНФИГУРАТОР -->
+  <!-- ЛЕВАЯ ПАНЕЛЬ -->
   <div class="config-panel">
     <div class="top-header">
       <h2>Настройка КП</h2>
@@ -226,7 +226,7 @@
       </div>
     </div>
 
-    <!-- 6. Доставка -->
+    <!-- 6. Доставка (Регионы и автоматический пересчет) -->
     <div class="section-wrap" id="sec_delivery">
       <div class="section-header" onclick="toggleSection('sec_delivery')">
         <span>6. Доставка</span>
@@ -238,16 +238,22 @@
         </label>
         <div class="delivery-box">
           <div class="delivery-calc-row">
+            <span>База отгрузки / Регион:</span>
+            <select id="delivery_region" onchange="onDeliveryParamsChanged()">
+              <option value="ramenskoe">Раменское (мин. 16 000 до 70 км, далее 120 р/км)</option>
+              <option value="ovrazhki">ОВРАЖКИ (мин. 14 500 до 50 км, далее 130 р/км)</option>
+              <option value="kraskovo">Красково (мин. 14 500 до 50 км, далее 130 р/км)</option>
+              <option value="schelkovo">Щелково (мин. 13 000 до 50 км, далее 120 р/км)</option>
+            </select>
+          </div>
+          <div class="delivery-calc-row">
             <span>Расстояние от базы, км:</span>
-            <input type="number" id="delivery_km" value="0" min="0" oninput="calcDeliveryFromKm()">
+            <input type="number" id="delivery_km" value="0" min="0" oninput="onDeliveryParamsChanged()">
           </div>
-          <div style="font-size:11px; color:#cbd5e1; margin-bottom:8px; line-height:1.3;">
-            До 50 км: 13 000 руб. (мин. ставка). Свыше 50 км: +120 руб/км.
-          </div>
-          <div class="delivery-calc-row" style="margin-bottom:0; font-size:15px;">
+          <div class="delivery-calc-row" style="margin-bottom:0; font-size:15px; margin-top:8px;">
             <span>ДОСТАВКА ИТОГО:</span>
             <div style="display:flex; align-items:center; gap:6px;">
-              <input type="number" id="delivery_price" value="13000" min="13000" oninput="onCustomDeliveryPrice()">
+              <input type="number" id="delivery_price" value="16000" oninput="onCustomDeliveryPrice()">
               <span>руб.</span>
             </div>
           </div>
@@ -268,7 +274,7 @@
       </div>
     </div>
 
-    <!-- Итог слева -->
+    <!-- Итоговая плашка -->
     <div class="total-box-left">
       <span>ИТОГО: <span id="left_total">0</span> РУБ.</span>
     </div>
@@ -315,7 +321,7 @@
       </div>
     </div>
 
-    <!-- Таблица КП по образцу фото 1000010458.jpg -->
+    <!-- Таблица КП -->
     <table class="kp-table">
       <thead>
         <tr>
@@ -352,7 +358,7 @@
   </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО ПО ОБРАЗЦУ ФОТО 1000010459 И 1000010460 -->
+<!-- МОДАЛЬНОЕ ОКНО -->
 <div class="modal-overlay" id="order_modal">
   <div class="modal-window">
     <div class="modal-head-grid">
@@ -388,6 +394,14 @@
 </div>
 
 <script>
+/* РАСЦЕНКИ РЕГИОНОВ ДОСТАВКИ */
+const DELIVERY_RATES = {
+  ramenskoe: { minPrice: 16000, baseKm: 70, extraKmPrice: 120, name: 'Раменское' },
+  ovrazhki:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'ОВРАЖКИ' },
+  kraskovo:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'Красково' },
+  schelkovo: { minPrice: 13000, baseKm: 50, extraKmPrice: 120, name: 'Щелково' }
+};
+
 /* БАЗА ТОВАРОВ И ЦЕН */
 const PRODUCTS_DATA = {
   wood_2: {
@@ -657,7 +671,7 @@ const PRODUCTS_DATA = {
       { id: 'bk_outer_paint', name: 'Покраска каркаса БК', price: 12000 }
     ],
     defaultSpec: {
-      frame: 'швеллер 100х50 мм, угол 75х75',
+      frame: 'швеллер 100х50 мм, уголок 75х75',
       outer: 'Профлист С8 оцинкованный',
       roof: 'Профлист С8',
       height: '2.2-2.0',
@@ -673,7 +687,7 @@ const PRODUCTS_DATA = {
   }
 };
 
-/* ВСЕ 17 ПЛАНИРОВОК С ФОТО */
+/* ВСЕ 17 ПЛАНИРОВОК */
 const PLANS = [
   { id: 'plan_0', name: 'Без планировки', num: 'HET', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#94a3b8" stroke-width="2"/><text x="100" y="45" text-anchor="middle" font-size="10" fill="#94a3b8">HET</text><text x="100" y="62" text-anchor="middle" font-size="11" font-weight="600" fill="#64748b">Без планировки</text>' },
   { id: 'plan_1', name: 'Планировка №1', num: '1', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="140" y1="15" x2="140" y2="85" stroke="#334155" stroke-width="2"/><path d="M140 60 Q155 60 155 75" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="140" y1="60" x2="140" y2="75" stroke="#fff" stroke-width="2"/><line x1="35" y1="85" x2="65" y2="85" stroke="#16a34a" stroke-width="4"/><line x1="145" y1="85" x2="165" y2="85" stroke="#fff" stroke-width="3"/><path d="M145 85 Q145 100 160 100" fill="none" stroke="#2563eb" stroke-width="1.5"/><text x="170" y="45" font-size="16" font-weight="700" fill="#0f172a">1</text>' },
@@ -715,7 +729,7 @@ const EXTRA_SERVICES_CONFIG = [
   { id: 'antiseptic', name: 'Обработка антисептиком лыж/нижней обвязки', price: 4000 }
 ];
 
-/* СОСТОЯНИЕ ПРИЛОЖЕНИЯ */
+/* СОСТОЯНИЕ */
 let state = {
   selectedSize: 'wood_3',
   isRaspashonka: false,
@@ -728,8 +742,9 @@ let state = {
   extrasChecked: {},
   extrasQty: {},
   deliveryIncluded: true,
+  deliveryRegion: 'ramenskoe',
   deliveryKm: 0,
-  deliveryPrice: 13000,
+  deliveryPrice: 16000,
   taxMode: null,
   currentModalType: 'prod'
 };
@@ -737,6 +752,7 @@ let state = {
 function init() {
   renderPlans();
   renderDynamicOptions();
+  onDeliveryParamsChanged();
   updateKP();
 }
 
@@ -750,6 +766,12 @@ function onSizeChanged() {
   state.customPrices = {};
   state.outerUpgrades = {};
   state.insulation100 = false;
+  // Если выбран БК, отключаем увеличение высоты
+  const isBk = PRODUCTS_DATA[state.selectedSize].type === 'bk';
+  if (isBk) {
+    delete state.extrasChecked['height_increase'];
+    delete state.extrasQty['height_increase'];
+  }
   renderDynamicOptions();
   updateKP();
 }
@@ -773,9 +795,10 @@ function toggleMorePlans() {
   renderPlans();
 }
 
-/* ОТРИСОВКА ОПЦИЙ — ТЕПЕРЬ С ГАЛОЧКОЙ НА КАЖДОМ ПУНКТЕ */
+/* ОТРИСОВКА ОПЦИЙ */
 function renderDynamicOptions() {
   const prod = PRODUCTS_DATA[state.selectedSize];
+  const isBk = prod.type === 'bk';
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
   // Внутренняя отделка
@@ -816,7 +839,7 @@ function renderDynamicOptions() {
     </div>
   `;
 
-  // Утепление (с галочкой)
+  // Утепление
   const insBox = document.getElementById('insulation_options');
   insBox.innerHTML = `
     <div class="option-row">
@@ -832,7 +855,7 @@ function renderDynamicOptions() {
     </div>
   `;
 
-  // Внешняя отделка (с галочкой)
+  // Внешняя отделка
   const outerBox = document.getElementById('outer_finish_options');
   outerBox.innerHTML = '';
   prod.outerUpgrades.forEach(opt => {
@@ -851,24 +874,30 @@ function renderDynamicOptions() {
     `;
   });
 
-  // Дополнительные услуги (абсолютно все с галочкой и количеством!)
+  // Дополнительные услуги (с учетом блокировки увеличения высоты для БК)
   const extraBox = document.getElementById('extra_services');
   extraBox.innerHTML = '';
   EXTRA_SERVICES_CONFIG.forEach(srv => {
-    const isChecked = !!state.extrasChecked[srv.id];
+    const isHeightOpt = srv.id === 'height_increase';
+    const isDisabled = isBk && isHeightOpt;
+    const isChecked = !isDisabled && !!state.extrasChecked[srv.id];
     const qty = state.extrasQty[srv.id] !== undefined ? state.extrasQty[srv.id] : 1;
     const priceVal = getP(srv.id, srv.price);
 
+    const labelText = isDisabled 
+      ? `${srv.name} <span style="color:#64748b; font-size:11px;">[Не требуется для БК — дверь ставится стандартно]</span>` 
+      : srv.name;
+
     extraBox.innerHTML += `
-      <div class="option-row">
+      <div class="option-row ${isDisabled ? 'disabled' : ''}">
         <div class="option-left">
-          <input type="checkbox" id="chk_srv_${srv.id}" ${isChecked ? 'checked' : ''} onchange="toggleExtraCheck('${srv.id}', this.checked)">
-          <label for="chk_srv_${srv.id}">${srv.name}</label>
+          <input type="checkbox" id="chk_srv_${srv.id}" ${isChecked ? 'checked' : ''} ${isDisabled ? 'disabled' : ''} onchange="toggleExtraCheck('${srv.id}', this.checked)">
+          <label for="chk_srv_${srv.id}">${labelText}</label>
         </div>
         <div class="option-right">
-          <input type="number" min="1" max="20" class="qty-input" value="${qty}" oninput="changeExtraQty('${srv.id}', this.value)">
-          <input type="number" class="price-custom-input hideable-price" value="${priceVal}" oninput="setCustomPrice('${srv.id}', this.value)">
-          <button class="reset-sub-btn" onclick="resetExtraOption('${srv.id}', ${srv.price})">сброс</button>
+          <input type="number" min="1" max="20" class="qty-input" value="${qty}" ${isDisabled ? 'disabled' : ''} oninput="changeExtraQty('${srv.id}', this.value)">
+          <input type="number" class="price-custom-input hideable-price" value="${priceVal}" ${isDisabled ? 'disabled' : ''} oninput="setCustomPrice('${srv.id}', this.value)">
+          <button class="reset-sub-btn" ${isDisabled ? 'disabled' : ''} onclick="resetExtraOption('${srv.id}', ${srv.price})">сброс</button>
         </div>
       </div>
     `;
@@ -881,8 +910,7 @@ function setInnerBase(val) {
 }
 
 function setCustomPrice(id, val) {
-  const num = parseInt(val) || 0;
-  state.customPrices[id] = num;
+  state.customPrices[id] = parseInt(val) || 0;
   updateKP();
 }
 
@@ -899,11 +927,14 @@ function toggleOuter(id, checked) {
 }
 
 function toggleExtraCheck(id, checked) {
+  const isBk = PRODUCTS_DATA[state.selectedSize].type === 'bk';
   if (checked) {
     state.extrasChecked[id] = true;
     if (!state.extrasQty[id]) state.extrasQty[id] = 1;
+
+    // В БК дверь ставится без увеличения. Для деревянных — авто-выбор увеличения
     const srv = EXTRA_SERVICES_CONFIG.find(x => x.id === id);
-    if (srv && srv.autoHeight) {
+    if (srv && srv.autoHeight && !isBk) {
       state.extrasChecked['height_increase'] = true;
       if (!state.extrasQty['height_increase']) state.extrasQty['height_increase'] = 1;
       const chk = document.getElementById('chk_srv_height_increase');
@@ -934,13 +965,17 @@ function resetExtraOption(id, defaultPrice) {
   updateKP();
 }
 
-/* ДОСТАВКА */
-function calcDeliveryFromKm() {
+/* РАСЧЕТ ДОСТАВКИ ПО РЕГИОНАМ */
+function onDeliveryParamsChanged() {
+  const regKey = document.getElementById('delivery_region').value;
+  state.deliveryRegion = regKey;
+  const cfg = DELIVERY_RATES[regKey];
   const km = parseInt(document.getElementById('delivery_km').value) || 0;
   state.deliveryKm = km;
-  let price = 13000;
-  if (km > 50) {
-    price = 13000 + (km - 50) * 120;
+
+  let price = cfg.minPrice;
+  if (km > cfg.baseKm) {
+    price = cfg.minPrice + (km - cfg.baseKm) * cfg.extraKmPrice;
   }
   state.deliveryPrice = price;
   document.getElementById('delivery_price').value = price;
@@ -948,9 +983,7 @@ function calcDeliveryFromKm() {
 }
 
 function onCustomDeliveryPrice() {
-  let val = parseInt(document.getElementById('delivery_price').value) || 0;
-  if (val < 13000) val = 13000;
-  state.deliveryPrice = val;
+  state.deliveryPrice = parseInt(document.getElementById('delivery_price').value) || 0;
   updateKP();
 }
 
@@ -970,21 +1003,20 @@ function toggleTax(mode) {
   updateKP();
 }
 
-/* ГЛАВНЫЙ РАСЧЕТ И ОТРИСОВКА БЛАНКА СПРАВА ТОЧЬ-В-ТОЧЬ ПО ФОТО 1000010458.jpg */
+/* ГЛАВНЫЙ РАСЧЕТ И ОТРИСОВКА БЛАНКА СПРАВА */
 function updateKP() {
   const prod = PRODUCTS_DATA[state.selectedSize];
+  const isBk = prod.type === 'bk';
   const tbody = document.getElementById('kp_table_body');
   tbody.innerHTML = '';
 
   let total = 0;
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
-  // Базовая стоимость бытовки
   const baseKey = 'base_' + state.innerBase;
   const baseCost = getP(baseKey, prod.basePrices[state.innerBase]);
   total += baseCost;
 
-  // Динамические параметры спецификации
   const spec = { ...prod.defaultSpec };
   const innerNames = { org: 'Оргалит', osb: 'ОСБ панели', vag: 'Вагонка С' };
   spec.inner = innerNames[state.innerBase];
@@ -995,7 +1027,6 @@ function updateKP() {
     total += insCost;
   }
 
-  // Внешняя обшивка
   let outerName = spec.outer;
   prod.outerUpgrades.forEach(opt => {
     if (state.outerUpgrades[opt.id]) {
@@ -1006,7 +1037,7 @@ function updateKP() {
   });
   spec.outer = outerName;
 
-  // Формируем детальный технический лист бытовки точно по фото 1000010458.jpg
+  // Отрисовка базовой позиции
   let mainItemHtml = `
     <div class="tech-sheet-title">Новая ${prod.name} ${document.getElementById('is_raspashonka').checked ? '(РАСПАШОНКА)' : ''}</div>
     <div class="tech-sheet-body">
@@ -1029,7 +1060,6 @@ function updateKP() {
     </div>
   `;
 
-  // Отрисовываем базовую бытовку первой строкой в таблице
   const trBase = document.createElement('tr');
   trBase.innerHTML = `
     <td>${mainItemHtml}</td>
@@ -1038,8 +1068,10 @@ function updateKP() {
   `;
   tbody.appendChild(trBase);
 
-  // Дополнительные позиции и услуги
+  // Дополнительные позиции (окна и двери не меняют цену от увеличения)
   EXTRA_SERVICES_CONFIG.forEach(srv => {
+    if (srv.id === 'height_increase' && isBk) return; // исключаем для БК
+
     if (state.extrasChecked[srv.id]) {
       const q = state.extrasQty[srv.id] || 1;
       const p = getP(srv.id, srv.price);
@@ -1061,7 +1093,8 @@ function updateKP() {
   const delivVal = state.deliveryPrice;
   if (isDeliv && delivVal > 0) {
     total += delivVal;
-    const kmText = state.deliveryKm > 0 ? ` (${state.deliveryKm} км)` : '';
+    const regName = DELIVERY_RATES[state.deliveryRegion].name;
+    const kmText = state.deliveryKm > 0 ? ` (${state.deliveryKm} км от базы ${regName})` : ` (база ${regName})`;
     const trDel = document.createElement('tr');
     trDel.innerHTML = `
       <td style="font-weight:600;">Доставка до объекта${kmText}</td>
@@ -1071,7 +1104,7 @@ function updateKP() {
     tbody.appendChild(trDel);
   }
 
-  // Расчет налогов
+  // Налоги
   const tax13Val = Math.round(total * 1.13);
   const tax22Val = Math.round(total * 1.22);
   document.getElementById('tax_13_val').textContent = tax13Val.toLocaleString('ru-RU');
@@ -1081,7 +1114,7 @@ function updateKP() {
   if (state.taxMode === '13') finalTotal = tax13Val;
   if (state.taxMode === '22') finalTotal = tax22Val;
 
-  // Блок аванса и реквизитов водителя под таблицей (по фото 1000010458)
+  // Оплата
   const depositVal = 5000;
   const balanceToDriver = Math.max(0, finalTotal - depositVal);
   const trSummary = document.createElement('tr');
@@ -1098,19 +1131,16 @@ function updateKP() {
   `;
   tbody.appendChild(trSummary);
 
-  // Поля заказчика
   document.getElementById('kp_out_client').textContent = document.getElementById('client_name').value || '—';
   document.getElementById('kp_out_phone').textContent = document.getElementById('client_phone').value || '—';
   document.getElementById('kp_out_order').textContent = document.getElementById('client_order').value || '—';
   document.getElementById('kp_out_addr').textContent = document.getElementById('client_addr').value || '—';
   document.getElementById('kp_out_size').textContent = prod.name;
 
-  // Планировка
   const currentPlan = PLANS.find(p => p.id === state.selectedPlan) || PLANS[0];
   document.getElementById('kp_plan_title').textContent = currentPlan.name;
   document.getElementById('kp_plan_svg_render').innerHTML = `<svg viewBox="0 0 200 100" style="max-height:130px; width:100%;">${currentPlan.svg}</svg>`;
 
-  // Примечание
   const noteVal = document.getElementById('kp_note').value.trim();
   const noteBox = document.getElementById('kp_note_block');
   if (noteVal) {
@@ -1120,7 +1150,6 @@ function updateKP() {
     noteBox.style.display = 'none';
   }
 
-  // Суммы
   document.getElementById('left_total').textContent = finalTotal.toLocaleString('ru-RU');
   document.getElementById('kp_total_sum').textContent = `${finalTotal.toLocaleString('ru-RU')} руб.`;
 }
@@ -1138,8 +1167,9 @@ function resetCalculator(ask) {
   document.getElementById('kp_note').value = '';
   document.getElementById('is_raspashonka').checked = false;
   document.getElementById('delivery_included').checked = true;
+  document.getElementById('delivery_region').value = 'ramenskoe';
   document.getElementById('delivery_km').value = '0';
-  document.getElementById('delivery_price').value = '13000';
+  document.getElementById('delivery_price').value = '16000';
   document.getElementById('tax_13').checked = false;
   document.getElementById('tax_22').checked = false;
 
@@ -1155,18 +1185,20 @@ function resetCalculator(ask) {
     extrasChecked: {},
     extrasQty: {},
     deliveryIncluded: true,
+    deliveryRegion: 'ramenskoe',
     deliveryKm: 0,
-    deliveryPrice: 13000,
+    deliveryPrice: 16000,
     taxMode: null,
     currentModalType: 'prod'
   };
   document.getElementById('size_select').value = 'wood_3';
   renderPlans();
   renderDynamicOptions();
+  onDeliveryParamsChanged();
   updateKP();
 }
 
-/* ГЕНЕРАЦИЯ ЗАЯВОК ТОЧНО ПО ФОТО 1000010459 (ДЛЯ КЛИЕНТА) И 1000010460 (ДЛЯ ПРОИЗВОДСТВА) */
+/* ЗАЯВКИ */
 function openOrderModal(type) {
   state.currentModalType = type;
   document.getElementById('m_head_name').value = document.getElementById('client_name').value || '';
@@ -1182,6 +1214,7 @@ function openOrderModal(type) {
 function rebuildModalText() {
   const type = state.currentModalType;
   const prod = PRODUCTS_DATA[state.selectedSize];
+  const isBk = prod.type === 'bk';
   const dateVal = document.getElementById('m_head_date').value || '4 октября 2026 г.';
   const deposit = parseInt(document.getElementById('m_head_deposit').value) || 0;
   const cName = document.getElementById('m_head_name').value || '';
@@ -1197,6 +1230,7 @@ function rebuildModalText() {
     if (state.outerUpgrades[opt.id]) total += getP(opt.id, opt.price);
   });
   EXTRA_SERVICES_CONFIG.forEach(srv => {
+    if (srv.id === 'height_increase' && isBk) return;
     if (state.extrasChecked[srv.id]) {
       const q = state.extrasQty[srv.id] || 1;
       total += getP(srv.id, srv.price) * q;
@@ -1224,10 +1258,10 @@ function rebuildModalText() {
   let text = '';
 
   if (type === 'prod') {
-    /* ЗАЯВКА ДЛЯ ПРОИЗВОДСТВА (по фото 1000010460.jpg) */
     text += `Заявка на ${dateVal}\n`;
     text += `Тег:\nЛид от:\n`;
-    text += `Доставка: ${document.getElementById('delivery_included').checked ? (cAddr ? cAddr : 'по согласованию') : 'самовывоз'}\n\n`;
+    const regName = DELIVERY_RATES[state.deliveryRegion].name;
+    text += `Доставка: ${document.getElementById('delivery_included').checked ? (cAddr ? cAddr + ` (из ${regName})` : `по согласованию (из ${regName})`) : 'самовывоз'}\n\n`;
     text += `Новая ${prod.name}\n\n`;
     text += `Каркас: ${spec.frame}\n`;
     text += `Внешняя отделка: ${spec.outer}\n`;
@@ -1242,9 +1276,9 @@ function rebuildModalText() {
     text += `Лыжи: ${spec.skis}\n`;
     text += `Пароизоляция: ${spec.vapor}\n\n`;
 
-    // Допы
     let extrasList = [];
     EXTRA_SERVICES_CONFIG.forEach(s => {
+      if (s.id === 'height_increase' && isBk) return;
       if (state.extrasChecked[s.id]) {
         extrasList.push(`${s.name} — ${state.extrasQty[s.id] || 1} шт.`);
       }
@@ -1263,7 +1297,6 @@ function rebuildModalText() {
     text += `Ответственный менеджер:`;
 
   } else {
-    /* ЗАЯВКА ДЛЯ КЛИЕНТА (по фото 1000010459.jpg) */
     text += `Заявка на ${dateVal}\n`;
     if (cName) text += `Заказчик: ${cName}\n`;
     if (cPhone) text += `Телефон: ${cPhone}\n`;
@@ -1285,6 +1318,7 @@ function rebuildModalText() {
 
     let extrasList = [];
     EXTRA_SERVICES_CONFIG.forEach(s => {
+      if (s.id === 'height_increase' && isBk) return;
       if (state.extrasChecked[s.id]) {
         extrasList.push(`${s.name} — ${state.extrasQty[s.id] || 1} шт.`);
       }
