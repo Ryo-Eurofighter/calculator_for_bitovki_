@@ -69,7 +69,7 @@
     .reset-sub-btn { font-size: 11px; padding: 4px 6px; background: #e2e8f0; border: none; border-radius: 3px; cursor: pointer; color: #475569; }
     .reset-sub-btn:hover { background: #cbd5e1; }
 
-    /* Подвыбор цвета в желтой рамке */
+    /* Подвыбор цвета в желтой плашке */
     .color-select-box { background: #fef9c3; border: 1px solid #fde047; padding: 8px 10px; border-radius: 4px; margin-bottom: 6px; font-size: 12.5px; font-weight: 600; color: #713f12; }
     .color-select-box select { width: 100%; margin-top: 4px; padding: 6px; border: 1px solid #ca8a04; border-radius: 4px; font-size: 13px; font-weight: 600; background: #fff; }
 
@@ -79,7 +79,7 @@
     .delivery-calc-row input, .delivery-calc-row select { width: 140px; padding: 5px 8px; border-radius: 4px; border: none; font-weight: 700; font-size: 12px; }
     .delivery-calc-row input { text-align: right; width: 90px; }
 
-    /* Итог */
+    /* Итог слева */
     .total-box-left { background: #ea580c; color: #fff; padding: 12px 16px; border-radius: 4px; margin-top: 16px; font-size: 16px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
     .tax-options { margin-top: 10px; display: flex; gap: 14px; font-size: 12px; font-weight: 600; }
     .tax-options label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
@@ -258,7 +258,6 @@
               <option value="ramenskoe">Раменское (мин. 16 000 до 70 км, далее 120 р/км)</option>
               <option value="ovrazhki">ОВРАЖКИ (мин. 14 500 до 50 км, далее 130 р/км)</option>
               <option value="kraskovo">Красково (мин. 14 500 до 50 км, далее 130 р/км)</option>
-              <option value="schelkovo">Щелково (мин. 13 000 до 50 км, далее 120 р/км)</option>
             </select>
           </div>
           <div class="delivery-calc-row">
@@ -409,12 +408,11 @@
 </div>
 
 <script>
-/* РАСЦЕНКИ РЕГИОНОВ ДОСТАВКИ */
+/* РАСЦЕНКИ РЕГИОНОВ ДОСТАВКИ (БЕЗ ЩЕЛКОВО) */
 const DELIVERY_RATES = {
   ramenskoe: { minPrice: 16000, baseKm: 70, extraKmPrice: 120, name: 'Раменское' },
   ovrazhki:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'ОВРАЖКИ' },
-  kraskovo:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'Красково' },
-  schelkovo: { minPrice: 13000, baseKm: 50, extraKmPrice: 120, name: 'Щелково' }
+  kraskovo:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'Красково' }
 };
 
 /* БАЗА ТОВАРОВ И ЦЕН (БЛОКИ В ПОДАРОК + ВНУТРЕННИЕ РАЗМЕРЫ) */
@@ -576,7 +574,7 @@ const PRODUCTS_DATA = {
   }
 };
 
-/* СПИСОК ЦВЕТОВ */
+/* СПИСКИ ЦВЕТОВ */
 const PROF_COLORS = ['Графит', 'Светло-серый', 'Коричневый', 'Зеленый', 'Бежевый', 'Синий', 'Свой вариант'];
 const ANTISEPTIC_COLORS = ['Коричневый', 'Желтый', 'Бесцветный', 'Свой цвет...'];
 
@@ -627,10 +625,10 @@ let state = {
   isRaspashonka: false,
   selectedPlan: 'plan_0',
   showAllPlans: false,
-  frameType: 'frame_50', // 'frame_50' | 'frame_100'
-  innerBase: 'org', // 'org' | 'osb' | 'vag'
-  insulation: 'ins50', // 'ins50' | 'ins100'
-  outerChoice: 'prof_zinc', // строго один выбор
+  frameType: 'frame_50',
+  innerBase: 'org',
+  insulation: 'ins50',
+  outerChoice: 'prof_zinc',
   profColor: 'Графит',
   cornersColor: 'Графит',
   antisepticColor: 'Коричневый',
@@ -691,13 +689,13 @@ function toggleMorePlans() {
   renderPlans();
 }
 
-/* ОТРИСОВКА ОПЦИЙ — СТРОГО ОДИН ВЫБОР В КАЖДОМ РАЗДЕЛЕ */
+/* ОПЦИИ */
 function renderDynamicOptions() {
   const prod = PRODUCTS_DATA[state.selectedSize];
   const isBk = prod.type === 'bk';
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
-  // 3. Каркас (строго радиокнопки)
+  // 3. Каркас
   const frameBox = document.getElementById('frame_options');
   if (isBk) {
     frameBox.innerHTML = `
@@ -734,7 +732,7 @@ function renderDynamicOptions() {
     `;
   }
 
-  // 4. Внутренняя отделка (строго один выбор)
+  // 4. Внутренняя отделка
   const innerBox = document.getElementById('inner_finish_options');
   innerBox.innerHTML = `
     <div class="option-row">
@@ -772,7 +770,7 @@ function renderDynamicOptions() {
     </div>
   `;
 
-  // Утепление (строго один выбор)
+  // Утепление
   const insBox = document.getElementById('insulation_options');
   insBox.innerHTML = `
     <div class="option-row">
@@ -798,7 +796,7 @@ function renderDynamicOptions() {
     </div>
   `;
 
-  // 5. Внешняя отделка (строго один выбор)
+  // 5. Внешняя отделка
   const outerBox = document.getElementById('outer_finish_options');
   outerBox.innerHTML = '';
   prod.outerOptions.forEach(opt => {
@@ -819,7 +817,7 @@ function renderDynamicOptions() {
       </div>
     `;
 
-    // Если выбран цветной профлист — выбор цвета листа
+    // Выбор цвета профлиста
     if (isChecked && opt.id.includes('color')) {
       let opts = PROF_COLORS.map(c => `<option value="${c}" ${state.profColor === c ? 'selected' : ''}>${c}</option>`).join('');
       outerBox.innerHTML += `
@@ -830,7 +828,7 @@ function renderDynamicOptions() {
       `;
     }
 
-    // Если выбран любой профлист — выбор цвета косынок (уголков)
+    // Выбор цвета косынок
     if (isChecked && opt.isProf) {
       let optsK = PROF_COLORS.map(c => `<option value="${c}" ${state.cornersColor === c ? 'selected' : ''}>${c}</option>`).join('');
       outerBox.innerHTML += `
@@ -841,7 +839,7 @@ function renderDynamicOptions() {
       `;
     }
 
-    // Если выбрано дерево (вагонка или имитация) — выбор антисептика в подарок
+    // Выбор цвета антисептика
     if (isChecked && opt.isWood) {
       let optsA = ANTISEPTIC_COLORS.map(c => `<option value="${c}" ${state.antisepticColor === c ? 'selected' : ''}>${c}</option>`).join('');
       outerBox.innerHTML += `
@@ -853,7 +851,7 @@ function renderDynamicOptions() {
     }
   });
 
-  // 6. Дополнительные опции (чекбоксы с количеством)
+  // 6. Дополнительные опции
   const extraBox = document.getElementById('extra_services');
   extraBox.innerHTML = '';
   EXTRA_SERVICES_CONFIG.forEach(srv => {
@@ -943,7 +941,7 @@ function resetExtraOption(id, defaultPrice) {
   updateKP();
 }
 
-/* ДОСТАВКА */
+/* ДОСТАВКА (ТОЛЬКО РАМЕНСКОЕ, ОВРАЖКИ, КРАСКОВО) */
 function onDeliveryParamsChanged() {
   const regKey = document.getElementById('delivery_region').value;
   state.deliveryRegion = regKey;
@@ -995,7 +993,7 @@ function updateKP() {
   const baseCost = getP(baseKey, prod.basePrices[state.innerBase]);
   total += baseCost;
 
-  // Замена каркаса
+  // Каркас
   let frameDesc = 'Каркас 50х50 из бруса естественной влажности';
   let frameCost = 0;
   if (!isBk && state.frameType === 'frame_100') {
@@ -1034,7 +1032,7 @@ function updateKP() {
   const innerNames = { org: 'Оргалит (ДВП)', osb: 'ОСБ панели', vag: 'Вагонка С класс' };
   const innerDesc = innerNames[state.innerBase];
 
-  // Спецификация КП точь-в-точь по заданию
+  // Спецификация КП
   let mainItemHtml = '';
   if (!isBk) {
     mainItemHtml = `
@@ -1092,7 +1090,7 @@ function updateKP() {
   `;
   tbody.appendChild(trBase);
 
-  // Дополнительные услуги (окна и двери не меняют цену от увеличения)
+  // Дополнительные услуги
   EXTRA_SERVICES_CONFIG.forEach(srv => {
     if (srv.id === 'height_increase' && isBk) return;
 
