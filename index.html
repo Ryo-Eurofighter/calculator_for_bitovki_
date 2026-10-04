@@ -32,7 +32,7 @@
     .btn-dark:hover { background: #1e293b; }
     .btn-full { width: 100%; margin-top: 8px; }
 
-    /* Аккордеоны */
+    /* Секции аккордеона */
     .section-wrap { margin-top: 12px; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; background: #fff; }
     .section-header { font-size: 13px; font-weight: 700; background: var(--header-bg); color: #fff; padding: 9px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
     .section-header:hover { background: #1e2b37; }
@@ -56,7 +56,7 @@
     .plan-card svg { width: 100%; height: 50px; display: block; margin: 0 auto 3px; }
     .plan-card span { font-size: 11px; font-weight: 600; color: #475569; }
 
-    /* Опции с чекбоксами */
+    /* Опции */
     .option-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; margin-bottom: 5px; }
     .option-row.disabled { opacity: 0.55; background: #f1f5f9; pointer-events: none; }
     .option-row:hover:not(.disabled) { background: #f8fafc; }
@@ -69,13 +69,17 @@
     .reset-sub-btn { font-size: 11px; padding: 4px 6px; background: #e2e8f0; border: none; border-radius: 3px; cursor: pointer; color: #475569; }
     .reset-sub-btn:hover { background: #cbd5e1; }
 
-    /* Блок Доставки */
+    /* Подвыбор цвета в желтой рамке */
+    .color-select-box { background: #fef9c3; border: 1px solid #fde047; padding: 8px 10px; border-radius: 4px; margin-bottom: 6px; font-size: 12.5px; font-weight: 600; color: #713f12; }
+    .color-select-box select { width: 100%; margin-top: 4px; padding: 6px; border: 1px solid #ca8a04; border-radius: 4px; font-size: 13px; font-weight: 600; background: #fff; }
+
+    /* Доставка */
     .delivery-box { background: #1e293b; color: #fff; padding: 12px 14px; border-radius: 4px; font-weight: 700; margin-top: 8px; }
     .delivery-calc-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
     .delivery-calc-row input, .delivery-calc-row select { width: 140px; padding: 5px 8px; border-radius: 4px; border: none; font-weight: 700; font-size: 12px; }
     .delivery-calc-row input { text-align: right; width: 90px; }
 
-    /* Итог слева */
+    /* Итог */
     .total-box-left { background: #ea580c; color: #fff; padding: 12px 16px; border-radius: 4px; margin-top: 16px; font-size: 16px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
     .tax-options { margin-top: 10px; display: flex; gap: 14px; font-size: 12px; font-weight: 600; }
     .tax-options label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
@@ -191,23 +195,34 @@
       </div>
     </div>
 
-    <!-- 3. Варианты отделки внутри -->
+    <!-- 3. Каркас конструкции -->
+    <div class="section-wrap" id="sec_frame">
+      <div class="section-header" onclick="toggleSection('sec_frame')">
+        <span>3. Каркас конструкции</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div id="frame_options"></div>
+      </div>
+    </div>
+
+    <!-- 4. Варианты отделки внутри -->
     <div class="section-wrap" id="sec_inner">
       <div class="section-header" onclick="toggleSection('sec_inner')">
-        <span>3. Варианты отделки внутри</span>
+        <span>4. Варианты отделки внутри</span>
         <span class="arrow">▼</span>
       </div>
       <div class="section-body">
         <div id="inner_finish_options"></div>
-        <div style="margin-top:12px; margin-bottom:6px; font-weight:700; color:#334155;">Утепление:</div>
+        <div style="margin-top:12px; margin-bottom:6px; font-weight:700; color:#334155;">Утепление (рулонная минвата):</div>
         <div id="insulation_options"></div>
       </div>
     </div>
 
-    <!-- 4. Варианты отделки снаружи -->
+    <!-- 5. Варианты отделки снаружи -->
     <div class="section-wrap" id="sec_outer">
       <div class="section-header" onclick="toggleSection('sec_outer')">
-        <span>4. Варианты отделки снаружи</span>
+        <span>5. Варианты отделки снаружи</span>
         <span class="arrow">▼</span>
       </div>
       <div class="section-body">
@@ -215,10 +230,10 @@
       </div>
     </div>
 
-    <!-- 5. Дополнительные услуги -->
+    <!-- 6. Дополнительные услуги -->
     <div class="section-wrap" id="sec_extras">
       <div class="section-header" onclick="toggleSection('sec_extras')">
-        <span>5. Дополнительные услуги</span>
+        <span>6. Дополнительные опции и услуги</span>
         <span class="arrow">▼</span>
       </div>
       <div class="section-body">
@@ -226,10 +241,10 @@
       </div>
     </div>
 
-    <!-- 6. Доставка (Регионы и автоматический пересчет) -->
+    <!-- 7. Доставка -->
     <div class="section-wrap" id="sec_delivery">
       <div class="section-header" onclick="toggleSection('sec_delivery')">
-        <span>6. Доставка</span>
+        <span>7. Доставка</span>
         <span class="arrow">▼</span>
       </div>
       <div class="section-body">
@@ -261,10 +276,10 @@
       </div>
     </div>
 
-    <!-- 7. Примечание для КП -->
+    <!-- 8. Примечание для КП -->
     <div class="section-wrap" id="sec_note">
       <div class="section-header" onclick="toggleSection('sec_note')">
-        <span>7. Примечание для КП</span>
+        <span>8. Примечание для КП</span>
         <span class="arrow">▼</span>
       </div>
       <div class="section-body">
@@ -274,7 +289,7 @@
       </div>
     </div>
 
-    <!-- Итоговая плашка -->
+    <!-- Итог слева -->
     <div class="total-box-left">
       <span>ИТОГО: <span id="left_total">0</span> РУБ.</span>
     </div>
@@ -314,14 +329,14 @@
       <div><strong>Телефон:</strong> <span id="kp_out_phone">—</span></div>
       <div><strong>Заказ:</strong> <span id="kp_out_order">—</span></div>
       <div><strong>Адрес объекта:</strong> <span id="kp_out_addr">—</span></div>
-      <div><strong>Размер конструкции:</strong> <span id="kp_out_size">3 х 2.3 м</span></div>
+      <div><strong>Размер конструкции:</strong> <span id="kp_out_size">3 х 2.3 м</span> <strong style="margin-left:8px; color:#1e3a8a;">(размер внутри: <span id="kp_out_inner_dim">2,7 х 2,1 м</span>)</strong></div>
       <div style="display:flex; justify-content:space-between; margin-top:4px;">
         <span><strong>Номер КП:</strong> <span id="kp_out_num">КП-2160</span></span>
         <span><strong>Дата:</strong> <span id="kp_out_date">04 октября 2026 г.</span></span>
       </div>
     </div>
 
-    <!-- Таблица КП -->
+    <!-- Таблица сметы -->
     <table class="kp-table">
       <thead>
         <tr>
@@ -402,290 +417,168 @@ const DELIVERY_RATES = {
   schelkovo: { minPrice: 13000, baseKm: 50, extraKmPrice: 120, name: 'Щелково' }
 };
 
-/* БАЗА ТОВАРОВ И ЦЕН */
+/* БАЗА ТОВАРОВ И ЦЕН (БЛОКИ В ПОДАРОК + ВНУТРЕННИЕ РАЗМЕРЫ) */
 const PRODUCTS_DATA = {
   wood_2: {
     name: 'Бытовка 2 х 2.3 м (по крыше)',
-    dim: '2 х 2.3 м',
+    innerDim: '1,7 х 2,1 м',
     type: 'wood',
+    blocksGift: 4,
+    frameUpgradePrice: 9000,
     basePrices: { org: 63000, osb: 71000, vag: 72000 },
-    insulation100: 9000,
-    outerUpgrades: [
-      { id: 'wood_outer_vagB', name: 'Вагонка В снаружи', price: 14000 },
-      { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 15000 },
-      { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 12000 }
-    ],
-    defaultSpec: {
-      frame: '50х50',
-      outer: 'Вагонка С (не обработана антисептиком)',
-      roof: 'Односкатная (профлист оцинкованный 0,35)',
-      height: '2.1-1.9',
-      insul: '50 мм (пол, потолок, стены)',
-      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
-      floor: 'Доска',
-      door: 'каркасная деревянная 1,8х0,8 м',
-      subfloor: 'доска с расстоянием 15-25 см',
-      skis: '100*100',
-      vapor: 'пол',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 9000 },
+    outerOptions: [
+      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 9000, isProf: true },
+      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 14000, isWood: true },
+      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 15000, isWood: true }
+    ]
   },
   wood_3: {
     name: 'Бытовка 3 х 2.3 м (по крыше)',
-    dim: '3 х 2.3 м',
+    innerDim: '2,7 х 2,1 м',
     type: 'wood',
+    blocksGift: 4,
+    frameUpgradePrice: 10000,
     basePrices: { org: 59000, osb: 69000, vag: 74000 },
-    insulation100: 11000,
-    outerUpgrades: [
-      { id: 'wood_outer_vagB', name: 'Вагонка В снаружи', price: 16000 },
-      { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 18000 },
-      { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 14000 }
-    ],
-    defaultSpec: {
-      frame: '50х50',
-      outer: 'Вагонка С (не обработана антисептиком)',
-      roof: 'Односкатная (профлист оцинкованный 0,35)',
-      height: '2.1-1.9',
-      insul: '50 мм (пол, потолок, стены)',
-      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
-      floor: 'Доска',
-      door: 'каркасная деревянная 1,8х0,8 м',
-      subfloor: 'доска с расстоянием 15-25 см',
-      skis: '100*100',
-      vapor: 'пол',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 11000 },
+    outerOptions: [
+      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 11000, isProf: true },
+      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 16000, isWood: true },
+      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 18000, isWood: true }
+    ]
   },
   wood_4: {
     name: 'Бытовка 4 х 2.3 м (по крыше)',
-    dim: '4 х 2.3 м',
+    innerDim: '3,7 х 2,1 м',
     type: 'wood',
+    blocksGift: 4,
+    frameUpgradePrice: 11000,
     basePrices: { org: 69000, osb: 81000, vag: 87000 },
-    insulation100: 15000,
-    outerUpgrades: [
-      { id: 'wood_outer_vagB', name: 'Вагонка В снаружи', price: 18000 },
-      { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 20000 },
-      { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 16000 }
-    ],
-    defaultSpec: {
-      frame: '50х50',
-      outer: 'Вагонка С (не обработана антисептиком)',
-      roof: 'Односкатная (профлист оцинкованный 0,35)',
-      height: '2.1-1.9',
-      insul: '50 мм (пол, потолок, стены)',
-      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
-      floor: 'Доска',
-      door: 'каркасная деревянная 1,8х0,8 м',
-      subfloor: 'доска с расстоянием 15-25 см',
-      skis: '100*100',
-      vapor: 'пол',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 15000 },
+    outerOptions: [
+      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 13000, isProf: true },
+      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 18000, isWood: true },
+      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 20000, isWood: true }
+    ]
   },
   wood_5: {
     name: 'Бытовка 5 х 2.3 м (по крыше)',
-    dim: '5 х 2.3 м',
+    innerDim: '4,7 х 2,1 м',
     type: 'wood',
+    blocksGift: 6,
+    frameUpgradePrice: 11000,
     basePrices: { org: 75000, osb: 91000, vag: 97000 },
-    insulation100: 19000,
-    outerUpgrades: [
-      { id: 'wood_outer_vagB', name: 'Вагонка В снаружи', price: 20000 },
-      { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 23000 },
-      { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 18000 }
-    ],
-    defaultSpec: {
-      frame: '50х50',
-      outer: 'Вагонка С (не обработана антисептиком)',
-      roof: 'Односкатная (профлист оцинкованный 0,35)',
-      height: '2.1-1.9',
-      insul: '50 мм (пол, потолок, стены)',
-      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
-      floor: 'Доска',
-      door: 'каркасная деревянная 1,8х0,8 м',
-      subfloor: 'доска с расстоянием 15-25 см',
-      skis: '100*100',
-      vapor: 'пол',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 19000 },
+    outerOptions: [
+      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 15000, isProf: true },
+      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 20000, isWood: true },
+      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 23000, isWood: true }
+    ]
   },
   wood_6: {
     name: 'Бытовка 6 х 2.3 м (по крыше)',
-    dim: '6 х 2.3 м',
+    innerDim: '5,7 х 2,1 м',
     type: 'wood',
+    blocksGift: 6,
+    frameUpgradePrice: 12000,
     basePrices: { org: 81000, osb: 98000, vag: 104000 },
-    insulation100: 22000,
-    outerUpgrades: [
-      { id: 'wood_outer_vagB', name: 'Вагонка В снаружи', price: 23000 },
-      { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 26000 },
-      { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 21000 }
-    ],
-    defaultSpec: {
-      frame: '50х50 (при 100 мм - 100х50)',
-      outer: 'Вагонка С (не обработана антисептиком)',
-      roof: 'Односкатная (профлист оцинкованный 0,35)',
-      height: '2.1-1.9',
-      insul: '50 мм (пол, потолок, стены)',
-      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
-      floor: 'Доска 100х25 мм',
-      door: 'каркасная деревянная 1,8х0,8 м',
-      subfloor: 'доска с расстоянием 15-25 см',
-      skis: '100*100',
-      vapor: 'пол',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 22000 },
+    outerOptions: [
+      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 17000, isProf: true },
+      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 23000, isWood: true },
+      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 26000, isWood: true }
+    ]
   },
   wood_7: {
     name: 'Бытовка 7 х 2.3 м (по крыше)',
-    dim: '7 х 2.3 м',
+    innerDim: '6,7 х 2,1 м',
     type: 'wood',
+    blocksGift: 8,
+    frameUpgradePrice: 13000,
     basePrices: { org: 105000, osb: 123500, vag: 129000 },
-    insulation100: 25000,
-    outerUpgrades: [
-      { id: 'wood_outer_vagB', name: 'Вагонка В снаружи', price: 26000 },
-      { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 30000 },
-      { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 24000 }
-    ],
-    defaultSpec: {
-      frame: '50х50 / 100х50',
-      outer: 'Вагонка С (не обработана антисептиком)',
-      roof: 'Односкатная (профлист оцинкованный 0,35)',
-      height: '2.1-1.9',
-      insul: '50 мм (пол, потолок, стены)',
-      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
-      floor: 'Доска',
-      door: 'каркасная деревянная 1,8х0,8 м',
-      subfloor: 'доска с расстоянием 15-25 см',
-      skis: '100*100',
-      vapor: 'пол',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 25000 },
+    outerOptions: [
+      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 19000, isProf: true },
+      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 26000, isWood: true },
+      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 30000, isWood: true }
+    ]
   },
   bk_3: {
     name: 'Блок-контейнер 3 х 2.4 м',
-    dim: '3 х 2.4 м',
+    innerDim: '2,8 х 2,2 м',
     type: 'bk',
+    blocksGift: 4,
+    frameUpgradePrice: 0,
     basePrices: { org: 81000, osb: 96000, vag: 98000 },
-    insulation100: 13000,
-    outerUpgrades: [
-      { id: 'bk_outer_color', name: 'Цветной профлист снаружи', price: 11000 },
-      { id: 'bk_outer_paint', name: 'Покраска каркаса БК', price: 8000 }
-    ],
-    defaultSpec: {
-      frame: 'швеллер гнутый 100х50 мм, угол 75х75',
-      outer: 'Профлист С8 оцинкованный',
-      roof: 'Кровля металлическая плоская/односкатная 0.35',
-      height: '2.2-2.0',
-      insul: '50 мм минвата по кругу',
-      window: 'деревянное 60х80 см со стеклом',
-      floor: 'Доска обрезная + ОСБ',
-      door: 'каркасная деревянная / металл',
-      subfloor: 'доска 100х25',
-      skis: 'швеллер',
-      vapor: 'да, полностью',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 13000 },
+    outerOptions: [
+      { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
+      { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 11000, isProf: true }
+    ]
   },
   bk_4: {
     name: 'Блок-контейнер 4 х 2.4 м',
-    dim: '4 х 2.4 м',
+    innerDim: '3,8 х 2,2 м',
     type: 'bk',
+    blocksGift: 4,
+    frameUpgradePrice: 0,
     basePrices: { org: 84000, osb: 100000, vag: 103000 },
-    insulation100: 17000,
-    outerUpgrades: [
-      { id: 'bk_outer_color', name: 'Цветной профлист снаружи', price: 13000 },
-      { id: 'bk_outer_paint', name: 'Покраска каркаса БК', price: 9000 }
-    ],
-    defaultSpec: {
-      frame: 'швеллер 100х50 мм, угол 75х75',
-      outer: 'Профлист С8 оцинкованный',
-      roof: 'Профлист оцинкованный',
-      height: '2.2-2.0',
-      insul: '50 мм минвата по кругу',
-      window: 'деревянное 60х80 см',
-      floor: 'Доска обрезная + ОСБ',
-      door: 'каркасная деревянная',
-      subfloor: 'доска',
-      skis: 'швеллер',
-      vapor: 'да, полностью',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 17000 },
+    outerOptions: [
+      { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
+      { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 13000, isProf: true }
+    ]
   },
   bk_5: {
     name: 'Блок-контейнер 5 х 2.4 м',
-    dim: '5 х 2.4 м',
+    innerDim: '4,8 х 2,2 м',
     type: 'bk',
+    blocksGift: 6,
+    frameUpgradePrice: 0,
     basePrices: { org: 87000, osb: 104000, vag: 108000 },
-    insulation100: 21000,
-    outerUpgrades: [
-      { id: 'bk_outer_color', name: 'Цветной профлист снаружи', price: 14500 },
-      { id: 'bk_outer_paint', name: 'Покраска каркаса БК', price: 10000 }
-    ],
-    defaultSpec: {
-      frame: 'швеллер 100х50 мм',
-      outer: 'Профлист оцинкованный',
-      roof: 'Оцинкованный профлист',
-      height: '2.2-2.0',
-      insul: '50 мм минвата',
-      window: 'деревянное 60х80 см',
-      floor: 'Доска обрезная',
-      door: 'каркасная 1.8х0.8 м',
-      subfloor: 'доска',
-      skis: 'швеллер',
-      vapor: 'да',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 21000 },
+    outerOptions: [
+      { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
+      { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 14500, isProf: true }
+    ]
   },
   bk_6: {
     name: 'Блок-контейнер 5.85 х 2.4 х 2.4 м',
-    dim: '5.85 х 2.4 х 2.4 м',
+    innerDim: '5,65 х 2,2 м',
     type: 'bk',
+    blocksGift: 6,
+    frameUpgradePrice: 0,
     basePrices: { org: 109000, osb: 124000, vag: 128000 },
-    insulation100: 24000,
-    outerUpgrades: [
-      { id: 'bk_outer_color', name: 'Имитация БК снаружи полностью', price: 16000 },
-      { id: 'bk_outer_paint', name: 'Имитация БК снаружи лицевая', price: 11000 }
-    ],
-    defaultSpec: {
-      frame: 'швеллер гнутый 100х50 мм',
-      outer: 'Профлист С-8 оцинкованный/серый графит',
-      roof: 'Кровля односкатная (профлист оцинкованный 0,35)',
-      height: '2.4',
-      insul: '50 мм (пол, потолок, стены)',
-      window: 'деревянное 70х80 см со стеклом, открывающееся',
-      floor: 'Доска обрезная 100х25 мм + ОСБ',
-      door: 'каркасная деревянная 1,8х0,8 м',
-      subfloor: 'доска обрезная 100х25 мм',
-      skis: 'швеллер 100х50',
-      vapor: 'да, полностью',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 24000 },
+    outerOptions: [
+      { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
+      { id: 'bk_prof_color', name: 'Профлист серый графит / цветной снаружи', price: 16000, isProf: true }
+    ]
   },
   bk_7: {
     name: 'Блок-контейнер 7 х 2.4 м',
-    dim: '7 х 2.4 м',
+    innerDim: '6,8 х 2,2 м',
     type: 'bk',
+    blocksGift: 8,
+    frameUpgradePrice: 0,
     basePrices: { org: 124000, osb: 142000, vag: 148000 },
-    insulation100: 28000,
-    outerUpgrades: [
-      { id: 'bk_outer_color', name: 'Цветной профлист снаружи', price: 18000 },
-      { id: 'bk_outer_paint', name: 'Покраска каркаса БК', price: 12000 }
-    ],
-    defaultSpec: {
-      frame: 'швеллер 100х50 мм, уголок 75х75',
-      outer: 'Профлист С8 оцинкованный',
-      roof: 'Профлист С8',
-      height: '2.2-2.0',
-      insul: '50 мм минвата по кругу',
-      window: 'деревянное 60х80 см со стеклом',
-      floor: 'Доска + ОСБ',
-      door: 'каркасная',
-      subfloor: 'доска',
-      skis: 'швеллер',
-      vapor: 'да, полностью',
-      package: 'Блоки (для установки бытовки)'
-    }
+    insulationPrices: { ins50: 0, ins100: 28000 },
+    outerOptions: [
+      { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
+      { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 18000, isProf: true }
+    ]
   }
 };
+
+/* СПИСОК ЦВЕТОВ */
+const PROF_COLORS = ['Графит', 'Светло-серый', 'Коричневый', 'Зеленый', 'Бежевый', 'Синий', 'Свой вариант'];
+const ANTISEPTIC_COLORS = ['Коричневый', 'Желтый', 'Бесцветный', 'Свой цвет...'];
 
 /* ВСЕ 17 ПЛАНИРОВОК */
 const PLANS = [
@@ -710,23 +603,22 @@ const PLANS = [
 
 /* ДОПОЛНИТЕЛЬНЫЕ ОПЦИИ И УСЛУГИ */
 const EXTRA_SERVICES_CONFIG = [
-  { id: 'win_wood_extra', name: 'Деревянное окно с одним стеклом, 60х80 см (дополнительное)', price: 4000 },
-  { id: 'win_wood_double', name: 'Деревянное окно двойное остекление, 70х80 см', price: 7000 },
-  { id: 'win_pvc_50', name: 'Окно ПВХ 50х50 см (однокамерное, одна створка поворотно-откидная)', price: 7000 },
+  { id: 'win_wood_double_extra', name: 'Деревянное окно 75х75 см двойное остекление (дополнительное)', price: 4000 },
+  { id: 'win_pvc_50', name: 'Окно ПВХ 50х50 см поворотно-откидное', price: 7000 },
   { id: 'win_pvc_90', name: 'Окно ПВХ 90х60 см поворотно-откидное', price: 10000 },
   { id: 'win_pvc_100', name: 'Окно ПВХ 100х100 см поворотно-откидное', price: 12000 },
   { id: 'win_grate', name: 'Решетка на окна', price: 5000 },
   { id: 'win_shutters', name: 'Ставни на окна', price: 4500 },
   { id: 'door_metal_ru', name: 'Металлическая дверь с замком 80х200 см (Россия)', price: 15000, autoHeight: true },
-  { id: 'door_wood_extra', name: 'Дверь деревянная (дополнительно) 80 см', price: 5000 },
+  { id: 'door_wood_extra', name: 'Дверь деревянная дополнительная 1.8х0.8 м', price: 5000 },
   { id: 'height_increase', name: 'Увеличение высоты бытовки (до 2.17 м внутри)', price: 11000 },
   { id: 'wall_org', name: 'Перегородка (оргалит) без двери 2.4 м', price: 5000 },
   { id: 'wall_door_org', name: 'Перегородка оргалит в комплекте с дверью 70 см', price: 7000 },
   { id: 'wall_door_osb', name: 'Перегородка ОСБ в комплекте с дверью 70 см', price: 8000 },
   { id: 'wall_door_vag', name: 'Перегородка Вагонка В в комплекте с дверью', price: 12000 },
   { id: 'assembly', name: 'Сборка на участке', price: 24000 },
-  { id: 'blocks_extra', name: 'Блоки для установки бытовки (доп. комплект)', price: 2800 },
-  { id: 'antiseptic', name: 'Обработка антисептиком лыж/нижней обвязки', price: 4000 }
+  { id: 'blocks_extra', name: 'Дополнительные блоки (сверх подарка)', price: 2800 },
+  { id: 'antiseptic_full', name: 'Обработка антисептиком лыж и лаг (нижней обвязки)', price: 4000 }
 ];
 
 /* СОСТОЯНИЕ */
@@ -735,10 +627,14 @@ let state = {
   isRaspashonka: false,
   selectedPlan: 'plan_0',
   showAllPlans: false,
-  innerBase: 'org',
+  frameType: 'frame_50', // 'frame_50' | 'frame_100'
+  innerBase: 'org', // 'org' | 'osb' | 'vag'
+  insulation: 'ins50', // 'ins50' | 'ins100'
+  outerChoice: 'prof_zinc', // строго один выбор
+  profColor: 'Графит',
+  cornersColor: 'Графит',
+  antisepticColor: 'Коричневый',
   customPrices: {},
-  outerUpgrades: {},
-  insulation100: false,
   extrasChecked: {},
   extrasQty: {},
   deliveryIncluded: true,
@@ -764,9 +660,9 @@ function toggleSection(secId) {
 function onSizeChanged() {
   state.selectedSize = document.getElementById('size_select').value;
   state.customPrices = {};
-  state.outerUpgrades = {};
-  state.insulation100 = false;
-  // Если выбран БК, отключаем увеличение высоты
+  state.frameType = 'frame_50';
+  state.outerChoice = PRODUCTS_DATA[state.selectedSize].type === 'bk' ? 'bk_prof_zinc' : 'prof_zinc';
+  
   const isBk = PRODUCTS_DATA[state.selectedSize].type === 'bk';
   if (isBk) {
     delete state.extrasChecked['height_increase'];
@@ -795,13 +691,50 @@ function toggleMorePlans() {
   renderPlans();
 }
 
-/* ОТРИСОВКА ОПЦИЙ */
+/* ОТРИСОВКА ОПЦИЙ — СТРОГО ОДИН ВЫБОР В КАЖДОМ РАЗДЕЛЕ */
 function renderDynamicOptions() {
   const prod = PRODUCTS_DATA[state.selectedSize];
   const isBk = prod.type === 'bk';
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
-  // Внутренняя отделка
+  // 3. Каркас (строго радиокнопки)
+  const frameBox = document.getElementById('frame_options');
+  if (isBk) {
+    frameBox.innerHTML = `
+      <div class="option-row">
+        <div class="option-left">
+          <input type="radio" checked disabled>
+          <label>Металлокаркас: швеллер 100х50х3мм, стойки 63х63х3мм</label>
+        </div>
+      </div>
+    `;
+  } else {
+    frameBox.innerHTML = `
+      <div class="option-row">
+        <div class="option-left">
+          <input type="radio" name="frame_sel" id="fr_50" ${state.frameType === 'frame_50' ? 'checked' : ''} onchange="state.frameType='frame_50'; updateKP();">
+          <label for="fr_50">Каркас 50х50 из бруса (стандарт)</label>
+        </div>
+        <div class="option-right">
+          <input type="text" class="qty-input" value="1" readonly>
+          <span style="font-weight:700; width:80px; text-align:right;">0 р.</span>
+        </div>
+      </div>
+      <div class="option-row">
+        <div class="option-left">
+          <input type="radio" name="frame_sel" id="fr_100" ${state.frameType === 'frame_100' ? 'checked' : ''} onchange="state.frameType='frame_100'; updateKP();">
+          <label for="fr_100">Замена каркаса с 50х50 на 100х50</label>
+        </div>
+        <div class="option-right">
+          <input type="text" class="qty-input" value="1" readonly>
+          <input type="number" class="price-custom-input hideable-price" value="${getP('frame_100', prod.frameUpgradePrice)}" oninput="setCustomPrice('frame_100', this.value)">
+          <button class="reset-sub-btn" onclick="resetCustomPrice('frame_100', ${prod.frameUpgradePrice})">сброс</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // 4. Внутренняя отделка (строго один выбор)
   const innerBox = document.getElementById('inner_finish_options');
   innerBox.innerHTML = `
     <div class="option-row">
@@ -829,7 +762,7 @@ function renderDynamicOptions() {
     <div class="option-row">
       <div class="option-left">
         <input type="radio" name="inner_base" id="inner_vag" ${state.innerBase === 'vag' ? 'checked' : ''} onchange="setInnerBase('vag')">
-        <label for="inner_vag">Вагонка С</label>
+        <label for="inner_vag">Вагонка С класс</label>
       </div>
       <div class="option-right">
         <input type="text" class="qty-input" value="1" readonly>
@@ -839,42 +772,88 @@ function renderDynamicOptions() {
     </div>
   `;
 
-  // Утепление
+  // Утепление (строго один выбор)
   const insBox = document.getElementById('insulation_options');
   insBox.innerHTML = `
     <div class="option-row">
       <div class="option-left">
-        <input type="checkbox" id="chk_ins100" ${state.insulation100 ? 'checked' : ''} onchange="state.insulation100 = this.checked; updateKP();">
-        <label for="chk_ins100">Утепление 100 мм (стены, пол, потолок)</label>
+        <input type="radio" name="ins_choice" id="ins_50" ${state.insulation === 'ins50' ? 'checked' : ''} onchange="state.insulation='ins50'; updateKP();">
+        <label for="ins_50">Утепление 50 мм (в базе — пол, стены, потолок)</label>
       </div>
       <div class="option-right">
         <input type="text" class="qty-input" value="1" readonly>
-        <input type="number" class="price-custom-input hideable-price" value="${getP('ins100', prod.insulation100)}" oninput="setCustomPrice('ins100', this.value)">
-        <button class="reset-sub-btn" onclick="resetCustomPrice('ins100', ${prod.insulation100})">сброс</button>
+        <span style="font-weight:700; width:80px; text-align:right;">0 р.</span>
+      </div>
+    </div>
+    <div class="option-row">
+      <div class="option-left">
+        <input type="radio" name="ins_choice" id="ins_100" ${state.insulation === 'ins100' ? 'checked' : ''} onchange="state.insulation='ins100'; updateKP();">
+        <label for="ins_100">Утепление 100 мм (пол, стены, потолок)</label>
+      </div>
+      <div class="option-right">
+        <input type="text" class="qty-input" value="1" readonly>
+        <input type="number" class="price-custom-input hideable-price" value="${getP('ins100', prod.insulationPrices.ins100)}" oninput="setCustomPrice('ins100', this.value)">
+        <button class="reset-sub-btn" onclick="resetCustomPrice('ins100', ${prod.insulationPrices.ins100})">сброс</button>
       </div>
     </div>
   `;
 
-  // Внешняя отделка
+  // 5. Внешняя отделка (строго один выбор)
   const outerBox = document.getElementById('outer_finish_options');
   outerBox.innerHTML = '';
-  prod.outerUpgrades.forEach(opt => {
+  prod.outerOptions.forEach(opt => {
+    const isChecked = state.outerChoice === opt.id;
+    const priceVal = getP(opt.id, opt.price);
+
     outerBox.innerHTML += `
       <div class="option-row">
         <div class="option-left">
-          <input type="checkbox" id="${opt.id}" ${state.outerUpgrades[opt.id] ? 'checked' : ''} onchange="toggleOuter('${opt.id}', this.checked)">
+          <input type="radio" name="outer_radio" id="${opt.id}" ${isChecked ? 'checked' : ''} onchange="setOuterChoice('${opt.id}')">
           <label for="${opt.id}">${opt.name}</label>
         </div>
         <div class="option-right">
           <input type="text" class="qty-input" value="1" readonly>
-          <input type="number" class="price-custom-input hideable-price" value="${getP(opt.id, opt.price)}" oninput="setCustomPrice('${opt.id}', this.value)">
+          <input type="number" class="price-custom-input hideable-price" value="${priceVal}" oninput="setCustomPrice('${opt.id}', this.value)">
           <button class="reset-sub-btn" onclick="resetCustomPrice('${opt.id}', ${opt.price})">сброс</button>
         </div>
       </div>
     `;
+
+    // Если выбран цветной профлист — выбор цвета листа
+    if (isChecked && opt.id.includes('color')) {
+      let opts = PROF_COLORS.map(c => `<option value="${c}" ${state.profColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      outerBox.innerHTML += `
+        <div class="color-select-box">
+          <span>Цвет профлиста:</span>
+          <select onchange="state.profColor=this.value; updateKP();">${opts}</select>
+        </div>
+      `;
+    }
+
+    // Если выбран любой профлист — выбор цвета косынок (уголков)
+    if (isChecked && opt.isProf) {
+      let optsK = PROF_COLORS.map(c => `<option value="${c}" ${state.cornersColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      outerBox.innerHTML += `
+        <div class="color-select-box">
+          <span>Цвет косынок (уголков):</span>
+          <select onchange="state.cornersColor=this.value; updateKP();">${optsK}</select>
+        </div>
+      `;
+    }
+
+    // Если выбрано дерево (вагонка или имитация) — выбор антисептика в подарок
+    if (isChecked && opt.isWood) {
+      let optsA = ANTISEPTIC_COLORS.map(c => `<option value="${c}" ${state.antisepticColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      outerBox.innerHTML += `
+        <div class="color-select-box">
+          <span>Антисептик в подарок на выбор:</span>
+          <select onchange="state.antisepticColor=this.value; updateKP();">${optsA}</select>
+        </div>
+      `;
+    }
   });
 
-  // Дополнительные услуги (с учетом блокировки увеличения высоты для БК)
+  // 6. Дополнительные опции (чекбоксы с количеством)
   const extraBox = document.getElementById('extra_services');
   extraBox.innerHTML = '';
   EXTRA_SERVICES_CONFIG.forEach(srv => {
@@ -909,6 +888,12 @@ function setInnerBase(val) {
   updateKP();
 }
 
+function setOuterChoice(id) {
+  state.outerChoice = id;
+  renderDynamicOptions();
+  updateKP();
+}
+
 function setCustomPrice(id, val) {
   state.customPrices[id] = parseInt(val) || 0;
   updateKP();
@@ -920,19 +905,12 @@ function resetCustomPrice(id, defaultPrice) {
   updateKP();
 }
 
-function toggleOuter(id, checked) {
-  if (checked) state.outerUpgrades[id] = true;
-  else delete state.outerUpgrades[id];
-  updateKP();
-}
-
 function toggleExtraCheck(id, checked) {
   const isBk = PRODUCTS_DATA[state.selectedSize].type === 'bk';
   if (checked) {
     state.extrasChecked[id] = true;
     if (!state.extrasQty[id]) state.extrasQty[id] = 1;
 
-    // В БК дверь ставится без увеличения. Для деревянных — авто-выбор увеличения
     const srv = EXTRA_SERVICES_CONFIG.find(x => x.id === id);
     if (srv && srv.autoHeight && !isBk) {
       state.extrasChecked['height_increase'] = true;
@@ -965,7 +943,7 @@ function resetExtraOption(id, defaultPrice) {
   updateKP();
 }
 
-/* РАСЧЕТ ДОСТАВКИ ПО РЕГИОНАМ */
+/* ДОСТАВКА */
 function onDeliveryParamsChanged() {
   const regKey = document.getElementById('delivery_region').value;
   state.deliveryRegion = regKey;
@@ -987,7 +965,6 @@ function onCustomDeliveryPrice() {
   updateKP();
 }
 
-/* НАЛОГИ */
 function toggleTax(mode) {
   if (mode === '13') {
     if (document.getElementById('tax_13').checked) {
@@ -1003,7 +980,7 @@ function toggleTax(mode) {
   updateKP();
 }
 
-/* ГЛАВНЫЙ РАСЧЕТ И ОТРИСОВКА БЛАНКА СПРАВА */
+/* ГЛАВНЫЙ РАСЧЕТ И ОТРИСОВКА БЛАНКА КП */
 function updateKP() {
   const prod = PRODUCTS_DATA[state.selectedSize];
   const isBk = prod.type === 'bk';
@@ -1013,64 +990,111 @@ function updateKP() {
   let total = 0;
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
+  // Базовая бытовка с отделкой
   const baseKey = 'base_' + state.innerBase;
   const baseCost = getP(baseKey, prod.basePrices[state.innerBase]);
   total += baseCost;
 
-  const spec = { ...prod.defaultSpec };
-  const innerNames = { org: 'Оргалит', osb: 'ОСБ панели', vag: 'Вагонка С' };
-  spec.inner = innerNames[state.innerBase];
-
-  if (state.insulation100) {
-    spec.insul = '100 мм (пол, потолок, стены)';
-    const insCost = getP('ins100', prod.insulation100);
-    total += insCost;
+  // Замена каркаса
+  let frameDesc = 'Каркас 50х50 из бруса естественной влажности';
+  let frameCost = 0;
+  if (!isBk && state.frameType === 'frame_100') {
+    frameCost = getP('frame_100', prod.frameUpgradePrice);
+    total += frameCost;
+    frameDesc = 'Каркас 100х50 из бруса (усиленный)';
+  } else if (isBk) {
+    frameDesc = 'Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм (покраска синим)';
   }
 
-  let outerName = spec.outer;
-  prod.outerUpgrades.forEach(opt => {
-    if (state.outerUpgrades[opt.id]) {
-      outerName = opt.name;
-      const p = getP(opt.id, opt.price);
-      total += p;
-    }
-  });
-  spec.outer = outerName;
+  // Утепление
+  let insulCost = 0;
+  let insulDesc = '50 мм (пол, стены, потолок) минеральной ватой';
+  if (state.insulation === 'ins100') {
+    insulCost = getP('ins100', prod.insulationPrices.ins100);
+    total += insulCost;
+    insulDesc = '100 мм (пол, стены, потолок) минеральной ватой';
+  }
 
-  // Отрисовка базовой позиции
-  let mainItemHtml = `
-    <div class="tech-sheet-title">Новая ${prod.name} ${document.getElementById('is_raspashonka').checked ? '(РАСПАШОНКА)' : ''}</div>
-    <div class="tech-sheet-body">
-      <div><strong>Каркас:</strong> ${spec.frame}</div>
-      <div><strong>Внешняя отделка:</strong> ${spec.outer}</div>
-      <div><strong>Внутренняя отделка:</strong> ${spec.inner}</div>
-      <div><strong>Кровля:</strong> ${spec.roof}</div>
-      <div><strong>Высота:</strong> ${spec.height}</div>
-      <div><strong>Утепление:</strong> ${spec.insul}</div>
-      <div><strong>Окно:</strong> ${spec.window}</div>
-      <div><strong>Пол:</strong> ${spec.floor}</div>
-      <div><strong>Дверь:</strong> ${spec.door}</div>
-      <div><strong>Черновой пол:</strong> ${spec.subfloor}</div>
-      <div><strong>Лыжи:</strong> ${spec.skis}</div>
-      <div><strong>Пароизоляция:</strong> ${spec.vapor}</div>
-    </div>
-    <div style="margin-top: 8px;">
-      <strong>В комплекте:</strong><br>
-      ${spec.package}
-    </div>
-  `;
+  // Внешняя отделка
+  const currentOuterOpt = prod.outerOptions.find(o => o.id === state.outerChoice) || prod.outerOptions[0];
+  const outerCost = getP(currentOuterOpt.id, currentOuterOpt.price);
+  total += outerCost;
 
+  let outerDesc = currentOuterOpt.name;
+  if (currentOuterOpt.id.includes('color')) {
+    outerDesc += ` (Цвет: ${state.profColor})`;
+  }
+  if (currentOuterOpt.isProf) {
+    outerDesc += `, косынки: ${state.cornersColor}`;
+  }
+  if (currentOuterOpt.isWood) {
+    outerDesc += ` [Покрытие антисептиком в подарок: ${state.antisepticColor}]`;
+  }
+
+  const innerNames = { org: 'Оргалит (ДВП)', osb: 'ОСБ панели', vag: 'Вагонка С класс' };
+  const innerDesc = innerNames[state.innerBase];
+
+  // Спецификация КП точь-в-точь по заданию
+  let mainItemHtml = '';
+  if (!isBk) {
+    mainItemHtml = `
+      <div class="tech-sheet-title">Новая ${prod.name} ${document.getElementById('is_raspashonka').checked ? '(РАСПАШОНКА)' : ''}</div>
+      <div class="tech-sheet-body">
+        <div><strong>Внутренний размер:</strong> ${prod.innerDim}</div>
+        <div><strong>Каркас:</strong> ${frameDesc}</div>
+        <div><strong>Внешняя отделка:</strong> ${outerDesc}</div>
+        <div><strong>Внутренняя отделка:</strong> ${innerDesc}</div>
+        <div><strong>Кровля:</strong> Двускатная, оцинкованный профлист 0,3 мм (односкатная по запросу)</div>
+        <div><strong>Высота:</strong> 2.1 - 1.9 м</div>
+        <div><strong>Утепление:</strong> ${insulDesc}</div>
+        <div><strong>Окно:</strong> 75х75 см деревянное с двойным остеклением, открывающееся (1 шт. бесплатно)</div>
+        <div><strong>Пол чистовой:</strong> Доска обрезная 100х25 мм</div>
+        <div><strong>Дверь входная:</strong> Каркасная деревянная 1,80х80 см (бесплатно)</div>
+        <div><strong>Черновой пол:</strong> Доска с расстоянием 15-25 см</div>
+        <div><strong>Лыжи / Лаги:</strong> Лыжи брусья 150х100 мм, лаги 100х50 мм</div>
+        <div><strong>Пароизоляция:</strong> Пленка пароизоляционная с 1 стороны (пол, стены, потолок)</div>
+      </div>
+      <div style="margin-top: 8px;">
+        <strong>В комплекте (В ПОДАРОК):</strong><br>
+        Фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.
+      </div>
+    `;
+  } else {
+    mainItemHtml = `
+      <div class="tech-sheet-title">Новый ${prod.name}</div>
+      <div class="tech-sheet-body">
+        <div><strong>Внутренний размер:</strong> ${prod.innerDim}</div>
+        <div><strong>Каркас:</strong> ${frameDesc}</div>
+        <div><strong>Внешняя отделка:</strong> ${outerDesc}</div>
+        <div><strong>Внутренняя отделка:</strong> ${innerDesc}</div>
+        <div><strong>Кровля:</strong> Листовая сталь толщиной 0,6 мм (всегда прямая)</div>
+        <div><strong>Высота:</strong> Позволяет установку металлической двери без увеличения высоты</div>
+        <div><strong>Утепление:</strong> ${insulDesc}</div>
+        <div><strong>Окно:</strong> 75х75 см деревянное с двойным остеклением (1 шт. бесплатно)</div>
+        <div><strong>Пол:</strong> Доска обрезная 100х25 мм + ОСБ</div>
+        <div><strong>Дверь входная:</strong> Деревянная 1,90х80 см (бесплатно)</div>
+        <div><strong>Пароизоляция:</strong> Пол, стены, потолок (полностью)</div>
+      </div>
+      <div style="margin-top: 8px;">
+        <strong>В комплекте:</strong><br>
+        Фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.
+      </div>
+    `;
+  }
+
+  // Отрисовка базовой позиции бытовки
   const trBase = document.createElement('tr');
+  const fullBasePrice = baseCost + frameCost + insulCost + outerCost;
   trBase.innerHTML = `
     <td>${mainItemHtml}</td>
     <td style="text-align:center; font-weight:700;">1</td>
-    <td class="hideable-price" style="text-align:right; font-weight:700; white-space:nowrap;">${baseCost.toLocaleString('ru-RU')} руб.</td>
+    <td class="hideable-price" style="text-align:right; font-weight:700; white-space:nowrap;">${fullBasePrice.toLocaleString('ru-RU')} руб.</td>
   `;
   tbody.appendChild(trBase);
 
-  // Дополнительные позиции (окна и двери не меняют цену от увеличения)
+  // Дополнительные услуги (окна и двери не меняют цену от увеличения)
   EXTRA_SERVICES_CONFIG.forEach(srv => {
-    if (srv.id === 'height_increase' && isBk) return; // исключаем для БК
+    if (srv.id === 'height_increase' && isBk) return;
 
     if (state.extrasChecked[srv.id]) {
       const q = state.extrasQty[srv.id] || 1;
@@ -1120,7 +1144,7 @@ function updateKP() {
   const trSummary = document.createElement('tr');
   trSummary.innerHTML = `
     <td colspan="3" class="tech-payment-info">
-      <div><strong>Стоимость бытовки:</strong> ${baseCost.toLocaleString('ru-RU')} руб.</div>
+      <div><strong>Стоимость комплектации бытовки:</strong> ${fullBasePrice.toLocaleString('ru-RU')} руб.</div>
       <div><strong>Итого:</strong> ${finalTotal.toLocaleString('ru-RU')} руб.</div>
       <div style="margin-top:6px;"><strong>Предоплата:</strong> ${depositVal.toLocaleString('ru-RU')} руб.</div>
       <div>тел. +7 (985) 128-33-85</div>
@@ -1136,6 +1160,7 @@ function updateKP() {
   document.getElementById('kp_out_order').textContent = document.getElementById('client_order').value || '—';
   document.getElementById('kp_out_addr').textContent = document.getElementById('client_addr').value || '—';
   document.getElementById('kp_out_size').textContent = prod.name;
+  document.getElementById('kp_out_inner_dim').textContent = prod.innerDim;
 
   const currentPlan = PLANS.find(p => p.id === state.selectedPlan) || PLANS[0];
   document.getElementById('kp_plan_title').textContent = currentPlan.name;
@@ -1178,10 +1203,14 @@ function resetCalculator(ask) {
     isRaspashonka: false,
     selectedPlan: 'plan_0',
     showAllPlans: false,
+    frameType: 'frame_50',
     innerBase: 'org',
+    insulation: 'ins50',
+    outerChoice: 'prof_zinc',
+    profColor: 'Графит',
+    cornersColor: 'Графит',
+    antisepticColor: 'Коричневый',
     customPrices: {},
-    outerUpgrades: {},
-    insulation100: false,
     extrasChecked: {},
     extrasQty: {},
     deliveryIncluded: true,
@@ -1225,10 +1254,22 @@ function rebuildModalText() {
   const baseCost = getP('base_' + state.innerBase, prod.basePrices[state.innerBase]);
   let total = baseCost;
 
-  if (state.insulation100) total += getP('ins100', prod.insulation100);
-  prod.outerUpgrades.forEach(opt => {
-    if (state.outerUpgrades[opt.id]) total += getP(opt.id, opt.price);
-  });
+  let frameCost = 0;
+  if (!isBk && state.frameType === 'frame_100') {
+    frameCost = getP('frame_100', prod.frameUpgradePrice);
+    total += frameCost;
+  }
+
+  let insCost = 0;
+  if (state.insulation === 'ins100') {
+    insCost = getP('ins100', prod.insulationPrices.ins100);
+    total += insCost;
+  }
+
+  const currentOuterOpt = prod.outerOptions.find(o => o.id === state.outerChoice) || prod.outerOptions[0];
+  const outerCost = getP(currentOuterOpt.id, currentOuterOpt.price);
+  total += outerCost;
+
   EXTRA_SERVICES_CONFIG.forEach(srv => {
     if (srv.id === 'height_increase' && isBk) return;
     if (state.extrasChecked[srv.id]) {
@@ -1236,24 +1277,16 @@ function rebuildModalText() {
       total += getP(srv.id, srv.price) * q;
     }
   });
+
   if (document.getElementById('delivery_included').checked) {
     total += state.deliveryPrice;
   }
+
   if (state.taxMode === '13') total = Math.round(total * 1.13);
   if (state.taxMode === '22') total = Math.round(total * 1.22);
 
   const balance = Math.max(0, total - deposit);
-
-  const spec = { ...prod.defaultSpec };
-  const innerNames = { org: 'Оргалит', osb: 'ОСБ панели', vag: 'Вагонка С' };
-  spec.inner = innerNames[state.innerBase];
-  if (state.insulation100) spec.insul = '100 мм (пол, потолок, стены)';
-
-  let outerName = spec.outer;
-  prod.outerUpgrades.forEach(opt => {
-    if (state.outerUpgrades[opt.id]) outerName = opt.name;
-  });
-  spec.outer = outerName;
+  const innerNames = { org: 'Оргалит (ДВП)', osb: 'ОСБ панели', vag: 'Вагонка С класс' };
 
   let text = '';
 
@@ -1262,19 +1295,35 @@ function rebuildModalText() {
     text += `Тег:\nЛид от:\n`;
     const regName = DELIVERY_RATES[state.deliveryRegion].name;
     text += `Доставка: ${document.getElementById('delivery_included').checked ? (cAddr ? cAddr + ` (из ${regName})` : `по согласованию (из ${regName})`) : 'самовывоз'}\n\n`;
-    text += `Новая ${prod.name}\n\n`;
-    text += `Каркас: ${spec.frame}\n`;
-    text += `Внешняя отделка: ${spec.outer}\n`;
-    text += `Внутренняя отделка: ${spec.inner}\n`;
-    text += `Кровля: ${spec.roof}\n`;
-    text += `Высота: ${spec.height}\n`;
-    text += `Утепление: ${spec.insul}\n`;
-    text += `Окно: ${spec.window}\n`;
-    text += `Пол: ${spec.floor}\n`;
-    text += `Дверь: ${spec.door}\n`;
-    text += `Черновой пол: ${spec.subfloor}\n`;
-    text += `Лыжи: ${spec.skis}\n`;
-    text += `Пароизоляция: ${spec.vapor}\n\n`;
+    text += `Новая ${prod.name}\n`;
+    text += `Внутренний размер: ${prod.innerDim}\n\n`;
+
+    if (!isBk) {
+      text += `Комплектация деревянного каркаса:\n`;
+      text += `1. Отделка снаружи: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}${currentOuterOpt.isWood ? ' [Антисептик: ' + state.antisepticColor + ']' : ''}\n`;
+      text += `2. Пароизоляция: пленка пароизоляционная с 1 стороны (пол, стены, потолок)\n`;
+      text += `3. Каркас: ${state.frameType === 'frame_100' ? '100х50 из бруса (усиленный)' : '50х50 из бруса, естественной влажности'}\n`;
+      text += `4. Утепление: ${state.insulation === 'ins100' ? '100 мм' : '50 мм'} минеральной ватой (пол, стены, потолок)\n`;
+      text += `5. Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
+      text += `6. Лыжи брусья 150х100 мм, лаги 100х50 мм\n`;
+      text += `7. Крыша: двускатная, оцинкованный профлист 0,3 мм (односкатную делаем по запросу)\n`;
+      text += `8. Окна: 75х75 см деревянное, двойное остекление, открывающееся (1 шт. бесплатно)\n`;
+      text += `9. Дверь входная: 1,80х80 см деревянная каркасная (бесплатно)\n`;
+      text += `В комплекте: фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт. (в подарок)\n\n`;
+    } else {
+      text += `Характеристики стандартного блок-контейнера:\n`;
+      text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм (покраска синим)\n`;
+      text += `• Внешняя отделка: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}\n`;
+      text += `• Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
+      text += `• Пол: доска обрезная 100х25 мм + ОСБ\n`;
+      text += `• Крыша всегда прямая: листовая сталь толщиной 0,6 мм\n`;
+      text += `• Окно деревянное 75х75 см с двойным остеклением (бесплатно)\n`;
+      text += `• Дверь деревянная 1,90х80 см (бесплатно)\n`;
+      text += `• Утепление: ${state.insulation === 'ins100' ? '100 мм' : '50 мм'} минеральной ватой (пол, стены, потолок)\n`;
+      text += `• Пароизоляция: полностью\n`;
+      text += `• Высота внутри позволяет установить металлическую дверь\n`;
+      text += `В комплекте: фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n\n`;
+    }
 
     let extrasList = [];
     EXTRA_SERVICES_CONFIG.forEach(s => {
@@ -1287,8 +1336,8 @@ function rebuildModalText() {
       text += `Дополнительно:\n` + extrasList.join('\n') + `\n\n`;
     }
 
-    text += `---\nВ комплекте:\n${spec.package}\n\n`;
-    text += `Стоимость бытовки ${baseCost.toLocaleString('ru-RU')} руб.\n`;
+    text += `---\n`;
+    text += `Стоимость бытовки: ${(baseCost + frameCost + insCost + outerCost).toLocaleString('ru-RU')} руб.\n`;
     text += `Итого: ${total.toLocaleString('ru-RU')} руб.\n\n`;
     text += `Предоплата ${deposit.toLocaleString('ru-RU')} руб.\n`;
     text += `${balance.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ\n\n`;
@@ -1302,19 +1351,35 @@ function rebuildModalText() {
     if (cPhone) text += `Телефон: ${cPhone}\n`;
     if (cAddr) text += `Адрес: ${cAddr}\n`;
     text += `\n`;
-    text += `Новая ${prod.name}\n\n`;
-    text += `Каркас: ${spec.frame}\n`;
-    text += `Внешняя отделка: ${spec.outer}\n`;
-    text += `Внутренняя отделка: ${spec.inner}\n`;
-    text += `Кровля: ${spec.roof}\n`;
-    text += `Высота: ${spec.height}\n`;
-    text += `Утепление: ${spec.insul}\n`;
-    text += `Окно: ${spec.window}\n`;
-    text += `Пол: ${spec.floor}\n`;
-    text += `Дверь: ${spec.door}\n`;
-    text += `Черновой пол: ${spec.subfloor}\n`;
-    text += `Лыжи: ${spec.skis}\n`;
-    text += `Пароизоляция: ${spec.vapor}\n\n`;
+    text += `Новая ${prod.name}\n`;
+    text += `Внутренний размер: ${prod.innerDim}\n\n`;
+
+    if (!isBk) {
+      text += `Комплектация деревянного каркаса:\n`;
+      text += `1. Отделка снаружи: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}${currentOuterOpt.isWood ? ' [Антисептик: ' + state.antisepticColor + ']' : ''}\n`;
+      text += `2. Пароизоляция: пленка пароизоляционная с 1 стороны (пол, стены, потолок)\n`;
+      text += `3. Каркас: ${state.frameType === 'frame_100' ? '100х50 из бруса (усиленный)' : '50х50 из бруса, естественной влажности'}\n`;
+      text += `4. Утепление: ${state.insulation === 'ins100' ? '100 мм' : '50 мм'} минеральной ватой (пол, стены, потолок)\n`;
+      text += `5. Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
+      text += `6. Лыжи брусья 150х100 мм, лаги 100х50 мм\n`;
+      text += `7. Крыша: двускатная, оцинкованный профлист 0,3 мм (односкатная по запросу)\n`;
+      text += `8. Окна: 75х75 см деревянное, двойное остекление, открывающееся (1 шт. бесплатно)\n`;
+      text += `9. Дверь входная: 1,80х80 см деревянная каркасная (бесплатно)\n`;
+      text += `В комплекте: фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт. (в подарок)\n\n`;
+    } else {
+      text += `Характеристики стандартного блок-контейнера:\n`;
+      text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм (покраска синим)\n`;
+      text += `• Внешняя отделка: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}\n`;
+      text += `• Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
+      text += `• Пол: доска обрезная 100х25 мм + ОСБ\n`;
+      text += `• Крыша всегда прямая: листовая сталь толщиной 0,6 мм\n`;
+      text += `• Окно деревянное 75х75 см с двойным остеклением (бесплатно)\n`;
+      text += `• Дверь деревянная 1,90х80 см (бесплатно)\n`;
+      text += `• Утепление: ${state.insulation === 'ins100' ? '100 мм' : '50 мм'} минеральной ватой (пол, стены, потолок)\n`;
+      text += `• Пароизоляция: полностью\n`;
+      text += `• Высота внутри позволяет установить металлическую дверь\n`;
+      text += `В комплекте: фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n\n`;
+    }
 
     let extrasList = [];
     EXTRA_SERVICES_CONFIG.forEach(s => {
@@ -1327,8 +1392,8 @@ function rebuildModalText() {
       text += `Дополнительно:\n` + extrasList.join('\n') + `\n\n`;
     }
 
-    text += `---\nВ комплекте:\n${spec.package}\n\n`;
-    text += `Стоимость бытовки ${baseCost.toLocaleString('ru-RU')} руб.\n`;
+    text += `---\n`;
+    text += `Стоимость бытовки: ${(baseCost + frameCost + insCost + outerCost).toLocaleString('ru-RU')} руб.\n`;
     text += `Итого: ${total.toLocaleString('ru-RU')} руб.\n\n`;
     text += `Предоплата ${deposit.toLocaleString('ru-RU')} руб.\n`;
     text += `тел. +7 (985) 128-33-85\n`;
