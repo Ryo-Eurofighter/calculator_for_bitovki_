@@ -32,7 +32,7 @@
     .btn-dark:hover { background: #1e293b; }
     .btn-full { width: 100%; margin-top: 8px; }
 
-    /* Секции аккордеона */
+    /* Аккордеоны */
     .section-wrap { margin-top: 12px; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; background: #fff; }
     .section-header { font-size: 13px; font-weight: 700; background: var(--header-bg); color: #fff; padding: 9px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
     .section-header:hover { background: #1e2b37; }
@@ -56,6 +56,9 @@
     .plan-card svg { width: 100%; height: 50px; display: block; margin: 0 auto 3px; }
     .plan-card span { font-size: 11px; font-weight: 600; color: #475569; }
 
+    /* Категории допов */
+    .extra-category-title { font-weight: 800; font-size: 12px; color: #1e3a8a; text-transform: uppercase; margin: 12px 0 6px; border-bottom: 2px solid #e2e8f0; padding-bottom: 3px; }
+
     /* Опции */
     .option-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; margin-bottom: 5px; }
     .option-row.disabled { opacity: 0.55; background: #f1f5f9; pointer-events: none; }
@@ -69,11 +72,11 @@
     .reset-sub-btn { font-size: 11px; padding: 4px 6px; background: #e2e8f0; border: none; border-radius: 3px; cursor: pointer; color: #475569; }
     .reset-sub-btn:hover { background: #cbd5e1; }
 
-    /* Подвыбор цвета в желтой плашке */
+    /* Цветная плашка подвыбора */
     .color-select-box { background: #fef9c3; border: 1px solid #fde047; padding: 8px 10px; border-radius: 4px; margin-bottom: 6px; font-size: 12.5px; font-weight: 600; color: #713f12; }
     .color-select-box select { width: 100%; margin-top: 4px; padding: 6px; border: 1px solid #ca8a04; border-radius: 4px; font-size: 13px; font-weight: 600; background: #fff; }
 
-    /* Доставка */
+    /* Блок Доставки */
     .delivery-box { background: #1e293b; color: #fff; padding: 12px 14px; border-radius: 4px; font-weight: 700; margin-top: 8px; }
     .delivery-calc-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
     .delivery-calc-row input, .delivery-calc-row select { width: 140px; padding: 5px 8px; border-radius: 4px; border: none; font-weight: 700; font-size: 12px; }
@@ -84,7 +87,7 @@
     .tax-options { margin-top: 10px; display: flex; gap: 14px; font-size: 12px; font-weight: 600; }
     .tax-options label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
 
-    /* Бланк КП справа */
+    /* Правая панель (КП) */
     .kp-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 10px; margin-bottom: 14px; }
     .kp-logo-area { display: flex; align-items: center; gap: 10px; }
     .kp-logo-img { max-height: 52px; max-width: 140px; object-fit: contain; }
@@ -103,6 +106,11 @@
     .tech-sheet-title { font-weight: 800; font-size: 14px; color: #0f172a; margin-bottom: 6px; padding-left: 8px; border-left: 3px solid #2563eb; }
     .tech-sheet-body { color: #334155; margin-bottom: 10px; }
     .tech-sheet-body div { margin-bottom: 2px; }
+    
+    /* Блок особенностей комплектации после пароизоляции */
+    .tech-features-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; padding: 8px 12px; margin: 8px 0; color: #166534; font-size: 12px; }
+    .tech-features-box h5 { font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
+
     .tech-payment-info { background: #f8fafc; border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 10px; color: #1e293b; font-size: 12px; line-height: 1.5; }
 
     .kp-plan-preview { text-align: center; margin-bottom: 16px; border: 1px solid #e2e8f0; padding: 10px; border-radius: 4px; background: #fff; }
@@ -143,7 +151,7 @@
       <button class="btn btn-red" onclick="resetCalculator(true)">ОБНУЛИТЬ РАСЧЕТ</button>
     </div>
 
-    <!-- Клиентские поля -->
+    <!-- Поля клиента -->
     <div class="client-grid">
       <div class="input-box"><input type="text" id="client_name" placeholder="ФИО Заказчика" oninput="updateKP()"></div>
       <div class="input-box"><input type="text" id="client_phone" placeholder="Контактный номер" oninput="updateKP()"></div>
@@ -195,7 +203,7 @@
       </div>
     </div>
 
-    <!-- 3. Каркас конструкции -->
+    <!-- 3. Каркас -->
     <div class="section-wrap" id="sec_frame">
       <div class="section-header" onclick="toggleSection('sec_frame')">
         <span>3. Каркас конструкции</span>
@@ -214,7 +222,7 @@
       </div>
       <div class="section-body">
         <div id="inner_finish_options"></div>
-        <div style="margin-top:12px; margin-bottom:6px; font-weight:700; color:#334155;">Утепление (рулонная минвата):</div>
+        <div style="margin-top:12px; margin-bottom:6px; font-weight:700; color:#334155;">Утепление (пол, стены, потолок):</div>
         <div id="insulation_options"></div>
       </div>
     </div>
@@ -230,7 +238,7 @@
       </div>
     </div>
 
-    <!-- 6. Дополнительные услуги -->
+    <!-- 6. Дополнительные опции по категориям -->
     <div class="section-wrap" id="sec_extras">
       <div class="section-header" onclick="toggleSection('sec_extras')">
         <span>6. Дополнительные опции и услуги</span>
@@ -241,7 +249,7 @@
       </div>
     </div>
 
-    <!-- 7. Доставка -->
+    <!-- 7. Производство и Доставка -->
     <div class="section-wrap" id="sec_delivery">
       <div class="section-header" onclick="toggleSection('sec_delivery')">
         <span>7. Доставка</span>
@@ -253,15 +261,15 @@
         </label>
         <div class="delivery-box">
           <div class="delivery-calc-row">
-            <span>База отгрузки / Регион:</span>
+            <span>Производство:</span>
             <select id="delivery_region" onchange="onDeliveryParamsChanged()">
               <option value="ramenskoe">Раменское (мин. 16 000 до 70 км, далее 120 р/км)</option>
-              <option value="ovrazhki">ОВРАЖКИ (мин. 14 500 до 50 км, далее 130 р/км)</option>
+              <option value="ovrazhki">Овражки (мин. 14 500 до 50 км, далее 130 р/км + электрика в подарок)</option>
               <option value="kraskovo">Красково (мин. 14 500 до 50 км, далее 130 р/км)</option>
             </select>
           </div>
           <div class="delivery-calc-row">
-            <span>Расстояние от базы, км:</span>
+            <span>Расстояние от производства, км:</span>
             <input type="number" id="delivery_km" value="0" min="0" oninput="onDeliveryParamsChanged()">
           </div>
           <div class="delivery-calc-row" style="margin-bottom:0; font-size:15px; margin-top:8px;">
@@ -288,12 +296,12 @@
       </div>
     </div>
 
-    <!-- Итог слева -->
+    <!-- Итог -->
     <div class="total-box-left">
       <span>ИТОГО: <span id="left_total">0</span> РУБ.</span>
     </div>
 
-    <!-- Налоги 13% и 22% -->
+    <!-- Налоги -->
     <div class="tax-options">
       <label><input type="checkbox" id="tax_13" onchange="toggleTax('13')"> Без НДС 13%: <span id="tax_13_val">0</span> р.</label>
       <label><input type="checkbox" id="tax_22" onchange="toggleTax('22')"> С НДС 22%: <span id="tax_22_val">0</span> р.</label>
@@ -335,7 +343,7 @@
       </div>
     </div>
 
-    <!-- Таблица сметы -->
+    <!-- Таблица КП -->
     <table class="kp-table">
       <thead>
         <tr>
@@ -408,14 +416,14 @@
 </div>
 
 <script>
-/* РАСЦЕНКИ РЕГИОНОВ ДОСТАВКИ (БЕЗ ЩЕЛКОВО) */
+/* РАСЦЕНКИ РЕГИОНОВ ДОСТАВКИ */
 const DELIVERY_RATES = {
   ramenskoe: { minPrice: 16000, baseKm: 70, extraKmPrice: 120, name: 'Раменское' },
-  ovrazhki:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'ОВРАЖКИ' },
+  ovrazhki:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'Овражки', freeElectric: true },
   kraskovo:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'Красково' }
 };
 
-/* БАЗА ТОВАРОВ И ЦЕН (БЛОКИ В ПОДАРОК + ВНУТРЕННИЕ РАЗМЕРЫ) */
+/* БАЗА ТОВАРОВ И ЦЕН (ИЗ НОВОЙ ТАБЛИЦЫ) */
 const PRODUCTS_DATA = {
   wood_2: {
     name: 'Бытовка 2 х 2.3 м (по крыше)',
@@ -424,7 +432,7 @@ const PRODUCTS_DATA = {
     blocksGift: 4,
     frameUpgradePrice: 9000,
     basePrices: { org: 63000, osb: 71000, vag: 72000 },
-    insulationPrices: { ins50: 0, ins100: 9000 },
+    insulationPrices: { ins50: 0, ins100: 9000, rock50: 10000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
       { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 9000, isProf: true },
@@ -438,8 +446,8 @@ const PRODUCTS_DATA = {
     type: 'wood',
     blocksGift: 4,
     frameUpgradePrice: 10000,
-    basePrices: { org: 59000, osb: 69000, vag: 74000 },
-    insulationPrices: { ins50: 0, ins100: 11000 },
+    basePrices: { org: 76000, osb: 86000, vag: 88000 },
+    insulationPrices: { ins50: 0, ins100: 11000, rock50: 15000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
       { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 11000, isProf: true },
@@ -453,8 +461,8 @@ const PRODUCTS_DATA = {
     type: 'wood',
     blocksGift: 4,
     frameUpgradePrice: 11000,
-    basePrices: { org: 69000, osb: 81000, vag: 87000 },
-    insulationPrices: { ins50: 0, ins100: 15000 },
+    basePrices: { org: 83000, osb: 96000, vag: 98000 },
+    insulationPrices: { ins50: 0, ins100: 15000, rock50: 18000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
       { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 13000, isProf: true },
@@ -468,8 +476,8 @@ const PRODUCTS_DATA = {
     type: 'wood',
     blocksGift: 6,
     frameUpgradePrice: 11000,
-    basePrices: { org: 75000, osb: 91000, vag: 97000 },
-    insulationPrices: { ins50: 0, ins100: 19000 },
+    basePrices: { org: 91000, osb: 107000, vag: 112000 },
+    insulationPrices: { ins50: 0, ins100: 19000, rock50: 22000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
       { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 15000, isProf: true },
@@ -483,8 +491,8 @@ const PRODUCTS_DATA = {
     type: 'wood',
     blocksGift: 6,
     frameUpgradePrice: 12000,
-    basePrices: { org: 81000, osb: 98000, vag: 104000 },
-    insulationPrices: { ins50: 0, ins100: 22000 },
+    basePrices: { org: 93000, osb: 111000, vag: 115000 },
+    insulationPrices: { ins50: 0, ins100: 22000, rock50: 24000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
       { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 17000, isProf: true },
@@ -498,12 +506,12 @@ const PRODUCTS_DATA = {
     type: 'wood',
     blocksGift: 8,
     frameUpgradePrice: 13000,
-    basePrices: { org: 105000, osb: 123500, vag: 129000 },
-    insulationPrices: { ins50: 0, ins100: 25000 },
+    basePrices: { org: 117000, osb: 138000, vag: 140000 },
+    insulationPrices: { ins50: 0, ins100: 25000, rock50: 30000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
       { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 19000, isProf: true },
-      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 26000, isWood: true },
+      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 30000, isWood: true },
       { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 30000, isWood: true }
     ]
   },
@@ -513,8 +521,8 @@ const PRODUCTS_DATA = {
     type: 'bk',
     blocksGift: 4,
     frameUpgradePrice: 0,
-    basePrices: { org: 81000, osb: 96000, vag: 98000 },
-    insulationPrices: { ins50: 0, ins100: 13000 },
+    basePrices: { org: 109000, osb: 122000, vag: 124000 },
+    insulationPrices: { ins50: 0, ins100: 13000, rock50: 15000 },
     outerOptions: [
       { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
       { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 11000, isProf: true }
@@ -526,8 +534,8 @@ const PRODUCTS_DATA = {
     type: 'bk',
     blocksGift: 4,
     frameUpgradePrice: 0,
-    basePrices: { org: 84000, osb: 100000, vag: 103000 },
-    insulationPrices: { ins50: 0, ins100: 17000 },
+    basePrices: { org: 114000, osb: 127000, vag: 128000 },
+    insulationPrices: { ins50: 0, ins100: 17000, rock50: 18000 },
     outerOptions: [
       { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
       { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 13000, isProf: true }
@@ -539,8 +547,8 @@ const PRODUCTS_DATA = {
     type: 'bk',
     blocksGift: 6,
     frameUpgradePrice: 0,
-    basePrices: { org: 87000, osb: 104000, vag: 108000 },
-    insulationPrices: { ins50: 0, ins100: 21000 },
+    basePrices: { org: 119000, osb: 136000, vag: 137000 },
+    insulationPrices: { ins50: 0, ins100: 21000, rock50: 22000 },
     outerOptions: [
       { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
       { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 14500, isProf: true }
@@ -552,8 +560,8 @@ const PRODUCTS_DATA = {
     type: 'bk',
     blocksGift: 6,
     frameUpgradePrice: 0,
-    basePrices: { org: 109000, osb: 124000, vag: 128000 },
-    insulationPrices: { ins50: 0, ins100: 24000 },
+    basePrices: { org: 124000, osb: 142000, vag: 146000 },
+    insulationPrices: { ins50: 0, ins100: 24000, rock50: 24000 },
     outerOptions: [
       { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
       { id: 'bk_prof_color', name: 'Профлист серый графит / цветной снаружи', price: 16000, isProf: true }
@@ -565,8 +573,8 @@ const PRODUCTS_DATA = {
     type: 'bk',
     blocksGift: 8,
     frameUpgradePrice: 0,
-    basePrices: { org: 124000, osb: 142000, vag: 148000 },
-    insulationPrices: { ins50: 0, ins100: 28000 },
+    basePrices: { org: 151000, osb: 174000, vag: 178000 },
+    insulationPrices: { ins50: 0, ins100: 28000, rock50: 30000 },
     outerOptions: [
       { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
       { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 18000, isProf: true }
@@ -574,9 +582,9 @@ const PRODUCTS_DATA = {
   }
 };
 
-/* СПИСКИ ЦВЕТОВ */
+/* ЦВЕТА */
 const PROF_COLORS = ['Графит', 'Светло-серый', 'Коричневый', 'Зеленый', 'Бежевый', 'Синий', 'Свой вариант'];
-const ANTISEPTIC_COLORS = ['Коричневый', 'Желтый', 'Бесцветный', 'Свой цвет...'];
+const THREE_COLORS = ['Желтый', 'Коричневый', 'Бесцветный'];
 
 /* ВСЕ 17 ПЛАНИРОВОК */
 const PLANS = [
@@ -599,25 +607,110 @@ const PLANS = [
   { id: 'plan_16', name: 'Планировка №16', num: '16', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="45" y1="15" x2="45" y2="85" stroke="#334155" stroke-width="2"/><line x1="45" y1="60" x2="45" y2="78" stroke="#fff" stroke-width="2"/><path d="M45 60 Q60 60 60 75" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="15" y1="60" x2="15" y2="80" stroke="#fff" stroke-width="3"/><path d="M15 60 Q0 60 0 75" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="110" y1="85" x2="145" y2="85" stroke="#16a34a" stroke-width="3"/><text x="145" y="45" font-size="16" font-weight="700" fill="#0f172a">16</text>' }
 ];
 
-/* ДОПОЛНИТЕЛЬНЫЕ ОПЦИИ И УСЛУГИ */
-const EXTRA_SERVICES_CONFIG = [
-  { id: 'win_wood_double_extra', name: 'Деревянное окно 75х75 см двойное остекление (дополнительное)', price: 4000 },
-  { id: 'win_pvc_50', name: 'Окно ПВХ 50х50 см поворотно-откидное', price: 7000 },
-  { id: 'win_pvc_90', name: 'Окно ПВХ 90х60 см поворотно-откидное', price: 10000 },
-  { id: 'win_pvc_100', name: 'Окно ПВХ 100х100 см поворотно-откидное', price: 12000 },
-  { id: 'win_grate', name: 'Решетка на окна', price: 5000 },
-  { id: 'win_shutters', name: 'Ставни на окна', price: 4500 },
-  { id: 'door_metal_ru', name: 'Металлическая дверь с замком 80х200 см (Россия)', price: 15000, autoHeight: true },
-  { id: 'door_wood_extra', name: 'Дверь деревянная дополнительная 1.8х0.8 м', price: 5000 },
-  { id: 'height_increase', name: 'Увеличение высоты бытовки (до 2.17 м внутри)', price: 11000 },
-  { id: 'wall_org', name: 'Перегородка (оргалит) без двери 2.4 м', price: 5000 },
-  { id: 'wall_door_org', name: 'Перегородка оргалит в комплекте с дверью 70 см', price: 7000 },
-  { id: 'wall_door_osb', name: 'Перегородка ОСБ в комплекте с дверью 70 см', price: 8000 },
-  { id: 'wall_door_vag', name: 'Перегородка Вагонка В в комплекте с дверью', price: 12000 },
-  { id: 'assembly', name: 'Сборка на участке', price: 24000 },
-  { id: 'blocks_extra', name: 'Дополнительные блоки (сверх подарка)', price: 2800 },
-  { id: 'antiseptic_full', name: 'Обработка антисептиком лыж и лаг (нижней обвязки)', price: 4000 }
+/* ВСЕ ДОПОЛНИТЕЛЬНЫЕ ОПЦИИ ИЗ ФАЙЛА, РАЗБИТЫЕ ПО КАТЕГОРИЯМ */
+const EXTRA_CATEGORIES = [
+  {
+    catId: 'windows',
+    catName: 'Окна и ставни',
+    items: [
+      { id: 'win_wood_extra', name: 'Окно деревянное дополнительное', price: 4000 },
+      { id: 'win_wood_50', name: 'Окно деревянное 50х50', price: 3000 },
+      { id: 'win_pvc_50', name: 'Окно ПВХ 50х50 поворотное', price: 6000 },
+      { id: 'win_pvc_90', name: 'Окно ПВХ 90х60 поворотно-откидное', price: 10000 },
+      { id: 'win_pvc_100', name: 'Окно ПВХ 100х100 поворотно-откидное', price: 12000 },
+      { id: 'win_shutters', name: 'Ставни на окна', price: 4500 }
+    ]
+  },
+  {
+    catId: 'doors',
+    catName: 'Двери и вход',
+    items: [
+      { id: 'door_metal_ru', name: 'Дверь металлическая заводская Россия', price: 16000, autoHeight: true },
+      { id: 'door_wood_extra', name: 'Дверь деревянная дополнительная', price: 3000 },
+      { id: 'door_mdf', name: 'Дверь деревянная МДФ, филенчатая', price: 12000 },
+      { id: 'height_increase', name: 'Увеличение высоты до 217 мм внутри (для метал. двери)', price: 11000 },
+      { id: 'gates_2door', name: 'Ворота в бытовке из 2 дверей', price: 5000 },
+      { id: 'door_opening', name: 'Проем под дверь или окно', price: 3000 }
+    ]
+  },
+  {
+    catId: 'partitions',
+    catName: 'Перегородки (все с дверью 70 см)',
+    items: [
+      { id: 'wall_door_org', name: 'Перегородка (оргалит) в комплекте с дверью 70 см', price: 7000 },
+      { id: 'wall_door_osb', name: 'Перегородка (ОСБ) в комплекте с дверью 70 см', price: 8000 },
+      { id: 'wall_door_vagC', name: 'Перегородка (Вагонка С) в комплекте с дверью 70 см', price: 9000 },
+      { id: 'wall_door_vagB', name: 'Перегородка Вагонка В в комплекте с дверью 70 см', price: 12000 },
+      { id: 'wall_door_imit', name: 'Перегородка Имитация С с дверью 70 см', price: 11000 },
+      { id: 'wall_door_mdf', name: 'Перегородка МДФ с дверью МДФ 70 см', price: 26000 }
+    ]
+  },
+  {
+    catId: 'floors_protection',
+    catName: 'Полы, потолки и защита',
+    items: [
+      { id: 'solid_subfloor', name: 'Сплошной черновой пол', price: 7000 },
+      { id: 'osb_floor_12', name: 'ОСБ 12мм на пол', price: 6000 },
+      { id: 'osb_ceil_9', name: 'ОСБ 9мм на потолок', price: 6000 },
+      { id: 'rodent_net', name: 'Сетка от грызунов', price: 10000 },
+      { id: 'metal_bottom', name: 'Закрыть дно металлическим листом', price: 8000 }
+    ]
+  },
+  {
+    catId: 'painting',
+    catName: 'Обработка и покраска',
+    items: [
+      { id: 'paint_antiseptic_bot', name: 'Покраска антисептиком дна бытовки', price: 4000 },
+      { id: 'paint_antiseptic_floor', name: 'Покраска антисептиком пола в бытовке', price: 4000 },
+      { id: 'paint_oil_all', name: 'Покраска масляной краской (1 слой) ВСЯ', price: 7000 },
+      { id: 'paint_oil_corners', name: 'Покраска масляной краской (1 слой) КОСЫНКИ', price: 2000 }
+    ]
+  },
+  {
+    catId: 'electric',
+    catName: 'Электрика и генераторы',
+    items: [
+      { id: 'electric_turnkey', name: 'Электрика под ключ (светодиодный светильник, выключатель, розетка, автомат, коробка)', price: 8000 },
+      { id: 'electric_basic', name: 'Электрика (патрон, выключатель, розетка, автомат, коробка-распределитель)', price: 5000 },
+      { id: 'generator_site', name: 'Генератор на участок', price: 5000 }
+    ]
+  },
+  {
+    catId: 'roof_modules',
+    catName: 'Кровля, модули и террасы',
+    items: [
+      { id: 'roof_colored', name: 'Крыша цветная (не оцинкованная)', price: 4000 },
+      { id: 'roof_slope_length', name: 'Крыша скат по длине', price: 12000 },
+      { id: 'veranda_pm', name: 'Веранда за 1 погонный метр', price: 14000 },
+      { id: 'veranda_pm_podshiv', name: 'Веранда за 1 пог. метр с подшивом', price: 17000 },
+      { id: 'veranda_imit_pm', name: 'Веранда Имитация за 1 погонный метр', price: 16000 },
+      { id: 'veranda_imit_podshiv', name: 'Веранда Имитация за 1 пог. метр с подшивом', price: 19000 },
+      { id: 'join_modules_wood', name: 'Соединение модулей 6м бытовок', price: 24000 },
+      { id: 'join_modules_bk', name: 'Соединение модулей 6м БК', price: 30000 },
+      { id: 'assembly_site', name: 'Сборка на участке', price: 25000 }
+    ]
+  },
+  {
+    catId: 'furniture_sanitary',
+    catName: 'Мебель, ступени, блоки и сантехника',
+    items: [
+      { id: 'bed_1tier', name: 'Кровать 1 ярус (2х0.8 м)', price: 3000 },
+      { id: 'bed_2tier', name: 'Кровать 2 яруса (2х0.8 м)', price: 4000 },
+      { id: 'extra_steps', name: 'Дополнительные ступени', price: 2000 },
+      { id: 'extra_block_item', name: 'Дополнительные блоки (за 1 шт.)', price: 300 },
+      { id: 'ruberoide_block', name: 'Рубероид на бетонный блок (за 1 шт.)', price: 200 },
+      { id: 'wc_standard', name: 'Туалет 1х1х2 м', price: 14000 },
+      { id: 'wc_shower', name: 'Туалет-душ 1х2х2 м', price: 26000 },
+      { id: 'wc_prof', name: 'Туалет в профлисте 1х1х2 м', price: 19000 },
+      { id: 'wc_house_painted', name: 'Туалет домиком крашеный', price: 23000 },
+      { id: 'wc_shower_painted', name: 'Туалет-душ крашеный', price: 28000 }
+    ]
+  }
 ];
+
+/* ПЛОСКИЙ СПИСОК ВСЕХ ДОПОВ */
+const ALL_EXTRAS = [];
+EXTRA_CATEGORIES.forEach(cat => cat.items.forEach(it => ALL_EXTRAS.push(it)));
 
 /* СОСТОЯНИЕ */
 let state = {
@@ -627,10 +720,10 @@ let state = {
   showAllPlans: false,
   frameType: 'frame_50',
   innerBase: 'org',
-  insulation: 'ins50',
+  insulation: 'ins50', // 'ins50' | 'ins100' | 'rock50'
   outerChoice: 'prof_zinc',
   profColor: 'Графит',
-  cornersColor: 'Графит',
+  cornersColor: 'Коричневый',
   antisepticColor: 'Коричневый',
   customPrices: {},
   extrasChecked: {},
@@ -707,10 +800,11 @@ function renderDynamicOptions() {
       </div>
     `;
   } else {
+    const isRockWool = state.insulation === 'rock50';
     frameBox.innerHTML = `
-      <div class="option-row">
+      <div class="option-row ${isRockWool ? 'disabled' : ''}">
         <div class="option-left">
-          <input type="radio" name="frame_sel" id="fr_50" ${state.frameType === 'frame_50' ? 'checked' : ''} onchange="state.frameType='frame_50'; updateKP();">
+          <input type="radio" name="frame_sel" id="fr_50" ${state.frameType === 'frame_50' ? 'checked' : ''} ${isRockWool ? 'disabled' : ''} onchange="state.frameType='frame_50'; updateKP();">
           <label for="fr_50">Каркас 50х50 из бруса (стандарт)</label>
         </div>
         <div class="option-right">
@@ -721,7 +815,7 @@ function renderDynamicOptions() {
       <div class="option-row">
         <div class="option-left">
           <input type="radio" name="frame_sel" id="fr_100" ${state.frameType === 'frame_100' ? 'checked' : ''} onchange="state.frameType='frame_100'; updateKP();">
-          <label for="fr_100">Замена каркаса с 50х50 на 100х50</label>
+          <label for="fr_100">Замена каркаса с 50х50 на 100х50 ${isRockWool ? '<span style="color:#16a34a; font-size:11px;">[Включено для каменной ваты]</span>' : ''}</label>
         </div>
         <div class="option-right">
           <input type="text" class="qty-input" value="1" readonly>
@@ -775,8 +869,8 @@ function renderDynamicOptions() {
   insBox.innerHTML = `
     <div class="option-row">
       <div class="option-left">
-        <input type="radio" name="ins_choice" id="ins_50" ${state.insulation === 'ins50' ? 'checked' : ''} onchange="state.insulation='ins50'; updateKP();">
-        <label for="ins_50">Утепление 50 мм (в базе — пол, стены, потолок)</label>
+        <input type="radio" name="ins_choice" id="ins_50" ${state.insulation === 'ins50' ? 'checked' : ''} onchange="onInsulationChange('ins50')">
+        <label for="ins_50">Утепление 50 мм минеральной ватой (в базе)</label>
       </div>
       <div class="option-right">
         <input type="text" class="qty-input" value="1" readonly>
@@ -785,13 +879,24 @@ function renderDynamicOptions() {
     </div>
     <div class="option-row">
       <div class="option-left">
-        <input type="radio" name="ins_choice" id="ins_100" ${state.insulation === 'ins100' ? 'checked' : ''} onchange="state.insulation='ins100'; updateKP();">
-        <label for="ins_100">Утепление 100 мм (пол, стены, потолок)</label>
+        <input type="radio" name="ins_choice" id="ins_100" ${state.insulation === 'ins100' ? 'checked' : ''} onchange="onInsulationChange('ins100')">
+        <label for="ins_100">Утепление 100 мм минеральной ватой</label>
       </div>
       <div class="option-right">
         <input type="text" class="qty-input" value="1" readonly>
         <input type="number" class="price-custom-input hideable-price" value="${getP('ins100', prod.insulationPrices.ins100)}" oninput="setCustomPrice('ins100', this.value)">
         <button class="reset-sub-btn" onclick="resetCustomPrice('ins100', ${prod.insulationPrices.ins100})">сброс</button>
+      </div>
+    </div>
+    <div class="option-row">
+      <div class="option-left">
+        <input type="radio" name="ins_choice" id="ins_rock" ${state.insulation === 'rock50' ? 'checked' : ''} onchange="onInsulationChange('rock50')">
+        <label for="ins_rock">Каменная вата (плитами) 50мм пол, стены, потолок <span style="color:#16a34a; font-size:11px;">[авто: каркас 100х50]</span></label>
+      </div>
+      <div class="option-right">
+        <input type="text" class="qty-input" value="1" readonly>
+        <input type="number" class="price-custom-input hideable-price" value="${getP('rock50', prod.insulationPrices.rock50)}" oninput="setCustomPrice('rock50', this.value)">
+        <button class="reset-sub-btn" onclick="resetCustomPrice('rock50', ${prod.insulationPrices.rock50})">сброс</button>
       </div>
     </div>
   `;
@@ -817,7 +922,7 @@ function renderDynamicOptions() {
       </div>
     `;
 
-    // Выбор цвета профлиста
+    // Цвет профлиста
     if (isChecked && opt.id.includes('color')) {
       let opts = PROF_COLORS.map(c => `<option value="${c}" ${state.profColor === c ? 'selected' : ''}>${c}</option>`).join('');
       outerBox.innerHTML += `
@@ -828,57 +933,71 @@ function renderDynamicOptions() {
       `;
     }
 
-    // Выбор цвета косынок
+    // Цвет косынок: Желтый, Коричневый, Бесцветный
     if (isChecked && opt.isProf) {
-      let optsK = PROF_COLORS.map(c => `<option value="${c}" ${state.cornersColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      let optsK = THREE_COLORS.map(c => `<option value="${c}" ${state.cornersColor === c ? 'selected' : ''}>${c}</option>`).join('');
       outerBox.innerHTML += `
         <div class="color-select-box">
-          <span>Цвет косынок (уголков):</span>
+          <span>Цвет косынок:</span>
           <select onchange="state.cornersColor=this.value; updateKP();">${optsK}</select>
         </div>
       `;
     }
 
-    // Выбор цвета антисептика
+    // Цвет антисептика: Желтый, Коричневый, Бесцветный
     if (isChecked && opt.isWood) {
-      let optsA = ANTISEPTIC_COLORS.map(c => `<option value="${c}" ${state.antisepticColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      let optsA = THREE_COLORS.map(c => `<option value="${c}" ${state.antisepticColor === c ? 'selected' : ''}>${c}</option>`).join('');
       outerBox.innerHTML += `
         <div class="color-select-box">
-          <span>Антисептик в подарок на выбор:</span>
+          <span>Цвет антисептика (в подарок):</span>
           <select onchange="state.antisepticColor=this.value; updateKP();">${optsA}</select>
         </div>
       `;
     }
   });
 
-  // 6. Дополнительные опции
+  // 6. Дополнительные опции ПО КАТЕГОРИЯМ
   const extraBox = document.getElementById('extra_services');
   extraBox.innerHTML = '';
-  EXTRA_SERVICES_CONFIG.forEach(srv => {
-    const isHeightOpt = srv.id === 'height_increase';
-    const isDisabled = isBk && isHeightOpt;
-    const isChecked = !isDisabled && !!state.extrasChecked[srv.id];
-    const qty = state.extrasQty[srv.id] !== undefined ? state.extrasQty[srv.id] : 1;
-    const priceVal = getP(srv.id, srv.price);
+  EXTRA_CATEGORIES.forEach(cat => {
+    let catHtml = `<div class="extra-category-title">${cat.catName}</div>`;
+    cat.items.forEach(srv => {
+      const isHeightOpt = srv.id === 'height_increase';
+      const isDisabled = isBk && isHeightOpt;
+      const isChecked = !isDisabled && !!state.extrasChecked[srv.id];
+      const qty = state.extrasQty[srv.id] !== undefined ? state.extrasQty[srv.id] : 1;
+      const priceVal = getP(srv.id, srv.price);
 
-    const labelText = isDisabled 
-      ? `${srv.name} <span style="color:#64748b; font-size:11px;">[Не требуется для БК — дверь ставится стандартно]</span>` 
-      : srv.name;
+      const labelText = isDisabled 
+        ? `${srv.name} <span style="color:#64748b; font-size:11px;">[Не требуется для БК]</span>` 
+        : srv.name;
 
-    extraBox.innerHTML += `
-      <div class="option-row ${isDisabled ? 'disabled' : ''}">
-        <div class="option-left">
-          <input type="checkbox" id="chk_srv_${srv.id}" ${isChecked ? 'checked' : ''} ${isDisabled ? 'disabled' : ''} onchange="toggleExtraCheck('${srv.id}', this.checked)">
-          <label for="chk_srv_${srv.id}">${labelText}</label>
+      catHtml += `
+        <div class="option-row ${isDisabled ? 'disabled' : ''}">
+          <div class="option-left">
+            <input type="checkbox" id="chk_srv_${srv.id}" ${isChecked ? 'checked' : ''} ${isDisabled ? 'disabled' : ''} onchange="toggleExtraCheck('${srv.id}', this.checked)">
+            <label for="chk_srv_${srv.id}">${labelText}</label>
+          </div>
+          <div class="option-right">
+            <input type="number" min="1" max="50" class="qty-input" value="${qty}" ${isDisabled ? 'disabled' : ''} oninput="changeExtraQty('${srv.id}', this.value)">
+            <input type="number" class="price-custom-input hideable-price" value="${priceVal}" ${isDisabled ? 'disabled' : ''} oninput="setCustomPrice('${srv.id}', this.value)">
+            <button class="reset-sub-btn" ${isDisabled ? 'disabled' : ''} onclick="resetExtraOption('${srv.id}', ${srv.price})">сброс</button>
+          </div>
         </div>
-        <div class="option-right">
-          <input type="number" min="1" max="20" class="qty-input" value="${qty}" ${isDisabled ? 'disabled' : ''} oninput="changeExtraQty('${srv.id}', this.value)">
-          <input type="number" class="price-custom-input hideable-price" value="${priceVal}" ${isDisabled ? 'disabled' : ''} oninput="setCustomPrice('${srv.id}', this.value)">
-          <button class="reset-sub-btn" ${isDisabled ? 'disabled' : ''} onclick="resetExtraOption('${srv.id}', ${srv.price})">сброс</button>
-        </div>
-      </div>
-    `;
+      `;
+    });
+    extraBox.innerHTML += catHtml;
   });
+}
+
+function onInsulationChange(mode) {
+  state.insulation = mode;
+  // Если выбрана каменная вата - автоматически включаем замену каркаса 100х50
+  if (mode === 'rock50') {
+    state.frameType = 'frame_100';
+  }
+  renderDynamicOptions();
+  updateKP();
 }
 
 function setInnerBase(val) {
@@ -909,7 +1028,7 @@ function toggleExtraCheck(id, checked) {
     state.extrasChecked[id] = true;
     if (!state.extrasQty[id]) state.extrasQty[id] = 1;
 
-    const srv = EXTRA_SERVICES_CONFIG.find(x => x.id === id);
+    const srv = ALL_EXTRAS.find(x => x.id === id);
     if (srv && srv.autoHeight && !isBk) {
       state.extrasChecked['height_increase'] = true;
       if (!state.extrasQty['height_increase']) state.extrasQty['height_increase'] = 1;
@@ -941,7 +1060,7 @@ function resetExtraOption(id, defaultPrice) {
   updateKP();
 }
 
-/* ДОСТАВКА (ТОЛЬКО РАМЕНСКОЕ, ОВРАЖКИ, КРАСКОВО) */
+/* ДОСТАВКА */
 function onDeliveryParamsChanged() {
   const regKey = document.getElementById('delivery_region').value;
   state.deliveryRegion = regKey;
@@ -988,7 +1107,7 @@ function updateKP() {
   let total = 0;
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
-  // Базовая бытовка с отделкой
+  // Базовая бытовка
   const baseKey = 'base_' + state.innerBase;
   const baseCost = getP(baseKey, prod.basePrices[state.innerBase]);
   total += baseCost;
@@ -1006,11 +1125,15 @@ function updateKP() {
 
   // Утепление
   let insulCost = 0;
-  let insulDesc = '50 мм (пол, стены, потолок) минеральной ватой';
+  let insulDesc = '50 мм минеральной ватой';
   if (state.insulation === 'ins100') {
     insulCost = getP('ins100', prod.insulationPrices.ins100);
     total += insulCost;
-    insulDesc = '100 мм (пол, стены, потолок) минеральной ватой';
+    insulDesc = '100 мм минеральной ватой';
+  } else if (state.insulation === 'rock50') {
+    insulCost = getP('rock50', prod.insulationPrices.rock50);
+    total += insulCost;
+    insulDesc = 'Каменная вата (плитами) 50 мм';
   }
 
   // Внешняя отделка
@@ -1023,16 +1146,42 @@ function updateKP() {
     outerDesc += ` (Цвет: ${state.profColor})`;
   }
   if (currentOuterOpt.isProf) {
-    outerDesc += `, косынки: ${state.cornersColor}`;
+    outerDesc += `, цвет косынок: ${state.cornersColor}`;
   }
   if (currentOuterOpt.isWood) {
-    outerDesc += ` [Покрытие антисептиком в подарок: ${state.antisepticColor}]`;
+    outerDesc += ` [Антисептик в подарок: ${state.antisepticColor}]`;
   }
 
   const innerNames = { org: 'Оргалит (ДВП)', osb: 'ОСБ панели', vag: 'Вагонка С класс' };
   const innerDesc = innerNames[state.innerBase];
 
-  // Спецификация КП
+  // Список выбранных особенностей (допов)
+  let chosenFeaturesHtml = '';
+  const chosenFeaturesList = [];
+  ALL_EXTRAS.forEach(srv => {
+    if (srv.id === 'height_increase' && isBk) return;
+    if (state.extrasChecked[srv.id]) {
+      const q = state.extrasQty[srv.id] || 1;
+      chosenFeaturesList.push(`• ${srv.name} — ${q} шт.`);
+    }
+  });
+
+  if (chosenFeaturesList.length > 0) {
+    chosenFeaturesHtml = `
+      <div class="tech-features-box">
+        <h5>Особенности комплектации:</h5>
+        ${chosenFeaturesList.map(f => `<div>${f}</div>`).join('')}
+      </div>
+    `;
+  }
+
+  // Электрика в подарок для Овражек
+  let ovrazhkiGiftHtml = '';
+  if (state.deliveryRegion === 'ovrazhki') {
+    ovrazhkiGiftHtml = `<div><strong>Электрика (Овражки в подарок):</strong> розетка, выключатель, патрон и провод для соединения (без подключения)</div>`;
+  }
+
+  // Спецификация КП (вырезаны лишние строки, пол двойной)
   let mainItemHtml = '';
   if (!isBk) {
     mainItemHtml = `
@@ -1046,15 +1195,16 @@ function updateKP() {
         <div><strong>Высота:</strong> 2.1 - 1.9 м</div>
         <div><strong>Утепление:</strong> ${insulDesc}</div>
         <div><strong>Окно:</strong> 75х75 см деревянное с двойным остеклением, открывающееся (1 шт. бесплатно)</div>
-        <div><strong>Пол чистовой:</strong> Доска обрезная 100х25 мм</div>
+        <div><strong>Пол:</strong> Двойной (доска + ОСБ)</div>
         <div><strong>Дверь входная:</strong> Каркасная деревянная 1,80х80 см (бесплатно)</div>
-        <div><strong>Черновой пол:</strong> Доска с расстоянием 15-25 см</div>
-        <div><strong>Лыжи / Лаги:</strong> Лыжи брусья 150х100 мм, лаги 100х50 мм</div>
-        <div><strong>Пароизоляция:</strong> Пленка пароизоляционная с 1 стороны (пол, стены, потолок)</div>
+        <div><strong>Пароизоляция:</strong> Пароизоляция (пол, стены, потолок)</div>
+        ${ovrazhkiGiftHtml}
       </div>
+      ${chosenFeaturesHtml}
       <div style="margin-top: 8px;">
         <strong>В комплекте (В ПОДАРОК):</strong><br>
-        Фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.
+        • Фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.<br>
+        • Ступени для входа
       </div>
     `;
   } else {
@@ -1069,18 +1219,21 @@ function updateKP() {
         <div><strong>Высота:</strong> Позволяет установку металлической двери без увеличения высоты</div>
         <div><strong>Утепление:</strong> ${insulDesc}</div>
         <div><strong>Окно:</strong> 75х75 см деревянное с двойным остеклением (1 шт. бесплатно)</div>
-        <div><strong>Пол:</strong> Доска обрезная 100х25 мм + ОСБ</div>
+        <div><strong>Пол:</strong> Двойной (доска + ОСБ)</div>
         <div><strong>Дверь входная:</strong> Деревянная 1,90х80 см (бесплатно)</div>
-        <div><strong>Пароизоляция:</strong> Пол, стены, потолок (полностью)</div>
+        <div><strong>Пароизоляция:</strong> Пароизоляция (пол, стены, потолок)</div>
+        ${ovrazhkiGiftHtml}
       </div>
+      ${chosenFeaturesHtml}
       <div style="margin-top: 8px;">
-        <strong>В комплекте:</strong><br>
-        Фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.
+        <strong>В комплекте (В ПОДАРОК):</strong><br>
+        • Фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.<br>
+        • Ступени для входа
       </div>
     `;
   }
 
-  // Отрисовка базовой позиции бытовки
+  // Базовая позиция в смете
   const trBase = document.createElement('tr');
   const fullBasePrice = baseCost + frameCost + insulCost + outerCost;
   trBase.innerHTML = `
@@ -1090,8 +1243,8 @@ function updateKP() {
   `;
   tbody.appendChild(trBase);
 
-  // Дополнительные услуги
-  EXTRA_SERVICES_CONFIG.forEach(srv => {
+  // Дополнительные позиции в смете
+  ALL_EXTRAS.forEach(srv => {
     if (srv.id === 'height_increase' && isBk) return;
 
     if (state.extrasChecked[srv.id]) {
@@ -1110,18 +1263,16 @@ function updateKP() {
     }
   });
 
-  // Доставка
+  // Доставка: в правой колонке пишем «Доставка на манипуляторе включена в стоимость» без цены
   const isDeliv = document.getElementById('delivery_included').checked;
   const delivVal = state.deliveryPrice;
-  if (isDeliv && delivVal > 0) {
+  if (isDeliv) {
     total += delivVal;
-    const regName = DELIVERY_RATES[state.deliveryRegion].name;
-    const kmText = state.deliveryKm > 0 ? ` (${state.deliveryKm} км от базы ${regName})` : ` (база ${regName})`;
     const trDel = document.createElement('tr');
     trDel.innerHTML = `
-      <td style="font-weight:600;">Доставка до объекта${kmText}</td>
+      <td style="font-weight:600;">Доставка на манипуляторе включена в стоимость</td>
       <td style="text-align:center; font-weight:700;">1</td>
-      <td class="hideable-price" style="text-align:right; font-weight:700; white-space:nowrap;">${delivVal.toLocaleString('ru-RU')} руб.</td>
+      <td class="hideable-price" style="text-align:right; font-weight:700; white-space:nowrap;">включено</td>
     `;
     tbody.appendChild(trDel);
   }
@@ -1206,7 +1357,7 @@ function resetCalculator(ask) {
     insulation: 'ins50',
     outerChoice: 'prof_zinc',
     profColor: 'Графит',
-    cornersColor: 'Графит',
+    cornersColor: 'Коричневый',
     antisepticColor: 'Коричневый',
     customPrices: {},
     extrasChecked: {},
@@ -1262,13 +1413,16 @@ function rebuildModalText() {
   if (state.insulation === 'ins100') {
     insCost = getP('ins100', prod.insulationPrices.ins100);
     total += insCost;
+  } else if (state.insulation === 'rock50') {
+    insCost = getP('rock50', prod.insulationPrices.rock50);
+    total += insCost;
   }
 
   const currentOuterOpt = prod.outerOptions.find(o => o.id === state.outerChoice) || prod.outerOptions[0];
   const outerCost = getP(currentOuterOpt.id, currentOuterOpt.price);
   total += outerCost;
 
-  EXTRA_SERVICES_CONFIG.forEach(srv => {
+  ALL_EXTRAS.forEach(srv => {
     if (srv.id === 'height_increase' && isBk) return;
     if (state.extrasChecked[srv.id]) {
       const q = state.extrasQty[srv.id] || 1;
@@ -1289,49 +1443,58 @@ function rebuildModalText() {
   let text = '';
 
   if (type === 'prod') {
+    /* ЗАЯВКА ДЛЯ ПРОИЗВОДСТВА: ЕСТЬ ЗАКАЗЧИК, УБРАНЫ СЛОВА "ПО СОГЛАСОВАНИЮ" */
     text += `Заявка на ${dateVal}\n`;
+    text += `Заказчик: ${cName ? cName : '—'}\n`;
+    text += `Телефон: ${cPhone ? cPhone : '—'}\n`;
     text += `Тег:\nЛид от:\n`;
     const regName = DELIVERY_RATES[state.deliveryRegion].name;
-    text += `Доставка: ${document.getElementById('delivery_included').checked ? (cAddr ? cAddr + ` (из ${regName})` : `по согласованию (из ${regName})`) : 'самовывоз'}\n\n`;
+    const delivAddrText = cAddr ? cAddr : 'Адрес уточняется';
+    text += `Доставка: ${document.getElementById('delivery_included').checked ? delivAddrText + ` (из ${regName})` : 'самовывоз'}\n\n`;
     text += `Новая ${prod.name}\n`;
     text += `Внутренний размер: ${prod.innerDim}\n\n`;
 
     if (!isBk) {
       text += `Комплектация деревянного каркаса:\n`;
       text += `1. Отделка снаружи: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}${currentOuterOpt.isWood ? ' [Антисептик: ' + state.antisepticColor + ']' : ''}\n`;
-      text += `2. Пароизоляция: пленка пароизоляционная с 1 стороны (пол, стены, потолок)\n`;
+      text += `2. Пароизоляция: Пароизоляция (пол, стены, потолок)\n`;
       text += `3. Каркас: ${state.frameType === 'frame_100' ? '100х50 из бруса (усиленный)' : '50х50 из бруса, естественной влажности'}\n`;
-      text += `4. Утепление: ${state.insulation === 'ins100' ? '100 мм' : '50 мм'} минеральной ватой (пол, стены, потолок)\n`;
+      text += `4. Утепление: ${state.insulation === 'rock50' ? 'Каменная вата (плитами) 50 мм' : (state.insulation === 'ins100' ? '100 мм' : '50 мм')} (пол, стены, потолок)\n`;
       text += `5. Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
-      text += `6. Лыжи брусья 150х100 мм, лаги 100х50 мм\n`;
-      text += `7. Крыша: двускатная, оцинкованный профлист 0,3 мм (односкатную делаем по запросу)\n`;
+      text += `6. Пол: Двойной (доска + ОСБ)\n`;
+      text += `7. Крыша: двускатная, оцинкованный профлист 0,3 мм (односкатная по запросу)\n`;
       text += `8. Окна: 75х75 см деревянное, двойное остекление, открывающееся (1 шт. бесплатно)\n`;
       text += `9. Дверь входная: 1,80х80 см деревянная каркасная (бесплатно)\n`;
-      text += `В комплекте: фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт. (в подарок)\n\n`;
+      if (state.deliveryRegion === 'ovrazhki') {
+        text += `10. Электрика: розетка, выключатель, патрон и провод (Овражки в подарок)\n`;
+      }
+      text += `В комплекте: фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт., ступени для входа\n\n`;
     } else {
       text += `Характеристики стандартного блок-контейнера:\n`;
       text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм (покраска синим)\n`;
       text += `• Внешняя отделка: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}\n`;
       text += `• Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
-      text += `• Пол: доска обрезная 100х25 мм + ОСБ\n`;
+      text += `• Пол: Двойной (доска + ОСБ)\n`;
       text += `• Крыша всегда прямая: листовая сталь толщиной 0,6 мм\n`;
       text += `• Окно деревянное 75х75 см с двойным остеклением (бесплатно)\n`;
       text += `• Дверь деревянная 1,90х80 см (бесплатно)\n`;
-      text += `• Утепление: ${state.insulation === 'ins100' ? '100 мм' : '50 мм'} минеральной ватой (пол, стены, потолок)\n`;
-      text += `• Пароизоляция: полностью\n`;
-      text += `• Высота внутри позволяет установить металлическую дверь\n`;
-      text += `В комплекте: фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n\n`;
+      text += `• Утепление: ${state.insulation === 'rock50' ? 'Каменная вата (плитами) 50 мм' : (state.insulation === 'ins100' ? '100 мм' : '50 мм')}\n`;
+      text += `• Пароизоляция: Пароизоляция (пол, стены, потолок)\n`;
+      if (state.deliveryRegion === 'ovrazhki') {
+        text += `• Электрика: розетка, выключатель, патрон и провод (Овражки в подарок)\n`;
+      }
+      text += `В комплекте: фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт., ступени для входа\n\n`;
     }
 
     let extrasList = [];
-    EXTRA_SERVICES_CONFIG.forEach(s => {
+    ALL_EXTRAS.forEach(s => {
       if (s.id === 'height_increase' && isBk) return;
       if (state.extrasChecked[s.id]) {
         extrasList.push(`${s.name} — ${state.extrasQty[s.id] || 1} шт.`);
       }
     });
     if (extrasList.length > 0) {
-      text += `Дополнительно:\n` + extrasList.join('\n') + `\n\n`;
+      text += `Особенности комплектации (допы):\n` + extrasList.join('\n') + `\n\n`;
     }
 
     text += `---\n`;
@@ -1344,50 +1507,52 @@ function rebuildModalText() {
     text += `Ответственный менеджер:`;
 
   } else {
-    text += `Заявка на ${dateVal}\n`;
-    if (cName) text += `Заказчик: ${cName}\n`;
-    if (cPhone) text += `Телефон: ${cPhone}\n`;
-    if (cAddr) text += `Адрес: ${cAddr}\n`;
-    text += `\n`;
+    /* ЗАЯВКА ДЛЯ КЛИЕНТА: УБРАНЫ ЗАКАЗЧИК, ТЕЛЕФОН И АДРЕС */
+    text += `Заявка на ${dateVal}\n\n`;
     text += `Новая ${prod.name}\n`;
     text += `Внутренний размер: ${prod.innerDim}\n\n`;
 
     if (!isBk) {
       text += `Комплектация деревянного каркаса:\n`;
       text += `1. Отделка снаружи: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}${currentOuterOpt.isWood ? ' [Антисептик: ' + state.antisepticColor + ']' : ''}\n`;
-      text += `2. Пароизоляция: пленка пароизоляционная с 1 стороны (пол, стены, потолок)\n`;
+      text += `2. Пароизоляция: Пароизоляция (пол, стены, потолок)\n`;
       text += `3. Каркас: ${state.frameType === 'frame_100' ? '100х50 из бруса (усиленный)' : '50х50 из бруса, естественной влажности'}\n`;
-      text += `4. Утепление: ${state.insulation === 'ins100' ? '100 мм' : '50 мм'} минеральной ватой (пол, стены, потолок)\n`;
+      text += `4. Утепление: ${state.insulation === 'rock50' ? 'Каменная вата (плитами) 50 мм' : (state.insulation === 'ins100' ? '100 мм' : '50 мм')} (пол, стены, потолок)\n`;
       text += `5. Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
-      text += `6. Лыжи брусья 150х100 мм, лаги 100х50 мм\n`;
+      text += `6. Пол: Двойной (доска + ОСБ)\n`;
       text += `7. Крыша: двускатная, оцинкованный профлист 0,3 мм (односкатная по запросу)\n`;
       text += `8. Окна: 75х75 см деревянное, двойное остекление, открывающееся (1 шт. бесплатно)\n`;
       text += `9. Дверь входная: 1,80х80 см деревянная каркасная (бесплатно)\n`;
-      text += `В комплекте: фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт. (в подарок)\n\n`;
+      if (state.deliveryRegion === 'ovrazhki') {
+        text += `10. Электрика: розетка, выключатель, патрон и провод (Овражки в подарок)\n`;
+      }
+      text += `В комплекте (в подарок): фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт., ступени для входа\n\n`;
     } else {
       text += `Характеристики стандартного блок-контейнера:\n`;
       text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм (покраска синим)\n`;
       text += `• Внешняя отделка: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}\n`;
       text += `• Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
-      text += `• Пол: доска обрезная 100х25 мм + ОСБ\n`;
+      text += `• Пол: Двойной (доска + ОСБ)\n`;
       text += `• Крыша всегда прямая: листовая сталь толщиной 0,6 мм\n`;
       text += `• Окно деревянное 75х75 см с двойным остеклением (бесплатно)\n`;
       text += `• Дверь деревянная 1,90х80 см (бесплатно)\n`;
-      text += `• Утепление: ${state.insulation === 'ins100' ? '100 мм' : '50 мм'} минеральной ватой (пол, стены, потолок)\n`;
-      text += `• Пароизоляция: полностью\n`;
-      text += `• Высота внутри позволяет установить металлическую дверь\n`;
-      text += `В комплекте: фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n\n`;
+      text += `• Утепление: ${state.insulation === 'rock50' ? 'Каменная вата (плитами) 50 мм' : (state.insulation === 'ins100' ? '100 мм' : '50 мм')}\n`;
+      text += `• Пароизоляция: Пароизоляция (пол, стены, потолок)\n`;
+      if (state.deliveryRegion === 'ovrazhki') {
+        text += `• Электрика: розетка, выключатель, патрон и провод (Овражки в подарок)\n`;
+      }
+      text += `В комплекте (в подарок): фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт., ступени для входа\n\n`;
     }
 
     let extrasList = [];
-    EXTRA_SERVICES_CONFIG.forEach(s => {
+    ALL_EXTRAS.forEach(s => {
       if (s.id === 'height_increase' && isBk) return;
       if (state.extrasChecked[s.id]) {
         extrasList.push(`${s.name} — ${state.extrasQty[s.id] || 1} шт.`);
       }
     });
     if (extrasList.length > 0) {
-      text += `Дополнительно:\n` + extrasList.join('\n') + `\n\n`;
+      text += `Особенности комплектации (допы):\n` + extrasList.join('\n') + `\n\n`;
     }
 
     text += `---\n`;
