@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -7,7 +8,6 @@
   <style>
     :root {
       --primary: #1e3a8a;
-      --primary-hover: #172554;
       --accent-red: #dc2626;
       --accent-green: #15803d;
       --accent-orange: #ea580c;
@@ -16,13 +16,13 @@
       --header-bg: #2c3e50;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
-    body { background-color: #e2e8f0; color: var(--text-main); font-size: 14px; }
+    body { background-color: #e2e8f0; color: var(--text-main); font-size: 13px; }
     .app-container { display: flex; flex-direction: row; min-height: 100vh; max-width: 1750px; margin: 0 auto; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    .config-panel { width: 50%; padding: 20px; border-right: 2px solid var(--border-color); overflow-y: auto; max-height: 100vh; background: #f8fafc; }
-    .preview-panel { width: 50%; padding: 28px; overflow-y: auto; max-height: 100vh; background: #ffffff; }
+    .config-panel { width: 50%; padding: 18px; border-right: 2px solid var(--border-color); overflow-y: auto; max-height: 100vh; background: #f8fafc; }
+    .preview-panel { width: 50%; padding: 26px; overflow-y: auto; max-height: 100vh; background: #ffffff; }
 
     /* Кнопки */
-    .btn { display: inline-flex; align-items: center; justify-content: center; font-weight: 700; border-radius: 4px; padding: 9px 16px; cursor: pointer; border: none; text-transform: uppercase; transition: all 0.2s; font-size: 13px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; font-weight: 700; border-radius: 4px; padding: 9px 15px; cursor: pointer; border: none; text-transform: uppercase; transition: all 0.2s; font-size: 12px; }
     .btn-red { background: var(--accent-red); color: #fff; }
     .btn-red:hover { background: #b91c1c; }
     .btn-green { background: var(--accent-green); color: #fff; }
@@ -34,84 +34,90 @@
     .btn-full { width: 100%; margin-top: 8px; }
 
     /* Раскладываемые секции (Accordion) */
-    .section-wrap { margin-top: 14px; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; background: #fff; }
-    .section-header { font-size: 14px; font-weight: 700; background: var(--header-bg); color: #fff; padding: 10px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .section-wrap { margin-top: 12px; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; background: #fff; }
+    .section-header { font-size: 13px; font-weight: 700; background: var(--header-bg); color: #fff; padding: 9px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
     .section-header:hover { background: #1e2b37; }
-    .section-header .arrow { transition: transform 0.2s; font-size: 12px; }
+    .section-header .arrow { transition: transform 0.2s; font-size: 11px; }
     .section-wrap.collapsed .section-header .arrow { transform: rotate(-90deg); }
     .section-wrap.collapsed .section-body { display: none; }
-    .section-body { padding: 14px; }
+    .section-body { padding: 12px; }
 
-    .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; }
-    .top-header h2 { font-size: 20px; font-weight: 800; color: #0f172a; }
+    .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; }
+    .top-header h2 { font-size: 18px; font-weight: 800; color: #0f172a; }
 
-    .client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-    .input-box input, .input-box select, .input-box textarea { width: 100%; padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 14px; background: #fff; outline: none; }
+    .client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .input-box input, .input-box select, .input-box textarea { width: 100%; padding: 7px 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 13px; background: #fff; outline: none; }
     .input-box input:focus, .input-box select:focus, .input-box textarea:focus { border-color: var(--primary); }
 
     /* Сетка планировок */
-    .plan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 6px; }
-    .plan-card { border: 2px solid var(--border-color); border-radius: 6px; padding: 8px 6px; text-align: center; cursor: pointer; background: #fff; transition: all 0.15s; }
+    .plan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
+    .plan-card { border: 2px solid var(--border-color); border-radius: 6px; padding: 6px 4px; text-align: center; cursor: pointer; background: #fff; transition: all 0.15s; }
     .plan-card:hover { border-color: #94a3b8; }
     .plan-card.active { border-color: #16a34a; background: #f0fdf4; box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.3); }
-    .plan-card svg { width: 100%; height: 55px; display: block; margin: 0 auto 4px; }
-    .plan-card span { font-size: 12px; font-weight: 600; color: #475569; }
+    .plan-card svg { width: 100%; height: 50px; display: block; margin: 0 auto 3px; }
+    .plan-card span { font-size: 11px; font-weight: 600; color: #475569; }
 
-    /* Строки опций с возможностью ручного ввода цены */
-    .option-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; margin-bottom: 6px; }
+    /* Строки опций — у всех теперь чекбокс! */
+    .option-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; margin-bottom: 5px; }
     .option-row:hover { background: #f8fafc; }
     .option-left { display: flex; align-items: center; gap: 8px; flex: 1; }
     .option-left input[type="radio"], .option-left input[type="checkbox"] { width: 17px; height: 17px; cursor: pointer; accent-color: var(--primary); }
-    .option-left label { font-size: 13px; font-weight: 600; cursor: pointer; user-select: none; }
+    .option-left label { font-size: 12.5px; font-weight: 600; cursor: pointer; user-select: none; }
     .option-right { display: flex; align-items: center; gap: 6px; }
-    .qty-input { width: 44px; text-align: center; padding: 4px; border: 1px solid var(--border-color); border-radius: 4px; font-weight: 700; }
-    .price-custom-input { width: 85px; text-align: right; padding: 4px 6px; border: 1px solid var(--border-color); border-radius: 4px; font-weight: 700; color: #0f172a; }
+    .qty-input { width: 44px; text-align: center; padding: 4px; border: 1px solid var(--border-color); border-radius: 4px; font-weight: 700; font-size: 12px; }
+    .price-custom-input { width: 80px; text-align: right; padding: 4px 6px; border: 1px solid var(--border-color); border-radius: 4px; font-weight: 700; color: #0f172a; font-size: 12px; }
     .reset-sub-btn { font-size: 11px; padding: 4px 6px; background: #e2e8f0; border: none; border-radius: 3px; cursor: pointer; color: #475569; }
     .reset-sub-btn:hover { background: #cbd5e1; }
 
     /* Доставка */
-    .delivery-box { background: #1e293b; color: #fff; padding: 12px 16px; border-radius: 4px; font-weight: 700; margin-top: 10px; }
+    .delivery-box { background: #1e293b; color: #fff; padding: 12px 14px; border-radius: 4px; font-weight: 700; margin-top: 8px; }
     .delivery-calc-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
     .delivery-calc-row input { width: 90px; text-align: right; padding: 5px 8px; border-radius: 4px; border: none; font-weight: 700; }
 
     /* Итог слева */
-    .total-box-left { background: #ea580c; color: #fff; padding: 14px 18px; border-radius: 4px; margin-top: 18px; font-size: 17px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
-    .tax-options { margin-top: 10px; display: flex; gap: 16px; font-size: 13px; font-weight: 600; }
-    .tax-options label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .total-box-left { background: #ea580c; color: #fff; padding: 12px 16px; border-radius: 4px; margin-top: 16px; font-size: 16px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
+    .tax-options { margin-top: 10px; display: flex; gap: 14px; font-size: 12px; font-weight: 600; }
+    .tax-options label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
 
     /* Бланк КП справа */
-    .kp-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 14px; }
-    .kp-logo-area { display: flex; align-items: center; gap: 12px; }
+    .kp-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 10px; margin-bottom: 14px; }
+    .kp-logo-area { display: flex; align-items: center; gap: 10px; }
     .kp-logo-img { max-height: 52px; max-width: 140px; object-fit: contain; }
-    .kp-logo-fallback { width: 44px; height: 44px; border-radius: 50%; border: 3px solid #16a34a; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900; color: #16a34a; }
-    .kp-logo-text { font-size: 20px; font-weight: 900; color: #0f172a; }
-    .kp-contacts { text-align: right; font-size: 12px; color: #334155; line-height: 1.4; }
+    .kp-logo-fallback { width: 42px; height: 42px; border-radius: 50%; border: 3px solid #16a34a; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: #16a34a; }
+    .kp-logo-text { font-size: 19px; font-weight: 900; color: #0f172a; }
+    .kp-contacts { text-align: right; font-size: 11.5px; color: #334155; line-height: 1.35; }
     .kp-contacts strong { color: #0f172a; }
 
-    .kp-info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 10px 14px; margin-bottom: 14px; font-size: 13px; line-height: 1.6; }
+    .kp-info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 10px 14px; margin-bottom: 14px; font-size: 12.5px; line-height: 1.5; }
     .kp-info-box span { font-weight: 700; color: #0f172a; }
-    .kp-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
-    .kp-table th { background: #f1f5f9; padding: 8px 10px; font-weight: 700; text-align: left; border-bottom: 2px solid #cbd5e1; font-size: 13px; }
-    .kp-table td { padding: 8px 10px; border-bottom: 1px solid #e2e8f0; font-size: 13px; vertical-align: top; }
-    .kp-package { background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 4px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; line-height: 1.5; color: #475569; }
-    .kp-package h4 { font-size: 13px; color: #0f172a; margin-bottom: 4px; }
+
+    /* Таблица КП точь-в-точь по фото */
+    .kp-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    .kp-table th { background: #f8fafc; padding: 8px 10px; font-weight: 700; text-align: left; border-bottom: 2px solid #cbd5e1; font-size: 12.5px; color: #334155; }
+    .kp-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; font-size: 12.5px; vertical-align: top; line-height: 1.6; }
+    
+    .tech-sheet-title { font-weight: 800; font-size: 14px; color: #0f172a; margin-bottom: 6px; padding-left: 8px; border-left: 3px solid #2563eb; }
+    .tech-sheet-body { color: #334155; margin-bottom: 10px; }
+    .tech-sheet-body div { margin-bottom: 2px; }
+    .tech-payment-info { background: #f8fafc; border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 10px; color: #1e293b; font-size: 12px; line-height: 1.5; }
 
     .kp-plan-preview { text-align: center; margin-bottom: 16px; border: 1px solid #e2e8f0; padding: 10px; border-radius: 4px; background: #fff; }
-    .kp-plan-preview h5 { font-size: 12px; text-transform: uppercase; color: #64748b; margin-bottom: 6px; }
-    .kp-plan-preview svg { max-height: 140px; width: 100%; max-width: 260px; }
+    .kp-plan-preview h5 { font-size: 11.5px; text-transform: uppercase; color: #64748b; margin-bottom: 6px; }
+    .kp-plan-preview svg { max-height: 130px; width: 100%; max-width: 250px; }
 
-    .kp-total-banner { background: #1e3a8a; color: #fff; padding: 14px 20px; border-radius: 6px; font-size: 20px; font-weight: 900; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .kp-total-banner { background: #1e3a8a; color: #fff; padding: 12px 18px; border-radius: 6px; font-size: 19px; font-weight: 900; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     .kp-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-    /* Модальное окно */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+    /* Модальное окно по фото */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
     .modal-overlay.active { display: flex; }
-    .modal-window { background: #fff; width: 100%; max-width: 650px; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); }
-    .modal-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; background: #1e293b; color: #fff; font-weight: 700; font-size: 15px; }
-    .modal-close { cursor: pointer; font-size: 20px; background: none; border: none; color: #fff; }
-    .modal-body { padding: 16px; }
-    .modal-body textarea { width: 100%; height: 320px; padding: 10px; font-family: monospace; font-size: 13px; line-height: 1.5; border: 1px solid #cbd5e1; border-radius: 4px; resize: none; background: #f8fafc; }
-    .modal-foot { padding: 12px 18px; background: #f1f5f9; display: flex; justify-content: flex-end; gap: 10px; }
+    .modal-window { background: #fff; width: 100%; max-width: 780px; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25); display: flex; flex-direction: column; max-height: 92vh; }
+    .modal-head-grid { display: grid; grid-template-columns: 120px 100px 1fr 140px 1fr; gap: 8px; padding: 12px 16px; background: #f1f5f9; border-bottom: 1px solid #cbd5e1; font-size: 11px; }
+    .modal-head-grid div { display: flex; flex-direction: column; gap: 3px; font-weight: 700; color: #475569; }
+    .modal-head-grid input { padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px; background: #fff; outline: none; }
+    .modal-body { padding: 14px 16px; overflow-y: auto; flex: 1; }
+    .modal-body textarea { width: 100%; height: 380px; padding: 12px; font-family: Consolas, Monaco, "Courier New", monospace; font-size: 12px; line-height: 1.5; border: 1px solid #cbd5e1; border-radius: 4px; resize: none; background: #f8fafc; color: #0f172a; outline: none; }
+    .modal-foot { padding: 10px 16px; background: #f8fafc; border-top: 1px solid #cbd5e1; display: flex; justify-content: flex-end; gap: 10px; }
 
     .hide-prices .hideable-price { display: none !important; }
 
@@ -168,7 +174,7 @@
           </select>
         </div>
         <label style="display:flex; align-items:center; gap:8px; font-weight:600; cursor:pointer;">
-          <input type="checkbox" id="is_raspashonka" onchange="updateKP()"> Бытовка РАСПАШОНКА
+          <input type="checkbox" id="is_raspashonka" onchange="updateKP()"> Бытовка РАСПАШОНКА (вход по центру, окна слева и справа)
         </label>
       </div>
     </div>
@@ -262,7 +268,7 @@
       </div>
     </div>
 
-    <!-- Итоговая плашка -->
+    <!-- Итог слева -->
     <div class="total-box-left">
       <span>ИТОГО: <span id="left_total">0</span> РУБ.</span>
     </div>
@@ -305,11 +311,11 @@
       <div><strong>Размер конструкции:</strong> <span id="kp_out_size">3 х 2.3 м</span></div>
       <div style="display:flex; justify-content:space-between; margin-top:4px;">
         <span><strong>Номер КП:</strong> <span id="kp_out_num">КП-2160</span></span>
-        <span><strong>Дата:</strong> <span id="kp_out_date">01.10.2026</span></span>
+        <span><strong>Дата:</strong> <span id="kp_out_date">04 октября 2026 г.</span></span>
       </div>
     </div>
 
-    <!-- Таблица сметы -->
+    <!-- Таблица КП по образцу фото 1000010458.jpg -->
     <table class="kp-table">
       <thead>
         <tr>
@@ -321,12 +327,6 @@
       <tbody id="kp_table_body"></tbody>
     </table>
 
-    <!-- В комплекте -->
-    <div class="kp-package">
-      <h4>В комплекте:</h4>
-      <div id="kp_package_desc"></div>
-    </div>
-
     <!-- Схема планировки -->
     <div class="kp-plan-preview">
       <h5>СХЕМА ПЛАНИРОВКИ: <span id="kp_plan_title">Без планировки</span></h5>
@@ -334,7 +334,7 @@
     </div>
 
     <!-- Примечание -->
-    <div id="kp_note_block" style="display:none; margin-bottom:14px; font-size:13px; background:#fffbeb; border:1px solid #fef3c7; padding:10px 14px; border-radius:4px;">
+    <div id="kp_note_block" style="display:none; margin-bottom:14px; font-size:12.5px; background:#fffbeb; border:1px solid #fef3c7; padding:10px 14px; border-radius:4px;">
       <strong>Примечание:</strong> <span id="kp_note_text"></span>
     </div>
 
@@ -352,28 +352,48 @@
   </div>
 </div>
 
-<!-- МОДАЛКА ДЛЯ КОПИРОВАНИЯ -->
+<!-- МОДАЛЬНОЕ ОКНО ПО ОБРАЗЦУ ФОТО 1000010459 И 1000010460 -->
 <div class="modal-overlay" id="order_modal">
   <div class="modal-window">
-    <div class="modal-head">
-      <span id="modal_title">Заявка</span>
-      <button class="modal-close" onclick="closeOrderModal()">&times;</button>
+    <div class="modal-head-grid">
+      <div>
+        <span>Дата:</span>
+        <input type="text" id="m_head_date" value="4 октября 2026 г." oninput="rebuildModalText()">
+      </div>
+      <div>
+        <span>Аванс:</span>
+        <input type="number" id="m_head_deposit" value="5000" oninput="rebuildModalText()">
+      </div>
+      <div>
+        <span>Заказчик:</span>
+        <input type="text" id="m_head_name" placeholder="ФИО Заказчика" oninput="rebuildModalText()">
+      </div>
+      <div>
+        <span>Телефон:</span>
+        <input type="text" id="m_head_phone" placeholder="Контактный номер" oninput="rebuildModalText()">
+      </div>
+      <div>
+        <span>Адрес:</span>
+        <input type="text" id="m_head_addr" placeholder="Адрес объекта" oninput="rebuildModalText()">
+      </div>
     </div>
     <div class="modal-body">
-      <textarea id="modal_text" readonly></textarea>
+      <textarea id="modal_text"></textarea>
     </div>
     <div class="modal-foot">
       <button class="btn btn-dark" onclick="closeOrderModal()">ОТМЕНА</button>
-      <button class="btn btn-green" onclick="copyOrderText()">СКОПИРОВАТЬ В БУФЕР</button>
+      <button class="btn btn-green" id="modal_action_btn" onclick="copyOrderText()">СКОПИРОВАТЬ В БУФЕР</button>
     </div>
   </div>
 </div>
 
 <script>
-/* 1. БАЗА ДАННЫХ И ЦЕН */
+/* БАЗА ТОВАРОВ И ЦЕН */
 const PRODUCTS_DATA = {
   wood_2: {
-    name: 'Бытовка 2 х 2.3 м',
+    name: 'Бытовка 2 х 2.3 м (по крыше)',
+    dim: '2 х 2.3 м',
+    type: 'wood',
     basePrices: { org: 63000, osb: 71000, vag: 72000 },
     insulation100: 9000,
     outerUpgrades: [
@@ -381,10 +401,25 @@ const PRODUCTS_DATA = {
       { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 15000 },
       { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 12000 }
     ],
-    packageDesc: 'Каркас: брус 50х50 мм. Снаружи: евровагонка класс С. Крыша односкатная: оцинкованный профлист С8 (0.35 мм). Утепление: 50 мм рулонная минвата. Окно деревянное 60х80 со стеклом. Дверь каркасная 1.8х0.8 м. Блоки 20х20х40 см.'
+    defaultSpec: {
+      frame: '50х50',
+      outer: 'Вагонка С (не обработана антисептиком)',
+      roof: 'Односкатная (профлист оцинкованный 0,35)',
+      height: '2.1-1.9',
+      insul: '50 мм (пол, потолок, стены)',
+      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
+      floor: 'Доска',
+      door: 'каркасная деревянная 1,8х0,8 м',
+      subfloor: 'доска с расстоянием 15-25 см',
+      skis: '100*100',
+      vapor: 'пол',
+      package: 'Блоки (для установки бытовки)'
+    }
   },
   wood_3: {
-    name: 'Бытовка 3 х 2.3 м',
+    name: 'Бытовка 3 х 2.3 м (по крыше)',
+    dim: '3 х 2.3 м',
+    type: 'wood',
     basePrices: { org: 59000, osb: 69000, vag: 74000 },
     insulation100: 11000,
     outerUpgrades: [
@@ -392,10 +427,25 @@ const PRODUCTS_DATA = {
       { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 18000 },
       { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 14000 }
     ],
-    packageDesc: 'Каркас: брус 50х50 мм. Снаружи: евровагонка класс С. Крыша односкатная: оцинкованный профлист С8 (0.35 мм). Утепление: 50 мм минвата. Окно деревянное 60х80 со стеклом. Дверь каркасная 1.8х0.8 м. Комплект блоков.'
+    defaultSpec: {
+      frame: '50х50',
+      outer: 'Вагонка С (не обработана антисептиком)',
+      roof: 'Односкатная (профлист оцинкованный 0,35)',
+      height: '2.1-1.9',
+      insul: '50 мм (пол, потолок, стены)',
+      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
+      floor: 'Доска',
+      door: 'каркасная деревянная 1,8х0,8 м',
+      subfloor: 'доска с расстоянием 15-25 см',
+      skis: '100*100',
+      vapor: 'пол',
+      package: 'Блоки (для установки бытовки)'
+    }
   },
   wood_4: {
-    name: 'Бытовка 4 х 2.3 м',
+    name: 'Бытовка 4 х 2.3 м (по крыше)',
+    dim: '4 х 2.3 м',
+    type: 'wood',
     basePrices: { org: 69000, osb: 81000, vag: 87000 },
     insulation100: 15000,
     outerUpgrades: [
@@ -403,10 +453,25 @@ const PRODUCTS_DATA = {
       { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 20000 },
       { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 16000 }
     ],
-    packageDesc: 'Каркас: брус 50х50 мм. Снаружи: евровагонка класс С. Крыша односкатная: оцинкованный профлист С8 (0.35 мм). Утепление: 50 мм минвата. Окно 60х80 см со стеклом. Дверь каркасная 1.8х0.8 м. Блоки.'
+    defaultSpec: {
+      frame: '50х50',
+      outer: 'Вагонка С (не обработана антисептиком)',
+      roof: 'Односкатная (профлист оцинкованный 0,35)',
+      height: '2.1-1.9',
+      insul: '50 мм (пол, потолок, стены)',
+      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
+      floor: 'Доска',
+      door: 'каркасная деревянная 1,8х0,8 м',
+      subfloor: 'доска с расстоянием 15-25 см',
+      skis: '100*100',
+      vapor: 'пол',
+      package: 'Блоки (для установки бытовки)'
+    }
   },
   wood_5: {
-    name: 'Бытовка 5 х 2.3 м',
+    name: 'Бытовка 5 х 2.3 м (по крыше)',
+    dim: '5 х 2.3 м',
+    type: 'wood',
     basePrices: { org: 75000, osb: 91000, vag: 97000 },
     insulation100: 19000,
     outerUpgrades: [
@@ -414,10 +479,25 @@ const PRODUCTS_DATA = {
       { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 23000 },
       { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 18000 }
     ],
-    packageDesc: 'Каркас: брус 50х50 мм. Снаружи евровагонка класс С. Кровля: оцинкованный профлист С8. Утепление: 50 мм минвата. Окно 60х80 см. Каркасная дверь 1.8х0.8 м. Блоки.'
+    defaultSpec: {
+      frame: '50х50',
+      outer: 'Вагонка С (не обработана антисептиком)',
+      roof: 'Односкатная (профлист оцинкованный 0,35)',
+      height: '2.1-1.9',
+      insul: '50 мм (пол, потолок, стены)',
+      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
+      floor: 'Доска',
+      door: 'каркасная деревянная 1,8х0,8 м',
+      subfloor: 'доска с расстоянием 15-25 см',
+      skis: '100*100',
+      vapor: 'пол',
+      package: 'Блоки (для установки бытовки)'
+    }
   },
   wood_6: {
-    name: 'Бытовка 6 х 2.3 м',
+    name: 'Бытовка 6 х 2.3 м (по крыше)',
+    dim: '6 х 2.3 м',
+    type: 'wood',
     basePrices: { org: 81000, osb: 98000, vag: 104000 },
     insulation100: 22000,
     outerUpgrades: [
@@ -425,10 +505,25 @@ const PRODUCTS_DATA = {
       { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 26000 },
       { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 21000 }
     ],
-    packageDesc: 'Каркас: брус 50х50 мм (при 100 мм - 100х50 мм). Снаружи: евровагонка класс С. Пол чистовой: доска 100х25 мм. Кровля: профлист оцинкованный. Утепление 50 мм минвата. Окно 60х80 см со стеклом. Дверь 1.8х0.8 м. Блоки.'
+    defaultSpec: {
+      frame: '50х50 (при 100 мм - 100х50)',
+      outer: 'Вагонка С (не обработана антисептиком)',
+      roof: 'Односкатная (профлист оцинкованный 0,35)',
+      height: '2.1-1.9',
+      insul: '50 мм (пол, потолок, стены)',
+      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
+      floor: 'Доска 100х25 мм',
+      door: 'каркасная деревянная 1,8х0,8 м',
+      subfloor: 'доска с расстоянием 15-25 см',
+      skis: '100*100',
+      vapor: 'пол',
+      package: 'Блоки (для установки бытовки)'
+    }
   },
   wood_7: {
-    name: 'Бытовка 7 х 2.3 м',
+    name: 'Бытовка 7 х 2.3 м (по крыше)',
+    dim: '7 х 2.3 м',
+    type: 'wood',
     basePrices: { org: 105000, osb: 123500, vag: 129000 },
     insulation100: 25000,
     outerUpgrades: [
@@ -436,57 +531,145 @@ const PRODUCTS_DATA = {
       { id: 'wood_outer_imit', name: 'Имитация бруса снаружи', price: 30000 },
       { id: 'wood_outer_prof', name: 'Профлист оцинкованный снаружи', price: 24000 }
     ],
-    packageDesc: 'Каркас: брус 50х50 / 100х50 мм. Снаружи евровагонка класс С. Кровля профлист С8. Утепление 50 мм минвата. Окно деревянное 60х80 см. Каркасная дверь. Блоки.'
+    defaultSpec: {
+      frame: '50х50 / 100х50',
+      outer: 'Вагонка С (не обработана антисептиком)',
+      roof: 'Односкатная (профлист оцинкованный 0,35)',
+      height: '2.1-1.9',
+      insul: '50 мм (пол, потолок, стены)',
+      window: 'деревянное 60х80 см с одним стеклом, открывающееся',
+      floor: 'Доска',
+      door: 'каркасная деревянная 1,8х0,8 м',
+      subfloor: 'доска с расстоянием 15-25 см',
+      skis: '100*100',
+      vapor: 'пол',
+      package: 'Блоки (для установки бытовки)'
+    }
   },
   bk_3: {
     name: 'Блок-контейнер 3 х 2.4 м',
+    dim: '3 х 2.4 м',
+    type: 'bk',
     basePrices: { org: 81000, osb: 96000, vag: 98000 },
     insulation100: 13000,
     outerUpgrades: [
       { id: 'bk_outer_color', name: 'Цветной профлист снаружи', price: 11000 },
       { id: 'bk_outer_paint', name: 'Покраска каркаса БК', price: 8000 }
     ],
-    packageDesc: 'Каркас: швеллер гнутый 100х50 мм, уголок 75х75. Снаружи: профлист С8 оцинкованный. Утепление: 50 мм минвата по кругу + пароизоляция. Дверь металл/каркас. Окно 60х80 см.'
+    defaultSpec: {
+      frame: 'швеллер гнутый 100х50 мм, угол 75х75',
+      outer: 'Профлист С8 оцинкованный',
+      roof: 'Кровля металлическая плоская/односкатная 0.35',
+      height: '2.2-2.0',
+      insul: '50 мм минвата по кругу',
+      window: 'деревянное 60х80 см со стеклом',
+      floor: 'Доска обрезная + ОСБ',
+      door: 'каркасная деревянная / металл',
+      subfloor: 'доска 100х25',
+      skis: 'швеллер',
+      vapor: 'да, полностью',
+      package: 'Блоки (для установки бытовки)'
+    }
   },
   bk_4: {
     name: 'Блок-контейнер 4 х 2.4 м',
+    dim: '4 х 2.4 м',
+    type: 'bk',
     basePrices: { org: 84000, osb: 100000, vag: 103000 },
     insulation100: 17000,
     outerUpgrades: [
       { id: 'bk_outer_color', name: 'Цветной профлист снаружи', price: 13000 },
       { id: 'bk_outer_paint', name: 'Покраска каркаса БК', price: 9000 }
     ],
-    packageDesc: 'Каркас: швеллер 100х50 мм, угол 75х75 мм. Снаружи: профлист С8 оцинкованный. Утепление 50 мм минвата по кругу. Пароизоляция полностью. Окно деревянное 60х80. Дверь каркасная.'
+    defaultSpec: {
+      frame: 'швеллер 100х50 мм, угол 75х75',
+      outer: 'Профлист С8 оцинкованный',
+      roof: 'Профлист оцинкованный',
+      height: '2.2-2.0',
+      insul: '50 мм минвата по кругу',
+      window: 'деревянное 60х80 см',
+      floor: 'Доска обрезная + ОСБ',
+      door: 'каркасная деревянная',
+      subfloor: 'доска',
+      skis: 'швеллер',
+      vapor: 'да, полностью',
+      package: 'Блоки (для установки бытовки)'
+    }
   },
   bk_5: {
     name: 'Блок-контейнер 5 х 2.4 м',
+    dim: '5 х 2.4 м',
+    type: 'bk',
     basePrices: { org: 87000, osb: 104000, vag: 108000 },
     insulation100: 21000,
     outerUpgrades: [
       { id: 'bk_outer_color', name: 'Цветной профлист снаружи', price: 14500 },
       { id: 'bk_outer_paint', name: 'Покраска каркаса БК', price: 10000 }
     ],
-    packageDesc: 'Каркас металлоконструкция швеллер 100х50. Внешняя обшивка профлист оцинкованный. Утепление 50 мм минвата. Окно 60х80. Дверь 1.8х0.8 м. Блоки.'
+    defaultSpec: {
+      frame: 'швеллер 100х50 мм',
+      outer: 'Профлист оцинкованный',
+      roof: 'Оцинкованный профлист',
+      height: '2.2-2.0',
+      insul: '50 мм минвата',
+      window: 'деревянное 60х80 см',
+      floor: 'Доска обрезная',
+      door: 'каркасная 1.8х0.8 м',
+      subfloor: 'доска',
+      skis: 'швеллер',
+      vapor: 'да',
+      package: 'Блоки (для установки бытовки)'
+    }
   },
   bk_6: {
     name: 'Блок-контейнер 5.85 х 2.4 х 2.4 м',
+    dim: '5.85 х 2.4 х 2.4 м',
+    type: 'bk',
     basePrices: { org: 109000, osb: 124000, vag: 128000 },
     insulation100: 24000,
     outerUpgrades: [
       { id: 'bk_outer_color', name: 'Имитация БК снаружи полностью', price: 16000 },
       { id: 'bk_outer_paint', name: 'Имитация БК снаружи лицевая', price: 11000 }
     ],
-    packageDesc: 'Каркас: швеллер гнутый 100х50 мм. Профлист оцинкованный / с полимерным покрытием. Высота 2.4 м. Пол: доска обрезная + ОСБ. Кровля: оцинкованный профлист. Утепление 50 мм минвата. Окно 70х80 со стеклом. Дверь каркасная 1.8х0.8 м.'
+    defaultSpec: {
+      frame: 'швеллер гнутый 100х50 мм',
+      outer: 'Профлист С-8 оцинкованный/серый графит',
+      roof: 'Кровля односкатная (профлист оцинкованный 0,35)',
+      height: '2.4',
+      insul: '50 мм (пол, потолок, стены)',
+      window: 'деревянное 70х80 см со стеклом, открывающееся',
+      floor: 'Доска обрезная 100х25 мм + ОСБ',
+      door: 'каркасная деревянная 1,8х0,8 м',
+      subfloor: 'доска обрезная 100х25 мм',
+      skis: 'швеллер 100х50',
+      vapor: 'да, полностью',
+      package: 'Блоки (для установки бытовки)'
+    }
   },
   bk_7: {
     name: 'Блок-контейнер 7 х 2.4 м',
+    dim: '7 х 2.4 м',
+    type: 'bk',
     basePrices: { org: 124000, osb: 142000, vag: 148000 },
     insulation100: 28000,
     outerUpgrades: [
       { id: 'bk_outer_color', name: 'Цветной профлист снаружи', price: 18000 },
       { id: 'bk_outer_paint', name: 'Покраска каркаса БК', price: 12000 }
     ],
-    packageDesc: 'Каркас: швеллер 100х50 мм, уголок 75х75. Профлист С8 оцинкованный. Утепление 50 мм рулонная минвата. Окно со стеклом 60х80. Дверь каркасная. Комплект блоков.'
+    defaultSpec: {
+      frame: 'швеллер 100х50 мм, угол 75х75',
+      outer: 'Профлист С8 оцинкованный',
+      roof: 'Профлист С8',
+      height: '2.2-2.0',
+      insul: '50 мм минвата по кругу',
+      window: 'деревянное 60х80 см со стеклом',
+      floor: 'Доска + ОСБ',
+      door: 'каркасная',
+      subfloor: 'доска',
+      skis: 'швеллер',
+      vapor: 'да, полностью',
+      package: 'Блоки (для установки бытовки)'
+    }
   }
 };
 
@@ -513,23 +696,23 @@ const PLANS = [
 
 /* ДОПОЛНИТЕЛЬНЫЕ ОПЦИИ И УСЛУГИ */
 const EXTRA_SERVICES_CONFIG = [
-  { id: 'win_wood_extra', name: 'Деревянное окно с одним стеклом, 60х80 см (дополнительное)', price: 4000, type: 'qty' },
-  { id: 'win_wood_double', name: 'Деревянное окно двойное остекление, 70х80 см', price: 7000, type: 'qty' },
-  { id: 'win_pvc_50', name: 'Окно ПВХ 50х50 см (однокамерное, одна створка поворотно-откидная)', price: 7000, type: 'qty' },
-  { id: 'win_pvc_90', name: 'Окно ПВХ 90х60 см поворотно-откидное', price: 10000, type: 'qty' },
-  { id: 'win_pvc_100', name: 'Окно ПВХ 100х100 см поворотно-откидное', price: 12000, type: 'qty' },
-  { id: 'win_grate', name: 'Решетка на окна', price: 5000, type: 'qty' },
-  { id: 'win_shutters', name: 'Ставни на окна', price: 4500, type: 'qty' },
-  { id: 'door_metal_ru', name: 'Металлическая дверь с замком 80х200 см (Россия)', price: 15000, type: 'check', autoHeight: true },
-  { id: 'door_wood_extra', name: 'Дверь деревянная (дополнительно) 80 см', price: 5000, type: 'qty' },
-  { id: 'height_increase', name: 'Увеличение высоты бытовки (до 2.17 м внутри)', price: 11000, type: 'check' },
-  { id: 'wall_org', name: 'Перегородка (оргалит) без двери 2.4 м', price: 5000, type: 'qty' },
-  { id: 'wall_door_org', name: 'Перегородка оргалит в комплекте с дверью 70 см', price: 7000, type: 'qty' },
-  { id: 'wall_door_osb', name: 'Перегородка ОСБ в комплекте с дверью 70 см', price: 8000, type: 'qty' },
-  { id: 'wall_door_vag', name: 'Перегородка Вагонка В в комплекте с дверью', price: 12000, type: 'qty' },
-  { id: 'assembly', name: 'Сборка на участке', price: 24000, type: 'check' },
-  { id: 'blocks_extra', name: 'Блоки для установки бытовки (доп. комплект)', price: 2800, type: 'qty' },
-  { id: 'antiseptic', name: 'Обработка антисептиком лыж/нижней обвязки', price: 4000, type: 'check' }
+  { id: 'win_wood_extra', name: 'Деревянное окно с одним стеклом, 60х80 см (дополнительное)', price: 4000 },
+  { id: 'win_wood_double', name: 'Деревянное окно двойное остекление, 70х80 см', price: 7000 },
+  { id: 'win_pvc_50', name: 'Окно ПВХ 50х50 см (однокамерное, одна створка поворотно-откидная)', price: 7000 },
+  { id: 'win_pvc_90', name: 'Окно ПВХ 90х60 см поворотно-откидное', price: 10000 },
+  { id: 'win_pvc_100', name: 'Окно ПВХ 100х100 см поворотно-откидное', price: 12000 },
+  { id: 'win_grate', name: 'Решетка на окна', price: 5000 },
+  { id: 'win_shutters', name: 'Ставни на окна', price: 4500 },
+  { id: 'door_metal_ru', name: 'Металлическая дверь с замком 80х200 см (Россия)', price: 15000, autoHeight: true },
+  { id: 'door_wood_extra', name: 'Дверь деревянная (дополнительно) 80 см', price: 5000 },
+  { id: 'height_increase', name: 'Увеличение высоты бытовки (до 2.17 м внутри)', price: 11000 },
+  { id: 'wall_org', name: 'Перегородка (оргалит) без двери 2.4 м', price: 5000 },
+  { id: 'wall_door_org', name: 'Перегородка оргалит в комплекте с дверью 70 см', price: 7000 },
+  { id: 'wall_door_osb', name: 'Перегородка ОСБ в комплекте с дверью 70 см', price: 8000 },
+  { id: 'wall_door_vag', name: 'Перегородка Вагонка В в комплекте с дверью', price: 12000 },
+  { id: 'assembly', name: 'Сборка на участке', price: 24000 },
+  { id: 'blocks_extra', name: 'Блоки для установки бытовки (доп. комплект)', price: 2800 },
+  { id: 'antiseptic', name: 'Обработка антисептиком лыж/нижней обвязки', price: 4000 }
 ];
 
 /* СОСТОЯНИЕ ПРИЛОЖЕНИЯ */
@@ -539,17 +722,18 @@ let state = {
   selectedPlan: 'plan_0',
   showAllPlans: false,
   innerBase: 'org',
-  customPrices: {}, // хранилище введенных вручную цен { id: number }
+  customPrices: {},
   outerUpgrades: {},
   insulation100: false,
-  extras: {},
+  extrasChecked: {},
+  extrasQty: {},
   deliveryIncluded: true,
   deliveryKm: 0,
   deliveryPrice: 13000,
-  taxMode: null // '13' | '22' | null
+  taxMode: null,
+  currentModalType: 'prod'
 };
 
-/* ИНИЦИАЛИЗАЦИЯ */
 function init() {
   renderPlans();
   renderDynamicOptions();
@@ -589,13 +773,12 @@ function toggleMorePlans() {
   renderPlans();
 }
 
-/* ОТРИСОВКА ОПЦИЙ С ПОЛЯМИ РУЧНОГО ВВОДА ЦЕНЫ */
+/* ОТРИСОВКА ОПЦИЙ — ТЕПЕРЬ С ГАЛОЧКОЙ НА КАЖДОМ ПУНКТЕ */
 function renderDynamicOptions() {
   const prod = PRODUCTS_DATA[state.selectedSize];
-
-  // Внутренняя отделка
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
+  // Внутренняя отделка
   const innerBox = document.getElementById('inner_finish_options');
   innerBox.innerHTML = `
     <div class="option-row">
@@ -633,7 +816,7 @@ function renderDynamicOptions() {
     </div>
   `;
 
-  // Утепление
+  // Утепление (с галочкой)
   const insBox = document.getElementById('insulation_options');
   insBox.innerHTML = `
     <div class="option-row">
@@ -649,7 +832,7 @@ function renderDynamicOptions() {
     </div>
   `;
 
-  // Внешняя отделка
+  // Внешняя отделка (с галочкой)
   const outerBox = document.getElementById('outer_finish_options');
   outerBox.innerHTML = '';
   prod.outerUpgrades.forEach(opt => {
@@ -668,42 +851,27 @@ function renderDynamicOptions() {
     `;
   });
 
-  // Дополнительные услуги
+  // Дополнительные услуги (абсолютно все с галочкой и количеством!)
   const extraBox = document.getElementById('extra_services');
   extraBox.innerHTML = '';
   EXTRA_SERVICES_CONFIG.forEach(srv => {
-    const isChecked = !!state.extras[srv.id];
-    const qty = state.extras[srv.id] || (srv.type === 'check' ? 0 : 0);
+    const isChecked = !!state.extrasChecked[srv.id];
+    const qty = state.extrasQty[srv.id] !== undefined ? state.extrasQty[srv.id] : 1;
     const priceVal = getP(srv.id, srv.price);
 
-    if (srv.type === 'check') {
-      extraBox.innerHTML += `
-        <div class="option-row">
-          <div class="option-left">
-            <input type="checkbox" id="srv_${srv.id}" ${isChecked ? 'checked' : ''} onchange="setExtraCheck('${srv.id}', this.checked)">
-            <label for="srv_${srv.id}">${srv.name}</label>
-          </div>
-          <div class="option-right">
-            <input type="text" class="qty-input" value="1" readonly>
-            <input type="number" class="price-custom-input hideable-price" value="${priceVal}" oninput="setCustomPrice('${srv.id}', this.value)">
-            <button class="reset-sub-btn" onclick="resetCustomPrice('${srv.id}', ${srv.price})">сброс</button>
-          </div>
+    extraBox.innerHTML += `
+      <div class="option-row">
+        <div class="option-left">
+          <input type="checkbox" id="chk_srv_${srv.id}" ${isChecked ? 'checked' : ''} onchange="toggleExtraCheck('${srv.id}', this.checked)">
+          <label for="chk_srv_${srv.id}">${srv.name}</label>
         </div>
-      `;
-    } else {
-      extraBox.innerHTML += `
-        <div class="option-row">
-          <div class="option-left">
-            <label>${srv.name}</label>
-          </div>
-          <div class="option-right">
-            <input type="number" min="0" max="20" class="qty-input" value="${qty}" oninput="setExtraQty('${srv.id}', this.value)">
-            <input type="number" class="price-custom-input hideable-price" value="${priceVal}" oninput="setCustomPrice('${srv.id}', this.value)">
-            <button class="reset-sub-btn" onclick="resetExtraQty('${srv.id}', ${srv.price})">сброс</button>
-          </div>
+        <div class="option-right">
+          <input type="number" min="1" max="20" class="qty-input" value="${qty}" oninput="changeExtraQty('${srv.id}', this.value)">
+          <input type="number" class="price-custom-input hideable-price" value="${priceVal}" oninput="setCustomPrice('${srv.id}', this.value)">
+          <button class="reset-sub-btn" onclick="resetExtraOption('${srv.id}', ${srv.price})">сброс</button>
         </div>
-      `;
-    }
+      </div>
+    `;
   });
 }
 
@@ -730,36 +898,43 @@ function toggleOuter(id, checked) {
   updateKP();
 }
 
-function setExtraCheck(id, checked) {
+function toggleExtraCheck(id, checked) {
   if (checked) {
-    state.extras[id] = 1;
+    state.extrasChecked[id] = true;
+    if (!state.extrasQty[id]) state.extrasQty[id] = 1;
     const srv = EXTRA_SERVICES_CONFIG.find(x => x.id === id);
     if (srv && srv.autoHeight) {
-      state.extras['height_increase'] = 1;
-      const chk = document.getElementById('srv_height_increase');
+      state.extrasChecked['height_increase'] = true;
+      if (!state.extrasQty['height_increase']) state.extrasQty['height_increase'] = 1;
+      const chk = document.getElementById('chk_srv_height_increase');
       if (chk) chk.checked = true;
     }
   } else {
-    delete state.extras[id];
+    delete state.extrasChecked[id];
   }
   updateKP();
 }
 
-function setExtraQty(id, val) {
-  const v = parseInt(val) || 0;
-  if (v > 0) state.extras[id] = v;
-  else delete state.extras[id];
+function changeExtraQty(id, val) {
+  const q = parseInt(val) || 1;
+  state.extrasQty[id] = q;
+  if (!state.extrasChecked[id]) {
+    state.extrasChecked[id] = true;
+    const chk = document.getElementById(`chk_srv_${id}`);
+    if (chk) chk.checked = true;
+  }
   updateKP();
 }
 
-function resetExtraQty(id, defaultPrice) {
-  delete state.extras[id];
+function resetExtraOption(id, defaultPrice) {
+  delete state.extrasChecked[id];
+  delete state.extrasQty[id];
   delete state.customPrices[id];
   renderDynamicOptions();
   updateKP();
 }
 
-/* 5. ЛОГИКА ДОСТАВКИ: до 50 км 13 000 руб., дальше +120 руб/км */
+/* ДОСТАВКА */
 function calcDeliveryFromKm() {
   const km = parseInt(document.getElementById('delivery_km').value) || 0;
   state.deliveryKm = km;
@@ -779,7 +954,7 @@ function onCustomDeliveryPrice() {
   updateKP();
 }
 
-/* 6. НАЛОГИ: БЕЗ НДС 13% И С НДС 22% */
+/* НАЛОГИ */
 function toggleTax(mode) {
   if (mode === '13') {
     if (document.getElementById('tax_13').checked) {
@@ -795,62 +970,108 @@ function toggleTax(mode) {
   updateKP();
 }
 
-/* ГЛАВНЫЙ ПЕРЕСЧЕТ КП */
+/* ГЛАВНЫЙ РАСЧЕТ И ОТРИСОВКА БЛАНКА СПРАВА ТОЧЬ-В-ТОЧЬ ПО ФОТО 1000010458.jpg */
 function updateKP() {
   const prod = PRODUCTS_DATA[state.selectedSize];
   const tbody = document.getElementById('kp_table_body');
   tbody.innerHTML = '';
 
   let total = 0;
-  const itemsList = [];
-
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
-  // 1. Базовая бытовка
+  // Базовая стоимость бытовки
   const baseKey = 'base_' + state.innerBase;
   const baseCost = getP(baseKey, prod.basePrices[state.innerBase]);
-  const innerNames = { org: 'Оргалит', osb: 'ОСБ панели', vag: 'Вагонка С' };
-  const baseTitle = `${prod.name}${document.getElementById('is_raspashonka').checked ? ' (РАСПАШОНКА)' : ''} [Отделка: ${innerNames[state.innerBase]}]`;
-  itemsList.push({ name: baseTitle, qty: 1, price: baseCost });
   total += baseCost;
 
-  // 2. Утепление
+  // Динамические параметры спецификации
+  const spec = { ...prod.defaultSpec };
+  const innerNames = { org: 'Оргалит', osb: 'ОСБ панели', vag: 'Вагонка С' };
+  spec.inner = innerNames[state.innerBase];
+
   if (state.insulation100) {
+    spec.insul = '100 мм (пол, потолок, стены)';
     const insCost = getP('ins100', prod.insulation100);
-    itemsList.push({ name: 'Утепление 100 мм (стены, пол, потолок)', qty: 1, price: insCost });
     total += insCost;
   }
 
-  // 3. Внешняя отделка
+  // Внешняя обшивка
+  let outerName = spec.outer;
   prod.outerUpgrades.forEach(opt => {
     if (state.outerUpgrades[opt.id]) {
+      outerName = opt.name;
       const p = getP(opt.id, opt.price);
-      itemsList.push({ name: opt.name, qty: 1, price: p });
       total += p;
     }
   });
+  spec.outer = outerName;
 
-  // 4. Дополнительные услуги
+  // Формируем детальный технический лист бытовки точно по фото 1000010458.jpg
+  let mainItemHtml = `
+    <div class="tech-sheet-title">Новая ${prod.name} ${document.getElementById('is_raspashonka').checked ? '(РАСПАШОНКА)' : ''}</div>
+    <div class="tech-sheet-body">
+      <div><strong>Каркас:</strong> ${spec.frame}</div>
+      <div><strong>Внешняя отделка:</strong> ${spec.outer}</div>
+      <div><strong>Внутренняя отделка:</strong> ${spec.inner}</div>
+      <div><strong>Кровля:</strong> ${spec.roof}</div>
+      <div><strong>Высота:</strong> ${spec.height}</div>
+      <div><strong>Утепление:</strong> ${spec.insul}</div>
+      <div><strong>Окно:</strong> ${spec.window}</div>
+      <div><strong>Пол:</strong> ${spec.floor}</div>
+      <div><strong>Дверь:</strong> ${spec.door}</div>
+      <div><strong>Черновой пол:</strong> ${spec.subfloor}</div>
+      <div><strong>Лыжи:</strong> ${spec.skis}</div>
+      <div><strong>Пароизоляция:</strong> ${spec.vapor}</div>
+    </div>
+    <div style="margin-top: 8px;">
+      <strong>В комплекте:</strong><br>
+      ${spec.package}
+    </div>
+  `;
+
+  // Отрисовываем базовую бытовку первой строкой в таблице
+  const trBase = document.createElement('tr');
+  trBase.innerHTML = `
+    <td>${mainItemHtml}</td>
+    <td style="text-align:center; font-weight:700;">1</td>
+    <td class="hideable-price" style="text-align:right; font-weight:700; white-space:nowrap;">${baseCost.toLocaleString('ru-RU')} руб.</td>
+  `;
+  tbody.appendChild(trBase);
+
+  // Дополнительные позиции и услуги
   EXTRA_SERVICES_CONFIG.forEach(srv => {
-    if (state.extras[srv.id]) {
-      const q = state.extras[srv.id];
+    if (state.extrasChecked[srv.id]) {
+      const q = state.extrasQty[srv.id] || 1;
       const p = getP(srv.id, srv.price);
       const sum = p * q;
-      itemsList.push({ name: srv.name, qty: q, price: sum });
       total += sum;
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="font-weight:600;">${srv.name}</td>
+        <td style="text-align:center; font-weight:700;">${q}</td>
+        <td class="hideable-price" style="text-align:right; font-weight:700; white-space:nowrap;">${sum.toLocaleString('ru-RU')} руб.</td>
+      `;
+      tbody.appendChild(tr);
     }
   });
 
-  // 5. Доставка
+  // Доставка
   const isDeliv = document.getElementById('delivery_included').checked;
   const delivVal = state.deliveryPrice;
   if (isDeliv && delivVal > 0) {
-    const kmText = state.deliveryKm > 0 ? ` (${state.deliveryKm} км)` : '';
-    itemsList.push({ name: `Доставка до объекта${kmText}`, qty: 1, price: delivVal });
     total += delivVal;
+    const kmText = state.deliveryKm > 0 ? ` (${state.deliveryKm} км)` : '';
+    const trDel = document.createElement('tr');
+    trDel.innerHTML = `
+      <td style="font-weight:600;">Доставка до объекта${kmText}</td>
+      <td style="text-align:center; font-weight:700;">1</td>
+      <td class="hideable-price" style="text-align:right; font-weight:700; white-space:nowrap;">${delivVal.toLocaleString('ru-RU')} руб.</td>
+    `;
+    tbody.appendChild(trDel);
   }
 
-  // Налоги: 13% и 22%
+  // Расчет налогов
   const tax13Val = Math.round(total * 1.13);
   const tax22Val = Math.round(total * 1.22);
   document.getElementById('tax_13_val').textContent = tax13Val.toLocaleString('ru-RU');
@@ -860,29 +1081,34 @@ function updateKP() {
   if (state.taxMode === '13') finalTotal = tax13Val;
   if (state.taxMode === '22') finalTotal = tax22Val;
 
-  // Отрисовка сметы
-  itemsList.forEach(it => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${it.name}</td>
-      <td style="text-align:center;">${it.qty}</td>
-      <td class="hideable-price" style="text-align:right; font-weight:700;">${it.price.toLocaleString('ru-RU')} руб.</td>
-    `;
-    tbody.appendChild(tr);
-  });
+  // Блок аванса и реквизитов водителя под таблицей (по фото 1000010458)
+  const depositVal = 5000;
+  const balanceToDriver = Math.max(0, finalTotal - depositVal);
+  const trSummary = document.createElement('tr');
+  trSummary.innerHTML = `
+    <td colspan="3" class="tech-payment-info">
+      <div><strong>Стоимость бытовки:</strong> ${baseCost.toLocaleString('ru-RU')} руб.</div>
+      <div><strong>Итого:</strong> ${finalTotal.toLocaleString('ru-RU')} руб.</div>
+      <div style="margin-top:6px;"><strong>Предоплата:</strong> ${depositVal.toLocaleString('ru-RU')} руб.</div>
+      <div>тел. +7 (985) 128-33-85</div>
+      <div>Ольга К. Т-Банк</div>
+      <div style="color:#dc2626; font-weight:700; margin: 4px 0;">Сообщение о назначении платежа указывать не нужно!</div>
+      <div style="font-weight:700;">${balanceToDriver.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ</div>
+    </td>
+  `;
+  tbody.appendChild(trSummary);
 
-  // Данные клиента
+  // Поля заказчика
   document.getElementById('kp_out_client').textContent = document.getElementById('client_name').value || '—';
   document.getElementById('kp_out_phone').textContent = document.getElementById('client_phone').value || '—';
   document.getElementById('kp_out_order').textContent = document.getElementById('client_order').value || '—';
   document.getElementById('kp_out_addr').textContent = document.getElementById('client_addr').value || '—';
   document.getElementById('kp_out_size').textContent = prod.name;
-  document.getElementById('kp_package_desc').textContent = prod.packageDesc;
 
   // Планировка
   const currentPlan = PLANS.find(p => p.id === state.selectedPlan) || PLANS[0];
   document.getElementById('kp_plan_title').textContent = currentPlan.name;
-  document.getElementById('kp_plan_svg_render').innerHTML = `<svg viewBox="0 0 200 100" style="max-height:140px; width:100%;">${currentPlan.svg}</svg>`;
+  document.getElementById('kp_plan_svg_render').innerHTML = `<svg viewBox="0 0 200 100" style="max-height:130px; width:100%;">${currentPlan.svg}</svg>`;
 
   // Примечание
   const noteVal = document.getElementById('kp_note').value.trim();
@@ -926,11 +1152,13 @@ function resetCalculator(ask) {
     customPrices: {},
     outerUpgrades: {},
     insulation100: false,
-    extras: {},
+    extrasChecked: {},
+    extrasQty: {},
     deliveryIncluded: true,
     deliveryKm: 0,
     deliveryPrice: 13000,
-    taxMode: null
+    taxMode: null,
+    currentModalType: 'prod'
   };
   document.getElementById('size_select').value = 'wood_3';
   renderPlans();
@@ -938,59 +1166,144 @@ function resetCalculator(ask) {
   updateKP();
 }
 
-/* ЗАЯВКИ В БУФЕР */
+/* ГЕНЕРАЦИЯ ЗАЯВОК ТОЧНО ПО ФОТО 1000010459 (ДЛЯ КЛИЕНТА) И 1000010460 (ДЛЯ ПРОИЗВОДСТВА) */
 function openOrderModal(type) {
+  state.currentModalType = type;
+  document.getElementById('m_head_name').value = document.getElementById('client_name').value || '';
+  document.getElementById('m_head_phone').value = document.getElementById('client_phone').value || '';
+  document.getElementById('m_head_addr').value = document.getElementById('client_addr').value || '';
+  document.getElementById('m_head_deposit').value = '5000';
+  document.getElementById('m_head_date').value = '4 октября 2026 г.';
+
+  rebuildModalText();
+  document.getElementById('order_modal').classList.add('active');
+}
+
+function rebuildModalText() {
+  const type = state.currentModalType;
   const prod = PRODUCTS_DATA[state.selectedSize];
-  const cName = document.getElementById('client_name').value || '—';
-  const cPhone = document.getElementById('client_phone').value || '—';
-  const cOrder = document.getElementById('client_order').value || '—';
-  const cAddr = document.getElementById('client_addr').value || '—';
-  const planObj = PLANS.find(p => p.id === state.selectedPlan) || PLANS[0];
-  const innerNames = { org: 'Оргалит', osb: 'ОСБ панели', vag: 'Вагонка С' };
+  const dateVal = document.getElementById('m_head_date').value || '4 октября 2026 г.';
+  const deposit = parseInt(document.getElementById('m_head_deposit').value) || 0;
+  const cName = document.getElementById('m_head_name').value || '';
+  const cPhone = document.getElementById('m_head_phone').value || '';
+  const cAddr = document.getElementById('m_head_addr').value || '';
 
-  let out = `Заявка от ${new Date().toLocaleDateString('ru-RU')}\n`;
-  out += `Клиент: ${cName}\nТелефон: ${cPhone}\nОбъект: ${cAddr}\nЗаказ: ${cOrder}\n`;
-  out += `--------------------------------------------------\n`;
-  out += `Размер: ${prod.name} ${document.getElementById('is_raspashonka').checked ? '(РАСПАШОНКА)' : ''}\n`;
-  out += `Схема планировки: ${planObj.name}\n`;
-  out += `Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
-  out += `Утепление: ${state.insulation100 ? '100 мм минвата' : '50 мм минвата'}\n\n`;
+  const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
+  const baseCost = getP('base_' + state.innerBase, prod.basePrices[state.innerBase]);
+  let total = baseCost;
 
-  out += `Выбранные опции и допы:\n`;
-  let hasExtras = false;
-  prod.outerUpgrades.forEach(o => {
-    if (state.outerUpgrades[o.id]) { out += `• ${o.name}\n`; hasExtras = true; }
+  if (state.insulation100) total += getP('ins100', prod.insulation100);
+  prod.outerUpgrades.forEach(opt => {
+    if (state.outerUpgrades[opt.id]) total += getP(opt.id, opt.price);
   });
-  EXTRA_SERVICES_CONFIG.forEach(s => {
-    if (state.extras[s.id]) {
-      out += `• ${s.name} — ${state.extras[s.id]} шт.\n`;
-      hasExtras = true;
+  EXTRA_SERVICES_CONFIG.forEach(srv => {
+    if (state.extrasChecked[srv.id]) {
+      const q = state.extrasQty[srv.id] || 1;
+      total += getP(srv.id, srv.price) * q;
     }
   });
-  if (!hasExtras) out += `• Стандартная комплектация\n`;
-
   if (document.getElementById('delivery_included').checked) {
-    const kmInfo = state.deliveryKm > 0 ? ` (${state.deliveryKm} км)` : '';
-    out += `\nДоставка${kmInfo}: ${state.deliveryPrice} руб.\n`;
+    total += state.deliveryPrice;
   }
+  if (state.taxMode === '13') total = Math.round(total * 1.13);
+  if (state.taxMode === '22') total = Math.round(total * 1.22);
 
-  const note = document.getElementById('kp_note').value.trim();
-  if (note) out += `Примечание: ${note}\n`;
+  const balance = Math.max(0, total - deposit);
 
-  const finalSum = document.getElementById('kp_total_sum').textContent;
-  out += `--------------------------------------------------\n`;
-  out += `ИТОГО К ОПЛАТЕ: ${finalSum}\n`;
+  const spec = { ...prod.defaultSpec };
+  const innerNames = { org: 'Оргалит', osb: 'ОСБ панели', vag: 'Вагонка С' };
+  spec.inner = innerNames[state.innerBase];
+  if (state.insulation100) spec.insul = '100 мм (пол, потолок, стены)';
+
+  let outerName = spec.outer;
+  prod.outerUpgrades.forEach(opt => {
+    if (state.outerUpgrades[opt.id]) outerName = opt.name;
+  });
+  spec.outer = outerName;
+
+  let text = '';
 
   if (type === 'prod') {
-    document.getElementById('modal_title').textContent = 'Заявка для производства';
-    out += `\n[В ПРОИЗВОДСТВО: Проверить наличие материалов и отгрузку!]`;
+    /* ЗАЯВКА ДЛЯ ПРОИЗВОДСТВА (по фото 1000010460.jpg) */
+    text += `Заявка на ${dateVal}\n`;
+    text += `Тег:\nЛид от:\n`;
+    text += `Доставка: ${document.getElementById('delivery_included').checked ? (cAddr ? cAddr : 'по согласованию') : 'самовывоз'}\n\n`;
+    text += `Новая ${prod.name}\n\n`;
+    text += `Каркас: ${spec.frame}\n`;
+    text += `Внешняя отделка: ${spec.outer}\n`;
+    text += `Внутренняя отделка: ${spec.inner}\n`;
+    text += `Кровля: ${spec.roof}\n`;
+    text += `Высота: ${spec.height}\n`;
+    text += `Утепление: ${spec.insul}\n`;
+    text += `Окно: ${spec.window}\n`;
+    text += `Пол: ${spec.floor}\n`;
+    text += `Дверь: ${spec.door}\n`;
+    text += `Черновой пол: ${spec.subfloor}\n`;
+    text += `Лыжи: ${spec.skis}\n`;
+    text += `Пароизоляция: ${spec.vapor}\n\n`;
+
+    // Допы
+    let extrasList = [];
+    EXTRA_SERVICES_CONFIG.forEach(s => {
+      if (state.extrasChecked[s.id]) {
+        extrasList.push(`${s.name} — ${state.extrasQty[s.id] || 1} шт.`);
+      }
+    });
+    if (extrasList.length > 0) {
+      text += `Дополнительно:\n` + extrasList.join('\n') + `\n\n`;
+    }
+
+    text += `---\nВ комплекте:\n${spec.package}\n\n`;
+    text += `Стоимость бытовки ${baseCost.toLocaleString('ru-RU')} руб.\n`;
+    text += `Итого: ${total.toLocaleString('ru-RU')} руб.\n\n`;
+    text += `Предоплата ${deposit.toLocaleString('ru-RU')} руб.\n`;
+    text += `${balance.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ\n\n`;
+    text += `Планировка: подтверждена и прилагается\n`;
+    text += `Заезд: свободный со слов клиента. Фото и видео прилагается\n\n`;
+    text += `Ответственный менеджер:`;
+
   } else {
-    document.getElementById('modal_title').textContent = 'Заявка для клиента';
-    out += `\nКомпания АтомДомСтрой. Тел: 7 (995) 904-81-01`;
+    /* ЗАЯВКА ДЛЯ КЛИЕНТА (по фото 1000010459.jpg) */
+    text += `Заявка на ${dateVal}\n`;
+    if (cName) text += `Заказчик: ${cName}\n`;
+    if (cPhone) text += `Телефон: ${cPhone}\n`;
+    if (cAddr) text += `Адрес: ${cAddr}\n`;
+    text += `\n`;
+    text += `Новая ${prod.name}\n\n`;
+    text += `Каркас: ${spec.frame}\n`;
+    text += `Внешняя отделка: ${spec.outer}\n`;
+    text += `Внутренняя отделка: ${spec.inner}\n`;
+    text += `Кровля: ${spec.roof}\n`;
+    text += `Высота: ${spec.height}\n`;
+    text += `Утепление: ${spec.insul}\n`;
+    text += `Окно: ${spec.window}\n`;
+    text += `Пол: ${spec.floor}\n`;
+    text += `Дверь: ${spec.door}\n`;
+    text += `Черновой пол: ${spec.subfloor}\n`;
+    text += `Лыжи: ${spec.skis}\n`;
+    text += `Пароизоляция: ${spec.vapor}\n\n`;
+
+    let extrasList = [];
+    EXTRA_SERVICES_CONFIG.forEach(s => {
+      if (state.extrasChecked[s.id]) {
+        extrasList.push(`${s.name} — ${state.extrasQty[s.id] || 1} шт.`);
+      }
+    });
+    if (extrasList.length > 0) {
+      text += `Дополнительно:\n` + extrasList.join('\n') + `\n\n`;
+    }
+
+    text += `---\nВ комплекте:\n${spec.package}\n\n`;
+    text += `Стоимость бытовки ${baseCost.toLocaleString('ru-RU')} руб.\n`;
+    text += `Итого: ${total.toLocaleString('ru-RU')} руб.\n\n`;
+    text += `Предоплата ${deposit.toLocaleString('ru-RU')} руб.\n`;
+    text += `тел. +7 (985) 128-33-85\n`;
+    text += `Ольга К. Т-Банк\n\n`;
+    text += `Сообщение о назначении платежа указывать не нужно!\n\n`;
+    text += `${balance.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ`;
   }
 
-  document.getElementById('modal_text').value = out;
-  document.getElementById('order_modal').classList.add('active');
+  document.getElementById('modal_text').value = text;
 }
 
 function closeOrderModal() {
