@@ -214,27 +214,27 @@
       </div>
     </div>
 
-    <!-- 4. Варианты отделки внутри -->
+    <!-- 4. Варианты отделки снаружи -->
+    <div class="section-wrap" id="sec_outer">
+      <div class="section-header" onclick="toggleSection('sec_outer')">
+        <span>4. Варианты отделки снаружи</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div id="outer_finish_options"></div>
+      </div>
+    </div>
+
+    <!-- 5. Варианты отделки внутри -->
     <div class="section-wrap" id="sec_inner">
       <div class="section-header" onclick="toggleSection('sec_inner')">
-        <span>4. Варианты отделки внутри</span>
+        <span>5. Варианты отделки внутри</span>
         <span class="arrow">▼</span>
       </div>
       <div class="section-body">
         <div id="inner_finish_options"></div>
         <div style="margin-top:12px; margin-bottom:6px; font-weight:700; color:#334155;">Утепление (пол, стены, потолок):</div>
         <div id="insulation_options"></div>
-      </div>
-    </div>
-
-    <!-- 5. Варианты отделки снаружи -->
-    <div class="section-wrap" id="sec_outer">
-      <div class="section-header" onclick="toggleSection('sec_outer')">
-        <span>5. Варианты отделки снаружи</span>
-        <span class="arrow">▼</span>
-      </div>
-      <div class="section-body">
-        <div id="outer_finish_options"></div>
       </div>
     </div>
 
@@ -435,7 +435,7 @@ const PRODUCTS_DATA = {
     insulationPrices: { ins50: 0, ins100: 9000, rock50: 10000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 9000, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 9000, isProf: true },
       { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 14000, isWood: true },
       { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
       { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 15000, isWood: true }
@@ -451,7 +451,7 @@ const PRODUCTS_DATA = {
     insulationPrices: { ins50: 0, ins100: 11000, rock50: 15000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 11000, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 11000, isProf: true },
       { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 16000, isWood: true },
       { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
       { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 18000, isWood: true }
@@ -467,7 +467,7 @@ const PRODUCTS_DATA = {
     insulationPrices: { ins50: 0, ins100: 15000, rock50: 18000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 13000, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 13000, isProf: true },
       { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 18000, isWood: true },
       { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
       { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 20000, isWood: true }
@@ -483,7 +483,7 @@ const PRODUCTS_DATA = {
     insulationPrices: { ins50: 0, ins100: 19000, rock50: 22000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 15000, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 15000, isProf: true },
       { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 20000, isWood: true },
       { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
       { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 23000, isWood: true }
@@ -499,7 +499,7 @@ const PRODUCTS_DATA = {
     insulationPrices: { ins50: 0, ins100: 22000, rock50: 24000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 17000, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 17000, isProf: true },
       { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 23000, isWood: true },
       { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
       { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 26000, isWood: true }
@@ -515,7 +515,7 @@ const PRODUCTS_DATA = {
     insulationPrices: { ins50: 0, ins100: 25000, rock50: 30000 },
     outerOptions: [
       { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной полимер снаружи', price: 19000, isProf: true },
+      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 19000, isProf: true },
       { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 30000, isWood: true },
       { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
       { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 30000, isWood: true }
@@ -866,7 +866,7 @@ function renderDynamicOptions() {
     `;
   }
 
-  // 4. Внутренняя отделка
+  // 5. Внутренняя отделка
   const innerBox = document.getElementById('inner_finish_options');
   innerBox.innerHTML = `
     <div class="option-row">
@@ -941,7 +941,7 @@ function renderDynamicOptions() {
     </div>
   `;
 
-  // 5. Внешняя отделка
+  // 4. Внешняя отделка
   const outerBox = document.getElementById('outer_finish_options');
   outerBox.innerHTML = '';
   prod.outerOptions.forEach(opt => {
@@ -1512,14 +1512,11 @@ function rebuildModalText() {
   if (type === 'prod') {
     /* ЗАЯВКА ДЛЯ ПРОИЗВОДСТВА */
     text += `Заявка на ${dateVal}\n`;
-    text += `Заказчик: ${cName ? cName : '—'}\n`;
-    text += `Телефон: ${cPhone ? cPhone : '—'}\n`;
     text += `Тег:\nЛид от:\n`;
     const regName = DELIVERY_RATES[state.deliveryRegion].name;
-    const delivAddrText = cAddr ? cAddr : 'Адрес уточняется';
     
     if (document.getElementById('delivery_included').checked) {
-      text += `Доставка: Производство ${regName}\nАдрес объекта: ${delivAddrText}\n\n`;
+      text += `Доставка: Производство ${regName}\n\n`;
     } else {
       text += `Доставка: самовывоз\n\n`;
     }
@@ -1578,6 +1575,12 @@ function rebuildModalText() {
     text += `Итого: ${total.toLocaleString('ru-RU')} руб.\n\n`;
     text += `Предоплата ${deposit.toLocaleString('ru-RU')} руб.\n`;
     text += `${balance.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ\n\n`;
+    
+    // БЛОК КОНТАКТОВ ПЕРЕНЕСЕН ВНИЗ
+    text += `Заказчик: ${cName ? cName : '—'}\n`;
+    text += `Телефон: ${cPhone ? cPhone : '—'}\n`;
+    text += `Адрес объекта: ${cAddr ? cAddr : '—'}\n\n`;
+    
     text += `Планировка: подтверждена и прилагается\n`;
     text += `Заезд: свободный со слов клиента. Фото и видео прилагается\n\n`;
     text += `Ответственный менеджер:`;
