@@ -203,21 +203,10 @@
       </div>
     </div>
 
-    <!-- 3. Каркас -->
-    <div class="section-wrap" id="sec_frame">
-      <div class="section-header" onclick="toggleSection('sec_frame')">
-        <span>3. Каркас конструкции</span>
-        <span class="arrow">▼</span>
-      </div>
-      <div class="section-body">
-        <div id="frame_options"></div>
-      </div>
-    </div>
-
-    <!-- 4. Варианты отделки снаружи -->
+    <!-- 3. Варианты отделки снаружи -->
     <div class="section-wrap" id="sec_outer">
       <div class="section-header" onclick="toggleSection('sec_outer')">
-        <span>4. Варианты отделки снаружи</span>
+        <span>3. Варианты отделки снаружи</span>
         <span class="arrow">▼</span>
       </div>
       <div class="section-body">
@@ -225,16 +214,27 @@
       </div>
     </div>
 
-    <!-- 5. Варианты отделки внутри -->
+    <!-- 4. Варианты отделки внутри -->
     <div class="section-wrap" id="sec_inner">
       <div class="section-header" onclick="toggleSection('sec_inner')">
-        <span>5. Варианты отделки внутри</span>
+        <span>4. Варианты отделки внутри</span>
         <span class="arrow">▼</span>
       </div>
       <div class="section-body">
         <div id="inner_finish_options"></div>
         <div style="margin-top:12px; margin-bottom:6px; font-weight:700; color:#334155;">Утепление (пол, стены, потолок):</div>
         <div id="insulation_options"></div>
+      </div>
+    </div>
+
+    <!-- 5. Каркас -->
+    <div class="section-wrap" id="sec_frame">
+      <div class="section-header" onclick="toggleSection('sec_frame')">
+        <span>5. Каркас конструкции</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div id="frame_options"></div>
       </div>
     </div>
 
@@ -423,178 +423,90 @@ const DELIVERY_RATES = {
   kraskovo:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'Красково' }
 };
 
-/* БАЗА ТОВАРОВ И ЦЕН (ИЗ НОВОЙ ТАБЛИЦЫ) */
+/* СЛОВАРИ ДЛЯ ОТДЕЛКИ (ОТОБРАЖЕНИЕ) */
+const OUTER_NAMES = {
+  prof: { name: 'Профлист снаружи', isProf: true },
+  vagC: { name: 'Вагонка С снаружи', isWood: true },
+  vagB: { name: 'Вагонка В снаружи', isWood: true },
+  imit: { name: 'Имитация бруса класс С снаружи', isWood: true }
+};
+
+const INNER_OPTIONS_TEMPLATES = [
+  { id: 'in_none', name: 'Без отделки и утепления', priceProp: 0 },
+  { id: 'in_osb', name: 'ОСБ внутри стены и потолок', priceProp: 0 },
+  { id: 'in_vagC', name: 'Вагонка С внутри', priceProp: 'vagC_in' },
+  { id: 'in_vagB', name: 'Вагонка В внутри', priceProp: 'vagB_in' },
+  { id: 'in_imit', name: 'Имитация бруса класс С внутри', priceProp: 'imit_in' },
+  { id: 'in_mdf', name: 'МДВ или ПВХ панели внутри', priceProp: 'mdf_in' }
+];
+
+/* БАЗА ТОВАРОВ И ЦЕН (НОВАЯ ЛОГИКА: БАЗА = СНАРУЖИ, ВНУТРИ = ДОП) */
 const PRODUCTS_DATA = {
   wood_2: {
-    name: 'Бытовка 2 х 2.3 м (по крыше)',
-    innerDim: '1,7 х 2,1 м',
-    type: 'wood',
-    blocksGift: 4,
-    frameUpgradePrice: 9000,
-    basePrices: { org: 63000, osb: 71000, vag: 72000 },
-    insulationPrices: { ins50: 0, ins100: 9000, rock50: 10000 },
-    outerOptions: [
-      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 9000, isProf: true },
-      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 14000, isWood: true },
-      { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
-      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 15000, isWood: true }
-    ]
+    name: 'Бытовка 2 х 2.3 м (по крыше)', innerDim: '1,7 х 2,1 м', type: 'wood', blocksGift: 4, frameUpgradePrice: 9000,
+    outerPrices: { prof: 68000, vagC: 63000, vagB: 72000, imit: 69000 },
+    innerPricesMap: { vagC_in: 9000, vagB_in: 28000, imit_in: 15000, mdf_in: 16500 },
+    insulationPrices: { ins50: 0, rock50: 10000 }
   },
   wood_3: {
-    name: 'Бытовка 3 х 2.3 м (по крыше)',
-    innerDim: '2,7 х 2,1 м',
-    type: 'wood',
-    blocksGift: 4,
-    frameUpgradePrice: 10000,
-    basePrices: { org: 76000, osb: 86000, vag: 88000 },
-    insulationPrices: { ins50: 0, ins100: 11000, rock50: 15000 },
-    outerOptions: [
-      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 11000, isProf: true },
-      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 16000, isWood: true },
-      { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
-      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 18000, isWood: true }
-    ]
+    name: 'Бытовка 3 х 2.3 м (по крыше)', innerDim: '2,7 х 2,1 м', type: 'wood', blocksGift: 4, frameUpgradePrice: 10000,
+    outerPrices: { prof: 81000, vagC: 76000, vagB: 87000, imit: 82000 },
+    innerPricesMap: { vagC_in: 12000, vagB_in: 33000, imit_in: 20000, mdf_in: 22000 },
+    insulationPrices: { ins50: 0, rock50: 15000 }
   },
   wood_4: {
-    name: 'Бытовка 4 х 2.3 м (по крыше)',
-    innerDim: '3,7 х 2,1 м',
-    type: 'wood',
-    blocksGift: 4,
-    frameUpgradePrice: 11000,
-    basePrices: { org: 83000, osb: 96000, vag: 98000 },
-    insulationPrices: { ins50: 0, ins100: 15000, rock50: 18000 },
-    outerOptions: [
-      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 13000, isProf: true },
-      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 18000, isWood: true },
-      { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
-      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 20000, isWood: true }
-    ]
+    name: 'Бытовка 4 х 2.3 м (по крыше)', innerDim: '3,7 х 2,1 м', type: 'wood', blocksGift: 4, frameUpgradePrice: 11000,
+    outerPrices: { prof: 88000, vagC: 83000, vagB: 96000, imit: 89000 },
+    innerPricesMap: { vagC_in: 15000, vagB_in: 38000, imit_in: 24000, mdf_in: 26000 },
+    insulationPrices: { ins50: 0, rock50: 18000 }
   },
   wood_5: {
-    name: 'Бытовка 5 х 2.3 м (по крыше)',
-    innerDim: '4,7 х 2,1 м',
-    type: 'wood',
-    blocksGift: 6,
-    frameUpgradePrice: 11000,
-    basePrices: { org: 91000, osb: 107000, vag: 112000 },
-    insulationPrices: { ins50: 0, ins100: 19000, rock50: 22000 },
-    outerOptions: [
-      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 15000, isProf: true },
-      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 20000, isWood: true },
-      { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
-      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 23000, isWood: true }
-    ]
+    name: 'Бытовка 5 х 2.3 м (по крыше)', innerDim: '4,7 х 2,1 м', type: 'wood', blocksGift: 6, frameUpgradePrice: 11000,
+    outerPrices: { prof: 96000, vagC: 91000, vagB: 106000, imit: 98000 },
+    innerPricesMap: { vagC_in: 21000, vagB_in: 46000, imit_in: 28000, mdf_in: 34000 },
+    insulationPrices: { ins50: 0, rock50: 22000 }
   },
   wood_6: {
-    name: 'Бытовка 6 х 2.3 м (по крыше)',
-    innerDim: '5,7 х 2,1 м',
-    type: 'wood',
-    blocksGift: 6,
-    frameUpgradePrice: 12000,
-    basePrices: { org: 93000, osb: 111000, vag: 115000 },
-    insulationPrices: { ins50: 0, ins100: 22000, rock50: 24000 },
-    outerOptions: [
-      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 17000, isProf: true },
-      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 23000, isWood: true },
-      { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
-      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 26000, isWood: true }
-    ]
+    name: 'Бытовка 6 х 2.3 м (по крыше)', innerDim: '5,7 х 2,1 м', type: 'wood', blocksGift: 6, frameUpgradePrice: 12000,
+    outerPrices: { prof: 98000, vagC: 93000, vagB: 111000, imit: 99000 },
+    innerPricesMap: { vagC_in: 22000, vagB_in: 50000, imit_in: 31000, mdf_in: 40000 },
+    insulationPrices: { ins50: 0, rock50: 24000 }
   },
   wood_7: {
-    name: 'Бытовка 7 х 2.3 м (по крыше)',
-    innerDim: '6,7 х 2,1 м',
-    type: 'wood',
-    blocksGift: 8,
-    frameUpgradePrice: 13000,
-    basePrices: { org: 117000, osb: 138000, vag: 140000 },
-    insulationPrices: { ins50: 0, ins100: 25000, rock50: 30000 },
-    outerOptions: [
-      { id: 'prof_zinc', name: 'Профлист оцинкованный снаружи', price: 0, isProf: true },
-      { id: 'prof_color', name: 'Профлист цветной снаружи', price: 19000, isProf: true },
-      { id: 'wood_vagB', name: 'Вагонка В снаружи', price: 30000, isWood: true },
-      { id: 'wood_vagC', name: 'Вагонка С снаружи', price: 0, isWood: true },
-      { id: 'wood_imit', name: 'Имитация бруса снаружи', price: 30000, isWood: true }
-    ]
+    name: 'Бытовка 7 х 2.3 м (по крыше)', innerDim: '6,7 х 2,1 м', type: 'wood', blocksGift: 8, frameUpgradePrice: 13000,
+    outerPrices: { prof: 122000, vagC: 117000, vagB: 132000, imit: 124000 },
+    innerPricesMap: { vagC_in: 23000, vagB_in: 58000, imit_in: 33000, mdf_in: 40000 },
+    insulationPrices: { ins50: 0, rock50: 30000 }
   },
   bk_3: {
-    name: 'Блок-контейнер 3 х 2.4 м',
-    innerDim: '2,8 х 2,2 м',
-    type: 'bk',
-    blocksGift: 4,
-    frameUpgradePrice: 0,
-    basePrices: { org: 109000, osb: 122000, vag: 124000 },
-    insulationPrices: { ins50: 0, ins100: 13000, rock50: 15000 },
-    outerOptions: [
-      { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
-      { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 11000, isProf: true },
-      { id: 'bk_wood_vagC', name: 'Вагонка С снаружи', price: 5000, isWood: true },
-      { id: 'bk_wood_imitC', name: 'Имитация бруса класс С снаружи', price: 7000, isWood: true }
-    ]
+    name: 'Блок-контейнер 3 х 2.4 м', innerDim: '2,8 х 2,2 м', type: 'bk', blocksGift: 4, frameUpgradePrice: 0,
+    outerPrices: { prof: 109000 },
+    innerPricesMap: { vagC_in: 12000, vagB_in: 33000, imit_in: 20000, mdf_in: 22000 },
+    insulationPrices: { ins50: 0, rock50: 15000 }
   },
   bk_4: {
-    name: 'Блок-контейнер 4 х 2.4 м',
-    innerDim: '3,8 х 2,2 м',
-    type: 'bk',
-    blocksGift: 4,
-    frameUpgradePrice: 0,
-    basePrices: { org: 114000, osb: 127000, vag: 128000 },
-    insulationPrices: { ins50: 0, ins100: 17000, rock50: 18000 },
-    outerOptions: [
-      { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
-      { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 13000, isProf: true },
-      { id: 'bk_wood_vagC', name: 'Вагонка С снаружи', price: 5000, isWood: true },
-      { id: 'bk_wood_imitC', name: 'Имитация бруса класс С снаружи', price: 7000, isWood: true }
-    ]
+    name: 'Блок-контейнер 4 х 2.4 м', innerDim: '3,8 х 2,2 м', type: 'bk', blocksGift: 4, frameUpgradePrice: 0,
+    outerPrices: { prof: 114000 },
+    innerPricesMap: { vagC_in: 15000, vagB_in: 38000, imit_in: 24000, mdf_in: 26000 },
+    insulationPrices: { ins50: 0, rock50: 18000 }
   },
   bk_5: {
-    name: 'Блок-контейнер 5 х 2.4 м',
-    innerDim: '4,8 х 2,2 м',
-    type: 'bk',
-    blocksGift: 6,
-    frameUpgradePrice: 0,
-    basePrices: { org: 119000, osb: 136000, vag: 137000 },
-    insulationPrices: { ins50: 0, ins100: 21000, rock50: 22000 },
-    outerOptions: [
-      { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
-      { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 14500, isProf: true },
-      { id: 'bk_wood_vagC', name: 'Вагонка С снаружи', price: 5000, isWood: true },
-      { id: 'bk_wood_imitC', name: 'Имитация бруса класс С снаружи', price: 7000, isWood: true }
-    ]
+    name: 'Блок-контейнер 5 х 2.4 м', innerDim: '4,8 х 2,2 м', type: 'bk', blocksGift: 6, frameUpgradePrice: 0,
+    outerPrices: { prof: 119000 },
+    innerPricesMap: { vagC_in: 21000, vagB_in: 46000, imit_in: 28000, mdf_in: 34000 },
+    insulationPrices: { ins50: 0, rock50: 22000 }
   },
   bk_6: {
-    name: 'Блок-контейнер 5.85 х 2.4 х 2.4 м',
-    innerDim: '5,65 х 2,2 м',
-    type: 'bk',
-    blocksGift: 6,
-    frameUpgradePrice: 0,
-    basePrices: { org: 124000, osb: 142000, vag: 146000 },
-    insulationPrices: { ins50: 0, ins100: 24000, rock50: 24000 },
-    outerOptions: [
-      { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
-      { id: 'bk_prof_color', name: 'Профлист серый графит / цветной снаружи', price: 16000, isProf: true },
-      { id: 'bk_wood_vagC', name: 'Вагонка С снаружи', price: 5000, isWood: true },
-      { id: 'bk_wood_imitC', name: 'Имитация бруса класс С снаружи', price: 7000, isWood: true }
-    ]
+    name: 'Блок-контейнер 5.85 х 2.4 х 2.4 м', innerDim: '5,65 х 2,2 м', type: 'bk', blocksGift: 6, frameUpgradePrice: 0,
+    outerPrices: { prof: 124000 },
+    innerPricesMap: { vagC_in: 22000, vagB_in: 50000, imit_in: 31000, mdf_in: 40000 },
+    insulationPrices: { ins50: 0, rock50: 24000 }
   },
   bk_7: {
-    name: 'Блок-контейнер 7 х 2.4 м',
-    innerDim: '6,8 х 2,2 м',
-    type: 'bk',
-    blocksGift: 8,
-    frameUpgradePrice: 0,
-    basePrices: { org: 151000, osb: 174000, vag: 178000 },
-    insulationPrices: { ins50: 0, ins100: 28000, rock50: 30000 },
-    outerOptions: [
-      { id: 'bk_prof_zinc', name: 'Профлист оцинкованный снаружи (покраска синим каркаса)', price: 0, isProf: true },
-      { id: 'bk_prof_color', name: 'Цветной профлист снаружи', price: 18000, isProf: true },
-      { id: 'bk_wood_vagC', name: 'Вагонка С снаружи', price: 5000, isWood: true },
-      { id: 'bk_wood_imitC', name: 'Имитация бруса класс С снаружи', price: 7000, isWood: true }
-    ]
+    name: 'Блок-контейнер 7 х 2.4 м', innerDim: '6,8 х 2,2 м', type: 'bk', blocksGift: 8, frameUpgradePrice: 0,
+    outerPrices: { prof: 151000 },
+    innerPricesMap: { vagC_in: 23000, vagB_in: 58000, imit_in: 33000, mdf_in: 40000 },
+    insulationPrices: { ins50: 0, rock50: 30000 }
   }
 };
 
@@ -736,9 +648,9 @@ let state = {
   selectedPlan: 'plan_0',
   showAllPlans: false,
   frameType: 'frame_50',
-  innerBase: 'org',
+  innerChoice: 'in_osb',
+  outerChoice: 'prof',
   insulation: 'ins50',
-  outerChoice: 'prof_zinc',
   profColor: 'Графит',
   cornersColor: 'Коричневый',
   antisepticColor: 'Коричневый',
@@ -792,7 +704,8 @@ function onSizeChanged() {
   state.selectedSize = document.getElementById('size_select').value;
   state.customPrices = {};
   state.frameType = 'frame_50';
-  state.outerChoice = PRODUCTS_DATA[state.selectedSize].type === 'bk' ? 'bk_prof_zinc' : 'prof_zinc';
+  state.outerChoice = 'prof';
+  state.innerChoice = 'in_osb';
   
   const isBk = PRODUCTS_DATA[state.selectedSize].type === 'bk';
   if (isBk) {
@@ -822,13 +735,136 @@ function toggleMorePlans() {
   renderPlans();
 }
 
-/* ОПЦИИ */
+/* ОПЦИИ ДИНАМИЧЕСКИЕ */
 function renderDynamicOptions() {
   const prod = PRODUCTS_DATA[state.selectedSize];
   const isBk = prod.type === 'bk';
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
-  // 3. Каркас
+  // 3. Внешняя отделка (БАЗОВАЯ ЦЕНА)
+  const outerBox = document.getElementById('outer_finish_options');
+  outerBox.innerHTML = '';
+  Object.keys(prod.outerPrices).forEach(optKey => {
+    const optData = OUTER_NAMES[optKey];
+    const defaultPrice = prod.outerPrices[optKey];
+    const priceVal = getP('out_' + optKey, defaultPrice);
+    const isChecked = state.outerChoice === optKey;
+
+    outerBox.innerHTML += `
+      <div class="option-row">
+        <div class="option-left">
+          <input type="radio" name="outer_radio" id="out_${optKey}" ${isChecked ? 'checked' : ''} onchange="setOuterChoice('${optKey}')">
+          <label for="out_${optKey}">${optData.name}</label>
+        </div>
+        <div class="option-right">
+          <input type="text" class="qty-input" value="1" readonly>
+          <input type="number" class="price-custom-input hideable-price" value="${priceVal}" oninput="setCustomPrice('out_${optKey}', this.value)">
+          <button class="reset-sub-btn" onclick="resetCustomPrice('out_${optKey}', ${defaultPrice})">сброс</button>
+        </div>
+      </div>
+    `;
+
+    // Цвет профлиста
+    if (isChecked && optData.isProf) {
+      let opts = PROF_COLORS.map(c => `<option value="${c}" ${state.profColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      outerBox.innerHTML += `
+        <div class="color-select-box">
+          <span>Цвет профлиста:</span>
+          <select onchange="state.profColor=this.value; updateKP();">${opts}</select>
+        </div>
+      `;
+    }
+
+    // Цвет косынок
+    if (isChecked && optData.isProf) {
+      let optsK = THREE_COLORS.map(c => `<option value="${c}" ${state.cornersColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      outerBox.innerHTML += `
+        <div class="color-select-box">
+          <span>Цвет косынок:</span>
+          <select onchange="state.cornersColor=this.value; updateKP();">${optsK}</select>
+        </div>
+      `;
+    }
+
+    // Цвет антисептика
+    if (isChecked && optData.isWood) {
+      let optsA = THREE_COLORS.map(c => `<option value="${c}" ${state.antisepticColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      outerBox.innerHTML += `
+        <div class="color-select-box">
+          <span>Цвет антисептика (в подарок):</span>
+          <select onchange="state.antisepticColor=this.value; updateKP();">${optsA}</select>
+        </div>
+      `;
+    }
+  });
+
+  // 4. Внутренняя отделка
+  const innerBox = document.getElementById('inner_finish_options');
+  innerBox.innerHTML = '';
+  INNER_OPTIONS_TEMPLATES.forEach(tpl => {
+    let defaultPrice = 0;
+    if (tpl.priceProp !== 0 && prod.innerPricesMap[tpl.priceProp]) {
+      defaultPrice = prod.innerPricesMap[tpl.priceProp];
+    }
+    const priceVal = getP(tpl.id, defaultPrice);
+    const isChecked = state.innerChoice === tpl.id;
+
+    innerBox.innerHTML += `
+      <div class="option-row">
+        <div class="option-left">
+          <input type="radio" name="inner_radio" id="${tpl.id}" ${isChecked ? 'checked' : ''} onchange="setInnerChoice('${tpl.id}')">
+          <label for="${tpl.id}">${tpl.name}</label>
+        </div>
+        <div class="option-right">
+          <input type="text" class="qty-input" value="1" readonly>
+          <input type="number" class="price-custom-input hideable-price" value="${priceVal}" oninput="setCustomPrice('${tpl.id}', this.value)">
+          <button class="reset-sub-btn" onclick="resetCustomPrice('${tpl.id}', ${defaultPrice})">сброс</button>
+        </div>
+      </div>
+    `;
+  });
+
+  // Утепление (теперь 100 мм - это 20% от наружной базы)
+  const baseOutPrice = getP('out_' + state.outerChoice, prod.outerPrices[state.outerChoice]);
+  const calcIns100Price = Math.round(baseOutPrice * 0.2);
+  const insBox = document.getElementById('insulation_options');
+  
+  insBox.innerHTML = `
+    <div class="option-row">
+      <div class="option-left">
+        <input type="radio" name="ins_choice" id="ins_50" ${state.insulation === 'ins50' ? 'checked' : ''} onchange="onInsulationChange('ins50')">
+        <label for="ins_50">Утепление 50 мм минеральной ватой (в базе)</label>
+      </div>
+      <div class="option-right">
+        <input type="text" class="qty-input" value="1" readonly>
+        <span style="font-weight:700; width:80px; text-align:right;">0 р.</span>
+      </div>
+    </div>
+    <div class="option-row">
+      <div class="option-left">
+        <input type="radio" name="ins_choice" id="ins_100" ${state.insulation === 'ins100' ? 'checked' : ''} onchange="onInsulationChange('ins100')">
+        <label for="ins_100">Утепление 100 мм минеральной ватой</label>
+      </div>
+      <div class="option-right">
+        <input type="text" class="qty-input" value="1" readonly>
+        <input type="number" class="price-custom-input hideable-price" value="${getP('ins100', calcIns100Price)}" oninput="setCustomPrice('ins100', this.value)">
+        <button class="reset-sub-btn" onclick="resetCustomPrice('ins100', ${calcIns100Price})">сброс</button>
+      </div>
+    </div>
+    <div class="option-row">
+      <div class="option-left">
+        <input type="radio" name="ins_choice" id="ins_rock" ${state.insulation === 'rock50' ? 'checked' : ''} onchange="onInsulationChange('rock50')">
+        <label for="ins_rock">Каменная вата (плитами) 50мм пол, стены, потолок <span style="color:#16a34a; font-size:11px;">[авто: каркас 100х50]</span></label>
+      </div>
+      <div class="option-right">
+        <input type="text" class="qty-input" value="1" readonly>
+        <input type="number" class="price-custom-input hideable-price" value="${getP('rock50', prod.insulationPrices.rock50)}" oninput="setCustomPrice('rock50', this.value)">
+        <button class="reset-sub-btn" onclick="resetCustomPrice('rock50', ${prod.insulationPrices.rock50})">сброс</button>
+      </div>
+    </div>
+  `;
+
+  // 5. Каркас
   const frameBox = document.getElementById('frame_options');
   if (isBk) {
     frameBox.innerHTML = `
@@ -865,136 +901,6 @@ function renderDynamicOptions() {
       </div>
     `;
   }
-
-  // 5. Внутренняя отделка
-  const innerBox = document.getElementById('inner_finish_options');
-  innerBox.innerHTML = `
-    <div class="option-row">
-      <div class="option-left">
-        <input type="radio" name="inner_base" id="inner_org" ${state.innerBase === 'org' ? 'checked' : ''} onchange="setInnerBase('org')">
-        <label for="inner_org">Оргалит (ДВП)</label>
-      </div>
-      <div class="option-right">
-        <input type="text" class="qty-input" value="1" readonly>
-        <input type="number" class="price-custom-input hideable-price" value="${getP('base_org', prod.basePrices.org)}" oninput="setCustomPrice('base_org', this.value)">
-        <button class="reset-sub-btn" onclick="resetCustomPrice('base_org', ${prod.basePrices.org})">сброс</button>
-      </div>
-    </div>
-    <div class="option-row">
-      <div class="option-left">
-        <input type="radio" name="inner_base" id="inner_osb" ${state.innerBase === 'osb' ? 'checked' : ''} onchange="setInnerBase('osb')">
-        <label for="inner_osb">ОСБ панели</label>
-      </div>
-      <div class="option-right">
-        <input type="text" class="qty-input" value="1" readonly>
-        <input type="number" class="price-custom-input hideable-price" value="${getP('base_osb', prod.basePrices.osb)}" oninput="setCustomPrice('base_osb', this.value)">
-        <button class="reset-sub-btn" onclick="resetCustomPrice('base_osb', ${prod.basePrices.osb})">сброс</button>
-      </div>
-    </div>
-    <div class="option-row">
-      <div class="option-left">
-        <input type="radio" name="inner_base" id="inner_vag" ${state.innerBase === 'vag' ? 'checked' : ''} onchange="setInnerBase('vag')">
-        <label for="inner_vag">Вагонка С класс</label>
-      </div>
-      <div class="option-right">
-        <input type="text" class="qty-input" value="1" readonly>
-        <input type="number" class="price-custom-input hideable-price" value="${getP('base_vag', prod.basePrices.vag)}" oninput="setCustomPrice('base_vag', this.value)">
-        <button class="reset-sub-btn" onclick="resetCustomPrice('base_vag', ${prod.basePrices.vag})">сброс</button>
-      </div>
-    </div>
-  `;
-
-  // Утепление
-  const insBox = document.getElementById('insulation_options');
-  insBox.innerHTML = `
-    <div class="option-row">
-      <div class="option-left">
-        <input type="radio" name="ins_choice" id="ins_50" ${state.insulation === 'ins50' ? 'checked' : ''} onchange="onInsulationChange('ins50')">
-        <label for="ins_50">Утепление 50 мм минеральной ватой (в базе)</label>
-      </div>
-      <div class="option-right">
-        <input type="text" class="qty-input" value="1" readonly>
-        <span style="font-weight:700; width:80px; text-align:right;">0 р.</span>
-      </div>
-    </div>
-    <div class="option-row">
-      <div class="option-left">
-        <input type="radio" name="ins_choice" id="ins_100" ${state.insulation === 'ins100' ? 'checked' : ''} onchange="onInsulationChange('ins100')">
-        <label for="ins_100">Утепление 100 мм минеральной ватой</label>
-      </div>
-      <div class="option-right">
-        <input type="text" class="qty-input" value="1" readonly>
-        <input type="number" class="price-custom-input hideable-price" value="${getP('ins100', prod.insulationPrices.ins100)}" oninput="setCustomPrice('ins100', this.value)">
-        <button class="reset-sub-btn" onclick="resetCustomPrice('ins100', ${prod.insulationPrices.ins100})">сброс</button>
-      </div>
-    </div>
-    <div class="option-row">
-      <div class="option-left">
-        <input type="radio" name="ins_choice" id="ins_rock" ${state.insulation === 'rock50' ? 'checked' : ''} onchange="onInsulationChange('rock50')">
-        <label for="ins_rock">Каменная вата (плитами) 50мм пол, стены, потолок <span style="color:#16a34a; font-size:11px;">[авто: каркас 100х50]</span></label>
-      </div>
-      <div class="option-right">
-        <input type="text" class="qty-input" value="1" readonly>
-        <input type="number" class="price-custom-input hideable-price" value="${getP('rock50', prod.insulationPrices.rock50)}" oninput="setCustomPrice('rock50', this.value)">
-        <button class="reset-sub-btn" onclick="resetCustomPrice('rock50', ${prod.insulationPrices.rock50})">сброс</button>
-      </div>
-    </div>
-  `;
-
-  // 4. Внешняя отделка
-  const outerBox = document.getElementById('outer_finish_options');
-  outerBox.innerHTML = '';
-  prod.outerOptions.forEach(opt => {
-    const isChecked = state.outerChoice === opt.id;
-    const priceVal = getP(opt.id, opt.price);
-
-    outerBox.innerHTML += `
-      <div class="option-row">
-        <div class="option-left">
-          <input type="radio" name="outer_radio" id="${opt.id}" ${isChecked ? 'checked' : ''} onchange="setOuterChoice('${opt.id}')">
-          <label for="${opt.id}">${opt.name}</label>
-        </div>
-        <div class="option-right">
-          <input type="text" class="qty-input" value="1" readonly>
-          <input type="number" class="price-custom-input hideable-price" value="${priceVal}" oninput="setCustomPrice('${opt.id}', this.value)">
-          <button class="reset-sub-btn" onclick="resetCustomPrice('${opt.id}', ${opt.price})">сброс</button>
-        </div>
-      </div>
-    `;
-
-    // Цвет профлиста
-    if (isChecked && opt.id.includes('color')) {
-      let opts = PROF_COLORS.map(c => `<option value="${c}" ${state.profColor === c ? 'selected' : ''}>${c}</option>`).join('');
-      outerBox.innerHTML += `
-        <div class="color-select-box">
-          <span>Цвет профлиста:</span>
-          <select onchange="state.profColor=this.value; updateKP();">${opts}</select>
-        </div>
-      `;
-    }
-
-    // Цвет косынок: Желтый, Коричневый, Бесцветный
-    if (isChecked && opt.isProf) {
-      let optsK = THREE_COLORS.map(c => `<option value="${c}" ${state.cornersColor === c ? 'selected' : ''}>${c}</option>`).join('');
-      outerBox.innerHTML += `
-        <div class="color-select-box">
-          <span>Цвет косынок:</span>
-          <select onchange="state.cornersColor=this.value; updateKP();">${optsK}</select>
-        </div>
-      `;
-    }
-
-    // Цвет антисептика: Желтый, Коричневый, Бесцветный
-    if (isChecked && opt.isWood) {
-      let optsA = THREE_COLORS.map(c => `<option value="${c}" ${state.antisepticColor === c ? 'selected' : ''}>${c}</option>`).join('');
-      outerBox.innerHTML += `
-        <div class="color-select-box">
-          <span>Цвет антисептика:</span>
-          <select onchange="state.antisepticColor=this.value; updateKP();">${optsA}</select>
-        </div>
-      `;
-    }
-  });
 
   // 6. Дополнительные опции ПО КАТЕГОРИЯМ
   const extraBox = document.getElementById('extra_services');
@@ -1042,7 +948,6 @@ function renderDynamicOptions() {
 
 function onInsulationChange(mode) {
   state.insulation = mode;
-  // Если выбрана каменная вата - автоматически включаем замену каркаса 100х50
   if (mode === 'rock50') {
     state.frameType = 'frame_100';
   }
@@ -1050,8 +955,8 @@ function onInsulationChange(mode) {
   updateKP();
 }
 
-function setInnerBase(val) {
-  state.innerBase = val;
+function setInnerChoice(val) {
+  state.innerChoice = val;
   updateKP();
 }
 
@@ -1123,7 +1028,6 @@ function onDeliveryParamsChanged() {
     price = cfg.minPrice + (km - cfg.baseKm) * cfg.extraKmPrice;
   }
   
-  // Округление доставки в большую сторону до тысяч
   price = Math.ceil(price / 1000) * 1000;
   
   state.deliveryPrice = price;
@@ -1161,12 +1065,22 @@ function updateKP() {
   let equipmentTotal = 0;
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
-  // Базовая бытовка
-  const baseKey = 'base_' + state.innerBase;
-  const baseCost = getP(baseKey, prod.basePrices[state.innerBase]);
+  // 3. Базовая бытовка (тянется от СНАРУЖИ)
+  const baseKey = 'out_' + state.outerChoice;
+  const baseCost = getP(baseKey, prod.outerPrices[state.outerChoice]);
   equipmentTotal += baseCost;
 
-  // Каркас
+  // 4. Отделка внутри
+  const innerTpl = INNER_OPTIONS_TEMPLATES.find(t => t.id === state.innerChoice);
+  let innerCost = 0;
+  if (innerTpl.priceProp !== 0) {
+    innerCost = getP(innerTpl.id, prod.innerPricesMap[innerTpl.priceProp] || 0);
+  } else {
+    innerCost = getP(innerTpl.id, 0);
+  }
+  equipmentTotal += innerCost;
+
+  // 5. Каркас
   let frameDesc = 'Каркас 50х50 из бруса естественной влажности';
   let frameCost = 0;
   if (!isBk && state.frameType === 'frame_100') {
@@ -1180,40 +1094,37 @@ function updateKP() {
   // Утепление
   let insulCost = 0;
   let insulDesc = '50 мм минеральной ватой';
+  
   if (state.insulation === 'ins100') {
-    insulCost = getP('ins100', prod.insulationPrices.ins100);
-    equipmentTotal += insulCost;
+    const calcIns100Price = Math.round(prod.outerPrices[state.outerChoice] * 0.2);
+    insulCost = getP('ins100', calcIns100Price);
     insulDesc = '100 мм минеральной ватой';
   } else if (state.insulation === 'rock50') {
     insulCost = getP('rock50', prod.insulationPrices.rock50);
-    equipmentTotal += insulCost;
     insulDesc = 'Каменная вата (плитами) 50 мм';
   }
 
-  // Внешняя отделка
-  const currentOuterOpt = prod.outerOptions.find(o => o.id === state.outerChoice) || prod.outerOptions[0];
-  const outerCost = getP(currentOuterOpt.id, currentOuterOpt.price);
-  equipmentTotal += outerCost;
+  if (state.innerChoice === 'in_none') {
+    insulDesc = 'Без утепления';
+  }
+  equipmentTotal += insulCost;
 
-  let outerDesc = currentOuterOpt.name;
-  if (currentOuterOpt.id.includes('color')) {
-    outerDesc += ` (Цвет: ${state.profColor})`;
+  // Тексты отделки
+  const optData = OUTER_NAMES[state.outerChoice];
+  let outerDesc = optData.name;
+  if (optData.isProf) {
+    outerDesc += ` (Цвет: ${state.profColor}), цвет косынок: ${state.cornersColor}`;
   }
-  if (currentOuterOpt.isProf) {
-    outerDesc += `, цвет косынок: ${state.cornersColor}`;
-  }
-  if (currentOuterOpt.isWood) {
+  if (optData.isWood) {
     outerDesc += ` [Антисептик: ${state.antisepticColor}]`;
   }
-
-  const innerNames = { org: 'Оргалит (ДВП)', osb: 'ОСБ панели', vag: 'Вагонка С класс' };
-  const innerDesc = innerNames[state.innerBase];
+  const innerDesc = innerTpl.name;
 
   // Считаем допы
   const chosenFeaturesList = [];
   ALL_EXTRAS.forEach(srv => {
     if (srv.id === 'height_increase' && isBk) return;
-    if (srv.id === 'assembly_site') return; // считаем позже
+    if (srv.id === 'assembly_site') return; 
     if (state.extrasChecked[srv.id]) {
       const q = state.extrasQty[srv.id] || 1;
       chosenFeaturesList.push(`<span style="color:red; font-weight:bold;">❗</span> ${srv.name} — ${q} шт.`);
@@ -1243,7 +1154,7 @@ function updateKP() {
     `;
   }
 
-  // Логика отображения окон
+  // Окна
   let hasPVC = state.extrasChecked['win_pvc_50'] || state.extrasChecked['win_pvc_90'] || state.extrasChecked['win_pvc_100'];
   let noWindows = state.extrasChecked['win_none'];
   let windowText = "";
@@ -1307,7 +1218,6 @@ function updateKP() {
     `;
   }
 
-  // Базовая позиция в смете (ВКЛЮЧАЕТ ВСЕ ДОПЫ)
   const trBase = document.createElement('tr');
   trBase.innerHTML = `
     <td>${mainItemHtml}</td>
@@ -1407,9 +1317,9 @@ function resetCalculator(ask) {
     selectedPlan: 'plan_0',
     showAllPlans: false,
     frameType: 'frame_50',
-    innerBase: 'org',
+    innerChoice: 'in_osb',
+    outerChoice: 'prof',
     insulation: 'ins50',
-    outerChoice: 'prof_zinc',
     profColor: 'Графит',
     cornersColor: 'Коричневый',
     antisepticColor: 'Коричневый',
@@ -1455,19 +1365,29 @@ function rebuildModalText() {
 
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
   
-  let equipmentTotal = getP('base_' + state.innerBase, prod.basePrices[state.innerBase]);
+  // База от СНАРУЖИ
+  let equipmentTotal = getP('out_' + state.outerChoice, prod.outerPrices[state.outerChoice]);
 
+  // Каркас
   if (!isBk && state.frameType === 'frame_100') {
     equipmentTotal += getP('frame_100', prod.frameUpgradePrice);
   }
+  
+  // ВНУТРИ
+  const innerTpl = INNER_OPTIONS_TEMPLATES.find(t => t.id === state.innerChoice);
+  if (innerTpl.priceProp !== 0) {
+    equipmentTotal += getP(innerTpl.id, prod.innerPricesMap[innerTpl.priceProp] || 0);
+  } else {
+    equipmentTotal += getP(innerTpl.id, 0);
+  }
+
+  // УТЕПЛЕНИЕ
   if (state.insulation === 'ins100') {
-    equipmentTotal += getP('ins100', prod.insulationPrices.ins100);
+    const calcIns100Price = Math.round(prod.outerPrices[state.outerChoice] * 0.2);
+    equipmentTotal += getP('ins100', calcIns100Price);
   } else if (state.insulation === 'rock50') {
     equipmentTotal += getP('rock50', prod.insulationPrices.rock50);
   }
-
-  const currentOuterOpt = prod.outerOptions.find(o => o.id === state.outerChoice) || prod.outerOptions[0];
-  equipmentTotal += getP(currentOuterOpt.id, currentOuterOpt.price);
 
   ALL_EXTRAS.forEach(srv => {
     if (srv.id === 'height_increase' && isBk) return;
@@ -1494,23 +1414,21 @@ function rebuildModalText() {
   if (state.taxMode === '22') total = Math.round(total * 1.22);
 
   const balance = Math.max(0, total - deposit);
-  const innerNames = { org: 'Оргалит (ДВП)', osb: 'ОСБ панели', vag: 'Вагонка С класс' };
+  
+  const optData = OUTER_NAMES[state.outerChoice];
+  let outerDescText = optData.name;
+  if (optData.isProf) outerDescText += ` (Цвет: ${state.profColor}), косынки: ${state.cornersColor}`;
+  if (optData.isWood) outerDescText += ` [Антисептик: ${state.antisepticColor}]`;
 
   let text = '';
-  
   let hasPVC = state.extrasChecked['win_pvc_50'] || state.extrasChecked['win_pvc_90'] || state.extrasChecked['win_pvc_100'];
   let noWindows = state.extrasChecked['win_none'];
-  let windowText = "";
-  if (noWindows) {
-      windowText = "Без окон";
-  } else if (hasPVC) {
-      windowText = "ПВХ (согласно выбранным допам)";
-  } else {
-      windowText = "75х75 см деревянное с двойным остеклением" + (!isBk ? ", открывающееся" : "") + " (1 шт.)";
-  }
+  let windowText = noWindows ? "Без окон" : (hasPVC ? "ПВХ (согласно выбранным допам)" : "75х75 см деревянное с двойным остеклением (1 шт.)");
+
+  let insulText = (state.insulation === 'rock50') ? 'Каменная вата (плитами) 50 мм' : ((state.insulation === 'ins100') ? '100 мм' : '50 мм');
+  if (state.innerChoice === 'in_none') insulText = 'Без утепления';
 
   if (type === 'prod') {
-    /* ЗАЯВКА ДЛЯ ПРОИЗВОДСТВА */
     text += `Заявка на ${dateVal}\n`;
     text += `Тег:\nЛид от:\n`;
     const regName = DELIVERY_RATES[state.deliveryRegion].name;
@@ -1526,36 +1444,26 @@ function rebuildModalText() {
 
     if (!isBk) {
       text += `Комплектация бытовки:\n`;
-      text += `1. Отделка снаружи: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}${currentOuterOpt.isWood ? ' [Антисептик: ' + state.antisepticColor + ']' : ''}\n`;
+      text += `1. Отделка снаружи: ${outerDescText}\n`;
       text += `2. Пароизоляция: Пароизоляция (пол, стены, потолок)\n`;
       text += `3. Каркас: ${state.frameType === 'frame_100' ? '100х50 из бруса (усиленный)' : '50х50 из бруса, естественной влажности'}\n`;
-      text += `4. Утепление: ${state.insulation === 'rock50' ? 'Каменная вата (плитами) 50 мм' : (state.insulation === 'ins100' ? '100 мм' : '50 мм')} (пол, стены, потолок)\n`;
-      text += `5. Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
+      text += `4. Утепление: ${insulText} (пол, стены, потолок)\n`;
+      text += `5. Внутренняя отделка: ${innerTpl.name}\n`;
       text += `6. Пол: Двойной (доска + ОСБ)\n`;
       text += `7. Крыша: двускатная, оцинкованный профлист 0,3 мм\n`;
       text += `8. Окна: ${windowText}\n`;
-      text += `9. Дверь входная: 1,80х80 см деревянная каркасная (1 шт.)\n`;
-      text += `В комплекте:\n- фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n- ступени для входа\n`;
-      if (state.deliveryRegion === 'ovrazhki') {
-        text += `- электрика: розетка, выключатель, патрон и провод\n`;
-      }
-      text += `\n`;
+      text += `9. Дверь входная: 1,80х80 см деревянная каркасная (1 шт.)\n\n`;
     } else {
       text += `Характеристики стандартного блок-контейнера:\n`;
       text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм (покраска синим)\n`;
-      text += `• Внешняя отделка: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}\n`;
-      text += `• Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
+      text += `• Внешняя отделка: ${outerDescText}\n`;
+      text += `• Внутренняя отделка: ${innerTpl.name}\n`;
       text += `• Пол: Двойной (доска + ОСБ)\n`;
       text += `• Крыша всегда прямая: листовая сталь толщиной 0,6 мм\n`;
       text += `• Окно: ${windowText}\n`;
       text += `• Дверь деревянная 1,90х80 см (1 шт.)\n`;
-      text += `• Утепление: ${state.insulation === 'rock50' ? 'Каменная вата (плитами) 50 мм' : (state.insulation === 'ins100' ? '100 мм' : '50 мм')}\n`;
-      text += `• Пароизоляция: Пароизоляция (пол, стены, потолок)\n`;
-      text += `В комплекте:\n- фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n- ступени для входа\n`;
-      if (state.deliveryRegion === 'ovrazhki') {
-        text += `- электрика: розетка, выключатель, патрон и провод\n`;
-      }
-      text += `\n`;
+      text += `• Утепление: ${insulText}\n`;
+      text += `• Пароизоляция: Пароизоляция (пол, стены, потолок)\n\n`;
     }
 
     let extrasList = [];
@@ -1569,6 +1477,12 @@ function rebuildModalText() {
       text += `Особенности комплектации (допы):\n` + extrasList.join('\n') + `\n\n`;
     }
 
+    text += `В комплекте:\n- фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n- ступени для входа\n`;
+    if (state.deliveryRegion === 'ovrazhki') {
+      text += `- электрика: розетка, выключатель, патрон и провод\n`;
+    }
+    text += `\n`;
+
     text += `---\n`;
     text += `Стоимость бытовки: ${equipmentTotal.toLocaleString('ru-RU')} руб.\n`;
     text += `Стоимость доставки: ${deliveryCost.toLocaleString('ru-RU')} руб.\n`;
@@ -1576,7 +1490,6 @@ function rebuildModalText() {
     text += `Предоплата ${deposit.toLocaleString('ru-RU')} руб.\n`;
     text += `${balance.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ\n\n`;
     
-    // БЛОК КОНТАКТОВ ПЕРЕНЕСЕН ВНИЗ
     text += `Заказчик: ${cName ? cName : '—'}\n`;
     text += `Телефон: ${cPhone ? cPhone : '—'}\n`;
     text += `Адрес объекта: ${cAddr ? cAddr : '—'}\n\n`;
@@ -1593,36 +1506,26 @@ function rebuildModalText() {
 
     if (!isBk) {
       text += `Комплектация деревянного каркаса:\n`;
-      text += `1. Отделка снаружи: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}${currentOuterOpt.isWood ? ' [Антисептик: ' + state.antisepticColor + ']' : ''}\n`;
+      text += `1. Отделка снаружи: ${outerDescText}\n`;
       text += `2. Пароизоляция: Пароизоляция (пол, стены, потолок)\n`;
       text += `3. Каркас: ${state.frameType === 'frame_100' ? '100х50 из бруса (усиленный)' : '50х50 из бруса, естественной влажности'}\n`;
-      text += `4. Утепление: ${state.insulation === 'rock50' ? 'Каменная вата (плитами) 50 мм' : (state.insulation === 'ins100' ? '100 мм' : '50 мм')} (пол, стены, потолок)\n`;
-      text += `5. Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
+      text += `4. Утепление: ${insulText} (пол, стены, потолок)\n`;
+      text += `5. Внутренняя отделка: ${innerTpl.name}\n`;
       text += `6. Пол: Двойной (доска + ОСБ)\n`;
       text += `7. Крыша: двускатная, оцинкованный профлист 0,3 мм (односкатная по запросу)\n`;
       text += `8. Окна: ${windowText}\n`;
-      text += `9. Дверь входная: 1,80х80 см деревянная каркасная (1 шт.)\n`;
-      text += `В комплекте:\n- фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n- ступени для входа\n`;
-      if (state.deliveryRegion === 'ovrazhki') {
-        text += `- электрика: розетка, выключатель, патрон и провод\n`;
-      }
-      text += `\n`;
+      text += `9. Дверь входная: 1,80х80 см деревянная каркасная (1 шт.)\n\n`;
     } else {
       text += `Характеристики стандартного блок-контейнера:\n`;
       text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм (покраска синим)\n`;
-      text += `• Внешняя отделка: ${currentOuterOpt.name}${currentOuterOpt.id.includes('color') ? ' (Цвет: ' + state.profColor + ')' : ''}${currentOuterOpt.isProf ? ', косынки: ' + state.cornersColor : ''}\n`;
-      text += `• Внутренняя отделка: ${innerNames[state.innerBase]}\n`;
+      text += `• Внешняя отделка: ${outerDescText}\n`;
+      text += `• Внутренняя отделка: ${innerTpl.name}\n`;
       text += `• Пол: Двойной (доска + ОСБ)\n`;
       text += `• Крыша всегда прямая: листовая сталь толщиной 0,6 мм\n`;
       text += `• Окно: ${windowText}\n`;
       text += `• Дверь деревянная 1,90х80 см (1 шт.)\n`;
-      text += `• Утепление: ${state.insulation === 'rock50' ? 'Каменная вата (плитами) 50 мм' : (state.insulation === 'ins100' ? '100 мм' : '50 мм')}\n`;
-      text += `• Пароизоляция: Пароизоляция (пол, стены, потолок)\n`;
-      text += `В комплекте:\n- фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n- ступени для входа\n`;
-      if (state.deliveryRegion === 'ovrazhki') {
-        text += `- электрика: розетка, выключатель, патрон и провод\n`;
-      }
-      text += `\n`;
+      text += `• Утепление: ${insulText}\n`;
+      text += `• Пароизоляция: Пароизоляция (пол, стены, потолок)\n\n`;
     }
 
     let extrasList = [];
@@ -1636,13 +1539,18 @@ function rebuildModalText() {
       text += `Особенности комплектации (допы):\n` + extrasList.join('\n') + `\n\n`;
     }
 
+    text += `В комплекте:\n- фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n- ступени для входа\n`;
+    if (state.deliveryRegion === 'ovrazhki') {
+      text += `- электрика: розетка, выключатель, патрон и провод\n`;
+    }
+    text += `\n`;
+
     text += `---\n`;
     text += `Итого: ${total.toLocaleString('ru-RU')} руб.\n\n`;
     text += `Предоплата ${deposit.toLocaleString('ru-RU')} руб.\n`;
     text += `тел. +7 (985) 128-33-85\n`;
     text += `Ольга К. Т-Банк\n\n`;
-    text += `Сообщение о назначении платежа указывать не нужно!\n\n`;
-    text += `${balance.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ`;
+    text += `Сообщение о назначении платежа указывать не нужно!\n`;
   }
 
   document.getElementById('modal_text').value = text;
