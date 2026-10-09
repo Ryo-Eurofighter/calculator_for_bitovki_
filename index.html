@@ -440,7 +440,7 @@ const INNER_OPTIONS_TEMPLATES = [
   { id: 'in_mdf', name: 'МДВ или ПВХ панели внутри', priceProp: 'mdf_in' }
 ];
 
-/* БАЗА ТОВАРОВ И ЦЕН (НОВАЯ ЛОГИКА: БАЗА = СНАРУЖИ, ВНУТРИ = ДОП) */
+/* БАЗА ТОВАРОВ И ЦЕН */
 const PRODUCTS_DATA = {
   wood_2: {
     name: 'Бытовка 2 х 2.3 м (по крыше)', innerDim: '1,7 х 2,1 м', type: 'wood', blocksGift: 4, frameUpgradePrice: 9000,
@@ -511,7 +511,7 @@ const PRODUCTS_DATA = {
 };
 
 /* ЦВЕТА */
-const PROF_COLORS = ['Графит', 'Светло-серый', 'Коричневый', 'Зеленый', 'Бежевый', 'Синий', 'Свой вариант'];
+const PROF_COLORS = ['Оцинкованный', 'Графит', 'Светло-серый', 'Коричневый', 'Зеленый', 'Бежевый', 'Синий', 'Свой вариант'];
 const THREE_COLORS = ['Желтый', 'Коричневый', 'Бесцветный'];
 /* ВСЕ 17 ПЛАНИРОВОК */
 const PLANS = [
@@ -1088,7 +1088,7 @@ function updateKP() {
     equipmentTotal += frameCost;
     frameDesc = 'Каркас 100х50 из бруса (усиленный)';
   } else if (isBk) {
-    frameDesc = 'Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм (покраска синим)';
+    frameDesc = 'Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм';
   }
 
   // Утепление
@@ -1253,7 +1253,6 @@ function updateKP() {
 
   // Оплата
   const depositVal = 5000;
-  const balanceToDriver = Math.max(0, finalTotal - depositVal);
   const trSummary = document.createElement('tr');
   trSummary.innerHTML = `
     <td colspan="3" class="tech-payment-info">
@@ -1263,7 +1262,6 @@ function updateKP() {
       <div>тел. +7 (985) 128-33-85</div>
       <div>Ольга К. Т-Банк</div>
       <div style="color:#dc2626; font-weight:700; margin: 4px 0;">Сообщение о назначении платежа указывать не нужно!</div>
-      <div style="font-weight:700;">${balanceToDriver.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ</div>
     </td>
   `;
   tbody.appendChild(trSummary);
@@ -1455,7 +1453,7 @@ function rebuildModalText() {
       text += `9. Дверь входная: 1,80х80 см деревянная каркасная (1 шт.)\n\n`;
     } else {
       text += `Характеристики стандартного блок-контейнера:\n`;
-      text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм (покраска синим)\n`;
+      text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм\n`;
       text += `• Внешняя отделка: ${outerDescText}\n`;
       text += `• Внутренняя отделка: ${innerTpl.name}\n`;
       text += `• Пол: Двойной (доска + ОСБ)\n`;
@@ -1517,7 +1515,7 @@ function rebuildModalText() {
       text += `9. Дверь входная: 1,80х80 см деревянная каркасная (1 шт.)\n\n`;
     } else {
       text += `Характеристики стандартного блок-контейнера:\n`;
-      text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм (покраска синим)\n`;
+      text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм\n`;
       text += `• Внешняя отделка: ${outerDescText}\n`;
       text += `• Внутренняя отделка: ${innerTpl.name}\n`;
       text += `• Пол: Двойной (доска + ОСБ)\n`;
