@@ -432,80 +432,81 @@ const OUTER_NAMES = {
 };
 
 const INNER_OPTIONS_TEMPLATES = [
-  { id: 'in_none', name: 'Без отделки и утепления', priceProp: 0 },
-  { id: 'in_osb', name: 'ОСБ внутри стены и потолок', priceProp: 0 },
+  { id: 'in_org', name: 'Оргалит (ДВП)', priceProp: 'org_in' },
+  { id: 'in_osb', name: 'ОСБ внутри стены и потолок', priceProp: 'osb_in' },
   { id: 'in_vagC', name: 'Вагонка С внутри', priceProp: 'vagC_in' },
   { id: 'in_vagB', name: 'Вагонка В внутри', priceProp: 'vagB_in' },
   { id: 'in_imit', name: 'Имитация бруса класс С внутри', priceProp: 'imit_in' },
-  { id: 'in_mdf', name: 'МДВ или ПВХ панели внутри', priceProp: 'mdf_in' }
+  { id: 'in_mdf', name: 'МДВ или ПВХ панели внутри', priceProp: 'mdf_in' },
+  { id: 'in_none', name: 'Без отделки и утепления', priceProp: 'none_in' }
 ];
 
-/* БАЗА ТОВАРОВ И ЦЕН */
+/* БАЗА ТОВАРОВ И ЦЕН (БАЗА = СНАРУЖИ, ВНУТРИ = ДОП) */
 const PRODUCTS_DATA = {
   wood_2: {
     name: 'Бытовка 2 х 2.3 м (по крыше)', innerDim: '1,7 х 2,1 м', type: 'wood', blocksGift: 4, frameUpgradePrice: 9000,
     outerPrices: { prof: 68000, vagC: 63000, vagB: 72000, imit: 69000 },
-    innerPricesMap: { vagC_in: 9000, vagB_in: 28000, imit_in: 15000, mdf_in: 16500 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 7000, vagC_in: 9000, vagB_in: 28000, imit_in: 15000, mdf_in: 16500 },
     insulationPrices: { ins50: 0, rock50: 10000 }
   },
   wood_3: {
     name: 'Бытовка 3 х 2.3 м (по крыше)', innerDim: '2,7 х 2,1 м', type: 'wood', blocksGift: 4, frameUpgradePrice: 10000,
     outerPrices: { prof: 81000, vagC: 76000, vagB: 87000, imit: 82000 },
-    innerPricesMap: { vagC_in: 12000, vagB_in: 33000, imit_in: 20000, mdf_in: 22000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 10000, vagC_in: 12000, vagB_in: 33000, imit_in: 20000, mdf_in: 22000 },
     insulationPrices: { ins50: 0, rock50: 15000 }
   },
   wood_4: {
     name: 'Бытовка 4 х 2.3 м (по крыше)', innerDim: '3,7 х 2,1 м', type: 'wood', blocksGift: 4, frameUpgradePrice: 11000,
     outerPrices: { prof: 88000, vagC: 83000, vagB: 96000, imit: 89000 },
-    innerPricesMap: { vagC_in: 15000, vagB_in: 38000, imit_in: 24000, mdf_in: 26000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 13000, vagC_in: 15000, vagB_in: 38000, imit_in: 24000, mdf_in: 26000 },
     insulationPrices: { ins50: 0, rock50: 18000 }
   },
   wood_5: {
     name: 'Бытовка 5 х 2.3 м (по крыше)', innerDim: '4,7 х 2,1 м', type: 'wood', blocksGift: 6, frameUpgradePrice: 11000,
     outerPrices: { prof: 96000, vagC: 91000, vagB: 106000, imit: 98000 },
-    innerPricesMap: { vagC_in: 21000, vagB_in: 46000, imit_in: 28000, mdf_in: 34000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 16000, vagC_in: 21000, vagB_in: 46000, imit_in: 28000, mdf_in: 34000 },
     insulationPrices: { ins50: 0, rock50: 22000 }
   },
   wood_6: {
     name: 'Бытовка 6 х 2.3 м (по крыше)', innerDim: '5,7 х 2,1 м', type: 'wood', blocksGift: 6, frameUpgradePrice: 12000,
     outerPrices: { prof: 98000, vagC: 93000, vagB: 111000, imit: 99000 },
-    innerPricesMap: { vagC_in: 22000, vagB_in: 50000, imit_in: 31000, mdf_in: 40000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 18000, vagC_in: 22000, vagB_in: 50000, imit_in: 31000, mdf_in: 40000 },
     insulationPrices: { ins50: 0, rock50: 24000 }
   },
   wood_7: {
     name: 'Бытовка 7 х 2.3 м (по крыше)', innerDim: '6,7 х 2,1 м', type: 'wood', blocksGift: 8, frameUpgradePrice: 13000,
     outerPrices: { prof: 122000, vagC: 117000, vagB: 132000, imit: 124000 },
-    innerPricesMap: { vagC_in: 23000, vagB_in: 58000, imit_in: 33000, mdf_in: 40000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 21000, vagC_in: 23000, vagB_in: 58000, imit_in: 33000, mdf_in: 40000 },
     insulationPrices: { ins50: 0, rock50: 30000 }
   },
   bk_3: {
     name: 'Блок-контейнер 3 х 2.4 м', innerDim: '2,8 х 2,2 м', type: 'bk', blocksGift: 4, frameUpgradePrice: 0,
     outerPrices: { prof: 109000 },
-    innerPricesMap: { vagC_in: 12000, vagB_in: 33000, imit_in: 20000, mdf_in: 22000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 13000, vagC_in: 12000, vagB_in: 33000, imit_in: 20000, mdf_in: 22000 },
     insulationPrices: { ins50: 0, rock50: 15000 }
   },
   bk_4: {
     name: 'Блок-контейнер 4 х 2.4 м', innerDim: '3,8 х 2,2 м', type: 'bk', blocksGift: 4, frameUpgradePrice: 0,
     outerPrices: { prof: 114000 },
-    innerPricesMap: { vagC_in: 15000, vagB_in: 38000, imit_in: 24000, mdf_in: 26000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 13000, vagC_in: 15000, vagB_in: 38000, imit_in: 24000, mdf_in: 26000 },
     insulationPrices: { ins50: 0, rock50: 18000 }
   },
   bk_5: {
     name: 'Блок-контейнер 5 х 2.4 м', innerDim: '4,8 х 2,2 м', type: 'bk', blocksGift: 6, frameUpgradePrice: 0,
     outerPrices: { prof: 119000 },
-    innerPricesMap: { vagC_in: 21000, vagB_in: 46000, imit_in: 28000, mdf_in: 34000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 17000, vagC_in: 21000, vagB_in: 46000, imit_in: 28000, mdf_in: 34000 },
     insulationPrices: { ins50: 0, rock50: 22000 }
   },
   bk_6: {
     name: 'Блок-контейнер 5.85 х 2.4 х 2.4 м', innerDim: '5,65 х 2,2 м', type: 'bk', blocksGift: 6, frameUpgradePrice: 0,
     outerPrices: { prof: 124000 },
-    innerPricesMap: { vagC_in: 22000, vagB_in: 50000, imit_in: 31000, mdf_in: 40000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 18000, vagC_in: 22000, vagB_in: 50000, imit_in: 31000, mdf_in: 40000 },
     insulationPrices: { ins50: 0, rock50: 24000 }
   },
   bk_7: {
     name: 'Блок-контейнер 7 х 2.4 м', innerDim: '6,8 х 2,2 м', type: 'bk', blocksGift: 8, frameUpgradePrice: 0,
     outerPrices: { prof: 151000 },
-    innerPricesMap: { vagC_in: 23000, vagB_in: 58000, imit_in: 33000, mdf_in: 40000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 23000, vagC_in: 23000, vagB_in: 58000, imit_in: 33000, mdf_in: 40000 },
     insulationPrices: { ins50: 0, rock50: 30000 }
   }
 };
@@ -648,10 +649,10 @@ let state = {
   selectedPlan: 'plan_0',
   showAllPlans: false,
   frameType: 'frame_50',
-  innerChoice: 'in_osb',
+  innerChoice: 'in_org', // Оргалит по умолчанию
   outerChoice: 'prof',
   insulation: 'ins50',
-  profColor: 'Графит',
+  profColor: 'Оцинкованный',
   cornersColor: 'Коричневый',
   antisepticColor: 'Коричневый',
   customPrices: {},
@@ -673,6 +674,16 @@ function init() {
 }
 
 function getExtraPrice(id, defaultPrice) {
+  if (id === 'osb_floor_12' || id === 'osb_ceil_9') {
+    if (state.selectedSize.includes('_7')) return 7000;
+    if (state.selectedSize.includes('_6')) return 6000;
+    if (state.selectedSize.includes('_5')) return 6000;
+    if (state.selectedSize.includes('_4')) return 5000;
+    if (state.selectedSize === 'wood_3') return 4000;
+    if (state.selectedSize === 'bk_3') return 3000;
+    if (state.selectedSize === 'wood_2') return 3000;
+    return defaultPrice;
+  }
   if (id === 'metal_bottom') {
     if (state.selectedSize.includes('_7')) return 10000;
     if (state.selectedSize.includes('_6')) return 9000;
@@ -705,7 +716,7 @@ function onSizeChanged() {
   state.customPrices = {};
   state.frameType = 'frame_50';
   state.outerChoice = 'prof';
-  state.innerChoice = 'in_osb';
+  state.innerChoice = 'in_org'; // Оргалит по умолчанию при смене размера
   
   const isBk = PRODUCTS_DATA[state.selectedSize].type === 'bk';
   if (isBk) {
@@ -775,12 +786,13 @@ function renderDynamicOptions() {
       `;
     }
 
-    // Цвет косынок
+    // Цвет уголков/косынок
     if (isChecked && optData.isProf) {
       let optsK = THREE_COLORS.map(c => `<option value="${c}" ${state.cornersColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      let kText = isBk ? 'Цвет уголков:' : 'Цвет косынок:';
       outerBox.innerHTML += `
         <div class="color-select-box">
-          <span>Цвет косынок:</span>
+          <span>${kText}</span>
           <select onchange="state.cornersColor=this.value; updateKP();">${optsK}</select>
         </div>
       `;
@@ -805,6 +817,8 @@ function renderDynamicOptions() {
     let defaultPrice = 0;
     if (tpl.priceProp !== 0 && prod.innerPricesMap[tpl.priceProp]) {
       defaultPrice = prod.innerPricesMap[tpl.priceProp];
+    } else if (tpl.id === 'in_none') {
+      defaultPrice = -4000;
     }
     const priceVal = getP(tpl.id, defaultPrice);
     const isChecked = state.innerChoice === tpl.id;
@@ -824,7 +838,7 @@ function renderDynamicOptions() {
     `;
   });
 
-  // Утепление (теперь 100 мм - это 20% от наружной базы)
+  // Утепление (100 мм - 20% от наружной базы)
   const baseOutPrice = getP('out_' + state.outerChoice, prod.outerPrices[state.outerChoice]);
   const calcIns100Price = Math.round(baseOutPrice * 0.2);
   const insBox = document.getElementById('insulation_options');
@@ -1075,8 +1089,8 @@ function updateKP() {
   let innerCost = 0;
   if (innerTpl.priceProp !== 0) {
     innerCost = getP(innerTpl.id, prod.innerPricesMap[innerTpl.priceProp] || 0);
-  } else {
-    innerCost = getP(innerTpl.id, 0);
+  } else if (innerTpl.id === 'in_none') {
+    innerCost = getP(innerTpl.id, -4000);
   }
   equipmentTotal += innerCost;
 
@@ -1113,7 +1127,7 @@ function updateKP() {
   const optData = OUTER_NAMES[state.outerChoice];
   let outerDesc = optData.name;
   if (optData.isProf) {
-    outerDesc += ` (Цвет: ${state.profColor}), цвет косынок: ${state.cornersColor}`;
+    outerDesc += ` (Цвет: ${state.profColor}), цвет ${isBk ? 'уголков' : 'косынок'}: ${state.cornersColor}`;
   }
   if (optData.isWood) {
     outerDesc += ` [Антисептик: ${state.antisepticColor}]`;
@@ -1253,6 +1267,7 @@ function updateKP() {
 
   // Оплата
   const depositVal = 5000;
+  const balanceToDriver = Math.max(0, finalTotal - depositVal);
   const trSummary = document.createElement('tr');
   trSummary.innerHTML = `
     <td colspan="3" class="tech-payment-info">
@@ -1262,6 +1277,7 @@ function updateKP() {
       <div>тел. +7 (985) 128-33-85</div>
       <div>Ольга К. Т-Банк</div>
       <div style="color:#dc2626; font-weight:700; margin: 4px 0;">Сообщение о назначении платежа указывать не нужно!</div>
+      <div style="font-weight:700;">${balanceToDriver.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ</div>
     </td>
   `;
   tbody.appendChild(trSummary);
@@ -1315,10 +1331,10 @@ function resetCalculator(ask) {
     selectedPlan: 'plan_0',
     showAllPlans: false,
     frameType: 'frame_50',
-    innerChoice: 'in_osb',
+    innerChoice: 'in_org',
     outerChoice: 'prof',
     insulation: 'ins50',
-    profColor: 'Графит',
+    profColor: 'Оцинкованный',
     cornersColor: 'Коричневый',
     antisepticColor: 'Коричневый',
     customPrices: {},
@@ -1375,8 +1391,8 @@ function rebuildModalText() {
   const innerTpl = INNER_OPTIONS_TEMPLATES.find(t => t.id === state.innerChoice);
   if (innerTpl.priceProp !== 0) {
     equipmentTotal += getP(innerTpl.id, prod.innerPricesMap[innerTpl.priceProp] || 0);
-  } else {
-    equipmentTotal += getP(innerTpl.id, 0);
+  } else if (innerTpl.id === 'in_none') {
+    equipmentTotal += getP(innerTpl.id, -4000);
   }
 
   // УТЕПЛЕНИЕ
@@ -1415,8 +1431,12 @@ function rebuildModalText() {
   
   const optData = OUTER_NAMES[state.outerChoice];
   let outerDescText = optData.name;
-  if (optData.isProf) outerDescText += ` (Цвет: ${state.profColor}), косынки: ${state.cornersColor}`;
-  if (optData.isWood) outerDescText += ` [Антисептик: ${state.antisepticColor}]`;
+  if (optData.isProf) {
+    outerDescText += ` (Цвет: ${state.profColor}), ${isBk ? 'цвет уголков' : 'косынки'}: ${state.cornersColor}`;
+  }
+  if (optData.isWood) {
+    outerDescText += ` [Антисептик: ${state.antisepticColor}]`;
+  }
 
   let text = '';
   let hasPVC = state.extrasChecked['win_pvc_50'] || state.extrasChecked['win_pvc_90'] || state.extrasChecked['win_pvc_100'];
