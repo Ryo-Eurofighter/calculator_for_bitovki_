@@ -186,7 +186,7 @@
           </select>
         </div>
         <label style="display:flex; align-items:center; gap:8px; font-weight:600; cursor:pointer;">
-          <input type="checkbox" id="is_raspashonka" onchange="updateKP()"> Бытовка РАСПАШОНКА (вход по центру, окна слева и справа)
+          <input type="checkbox" id="is_raspashonka" onchange="onRaspashonkaChange(this.checked)"> Бытовка РАСПАШОНКА (вход по центру, окна слева и справа)
         </label>
       </div>
     </div>
@@ -339,7 +339,7 @@
       <div><strong>Размер конструкции:</strong> <span id="kp_out_size">3 х 2.3 м</span> <strong style="margin-left:8px; color:#1e3a8a;">(размер внутри: <span id="kp_out_inner_dim">2,7 х 2,1 м</span>)</strong></div>
       <div style="display:flex; justify-content:space-between; margin-top:4px;">
         <span><strong>Номер КП:</strong> <span id="kp_out_num">КП-2160</span></span>
-        <span><strong>Дата:</strong> <span id="kp_out_date">04 октября 2026 г.</span></span>
+        <span><strong>Дата:</strong> <span id="kp_out_date"></span></span>
       </div>
     </div>
 
@@ -386,7 +386,7 @@
     <div class="modal-head-grid">
       <div>
         <span>Дата:</span>
-        <input type="text" id="m_head_date" value="4 октября 2026 г." oninput="rebuildModalText()">
+        <input type="text" id="m_head_date" value="" oninput="rebuildModalText()">
       </div>
       <div>
         <span>Аванс:</span>
@@ -666,6 +666,13 @@ let state = {
   currentModalType: 'prod'
 };
 
+/* Функция для получения сегодняшней даты (для КП и Заявок) */
+function getTodayString() {
+  const d = new Date();
+  const months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} г.`;
+}
+
 function init() {
   renderPlans();
   renderDynamicOptions();
@@ -722,6 +729,22 @@ function onSizeChanged() {
   if (isBk) {
     delete state.extrasChecked['height_increase'];
     delete state.extrasQty['height_increase'];
+  }
+  renderDynamicOptions();
+  updateKP();
+}
+
+function onRaspashonkaChange(checked) {
+  state.isRaspashonka = checked;
+  // Если выбрали распашонку - добавляем окно
+  if (checked) {
+    state.extrasChecked['win_wood_extra'] = true;
+    state.extrasQty['win_wood_extra'] = Math.max(state.extrasQty['win_wood_extra'] || 1, 1);
+  } else {
+    // Если сняли распашонку - убираем дополнительное окно
+    if (state.extrasChecked['win_wood_extra'] && state.extrasQty['win_wood_extra'] === 1) {
+      delete state.extrasChecked['win_wood_extra'];
+    }
   }
   renderDynamicOptions();
   updateKP();
@@ -1076,6 +1099,9 @@ function updateKP() {
   const tbody = document.getElementById('kp_table_body');
   tbody.innerHTML = '';
 
+  // Обновляем текущую дату в бланке КП
+  document.getElementById('kp_out_date').textContent = getTodayString();
+
   let equipmentTotal = 0;
   const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
 
@@ -1127,7 +1153,7 @@ function updateKP() {
   const optData = OUTER_NAMES[state.outerChoice];
   let outerDesc = optData.name;
   if (optData.isProf) {
-    outerDesc += ` (Цвет: ${state.profColor}), цвет ${isBk ? 'уголков' : 'косынок'}: ${state.cornersColor}`;
+    outerDesc += ` (Цвет: ${state.profColor}), ${isBk ? 'цвет уголков' : 'цвет косынок'}: ${state.cornersColor}`;
   }
   if (optData.isWood) {
     outerDesc += ` [Антисептик: ${state.antisepticColor}]`;
@@ -1191,7 +1217,7 @@ function updateKP() {
         <div><strong>Внешняя отделка:</strong> ${outerDesc}</div>
         <div><strong>Внутренняя отделка:</strong> ${innerDesc}</div>
         <div><strong>Кровля:</strong> Двускатная, оцинкованный профлист 0,3 мм (односкатная по запросу)</div>
-        <div><strong>Высота:</strong> 2.1 - 1.9 м</div>
+        <div><strong>Высота:</strong> 2 м</div>
         <div><strong>Утепление:</strong> ${insulDesc}</div>
         <div><strong>Окно:</strong> ${windowText}</div>
         <div><strong>Пол:</strong> Двойной (доска + ОСБ)</div>
@@ -1317,7 +1343,10 @@ function resetCalculator(ask) {
   document.getElementById('client_order').value = '';
   document.getElementById('client_addr').value = '';
   document.getElementById('kp_note').value = '';
-  document.getElementById('is_raspashonka').checked = false;
+  
+  const chkRasp = document.getElementById('is_raspashonka');
+  if (chkRasp) chkRasp.checked = false;
+  
   document.getElementById('delivery_included').checked = true;
   document.getElementById('delivery_region').value = 'ramenskoe';
   document.getElementById('delivery_km').value = '0';
@@ -1361,7 +1390,7 @@ function openOrderModal(type) {
   document.getElementById('m_head_phone').value = document.getElementById('client_phone').value || '';
   document.getElementById('m_head_addr').value = document.getElementById('client_addr').value || '';
   document.getElementById('m_head_deposit').value = '5000';
-  document.getElementById('m_head_date').value = '4 октября 2026 г.';
+  document.getElementById('m_head_date').value = getTodayString();
 
   rebuildModalText();
   document.getElementById('order_modal').classList.add('active');
@@ -1371,7 +1400,7 @@ function rebuildModalText() {
   const type = state.currentModalType;
   const prod = PRODUCTS_DATA[state.selectedSize];
   const isBk = prod.type === 'bk';
-  const dateVal = document.getElementById('m_head_date').value || '4 октября 2026 г.';
+  const dateVal = document.getElementById('m_head_date').value || getTodayString();
   const deposit = parseInt(document.getElementById('m_head_deposit').value) || 0;
   const cName = document.getElementById('m_head_name').value || '';
   const cPhone = document.getElementById('m_head_phone').value || '';
