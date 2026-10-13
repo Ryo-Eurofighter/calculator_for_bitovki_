@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор бытовок — АтомДомСтрой</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --accent-red: #dc2626;
+      --accent-green: #15803d;
+      --accent-orange: #ea580c;
+      --border-color: #cbd5e1;
+      --text-main: #1e293b;
+      --header-bg: #2c3e50;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+    body { background-color: #e2e8f0; color: var(--text-main); font-size: 13px; }
+    .app-container { display: flex; flex-direction: row; min-height: 100vh; max-width: 1750px; margin: 0 auto; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .config-panel { width: 50%; padding: 18px; border-right: 2px solid var(--border-color); overflow-y: auto; max-height: 100vh; background: #f8fafc; }
+    .preview-panel { width: 50%; padding: 26px; overflow-y: auto; max-height: 100vh; background: #ffffff; }
+
+    /* Кнопки */
+    .btn { display: inline-flex; align-items: center; justify-content: center; font-weight: 700; border-radius: 4px; padding: 9px 15px; cursor: pointer; border: none; text-transform: uppercase; transition: all 0.2s; font-size: 12px; }
+    .btn-red { background: var(--accent-red); color: #fff; }
+    .btn-red:hover { background: #b91c1c; }
+    .btn-green { background: var(--accent-green); color: #fff; }
+    .btn-green:hover { background: #166534; }
+    .btn-orange { background: var(--accent-orange); color: #fff; }
+    .btn-orange:hover { background: #c2410c; }
+    .btn-dark { background: #334155; color: #fff; }
+    .btn-dark:hover { background: #1e293b; }
+    .btn-full { width: 100%; margin-top: 8px; }
+
+    /* Аккордеоны */
+    .section-wrap { margin-top: 12px; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; background: #fff; }
+    .section-header { font-size: 13px; font-weight: 700; background: var(--header-bg); color: #fff; padding: 9px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; }
+    .section-header:hover { background: #1e2b37; }
+    .section-header .arrow { transition: transform 0.2s; font-size: 11px; }
+    .section-wrap.collapsed .section-header .arrow { transform: rotate(-90deg); }
+    .section-wrap.collapsed .section-body { display: none; }
+    .section-body { padding: 12px; }
+
+    .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; }
+    .top-header h2 { font-size: 18px; font-weight: 800; color: #0f172a; }
+
+    .client-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .input-box input, .input-box select, .input-box textarea { width: 100%; padding: 7px 10px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 13px; background: #fff; outline: none; }
+    .input-box input:focus, .input-box select:focus, .input-box textarea:focus { border-color: var(--primary); }
+
+    /* Планировки */
+    .plan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
+    .plan-card { border: 2px solid var(--border-color); border-radius: 6px; padding: 6px 4px; text-align: center; cursor: pointer; background: #fff; transition: all 0.15s; }
+    .plan-card:hover { border-color: #94a3b8; }
+    .plan-card.active { border-color: #16a34a; background: #f0fdf4; box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.3); }
+    .plan-card svg { width: 100%; height: 50px; display: block; margin: 0 auto 3px; }
+    .plan-card span { font-size: 11px; font-weight: 600; color: #475569; }
+
+    /* Категории допов */
+    .extra-category-title { font-weight: 800; font-size: 12px; color: #1e3a8a; text-transform: uppercase; margin: 12px 0 6px; border-bottom: 2px solid #e2e8f0; padding-bottom: 3px; }
+
+    /* Опции */
+    .option-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 8px; background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; margin-bottom: 5px; }
+    .option-row.disabled { opacity: 0.55; background: #f1f5f9; pointer-events: none; }
+    .option-row:hover:not(.disabled) { background: #f8fafc; }
+    .option-left { display: flex; align-items: center; gap: 8px; flex: 1; }
+    .option-left input[type="radio"], .option-left input[type="checkbox"] { width: 17px; height: 17px; cursor: pointer; accent-color: var(--primary); }
+    .option-left label { font-size: 12.5px; font-weight: 600; cursor: pointer; user-select: none; }
+    .option-right { display: flex; align-items: center; gap: 6px; }
+    .qty-input { width: 44px; text-align: center; padding: 4px; border: 1px solid var(--border-color); border-radius: 4px; font-weight: 700; font-size: 12px; }
+    .price-custom-input { width: 80px; text-align: right; padding: 4px 6px; border: 1px solid var(--border-color); border-radius: 4px; font-weight: 700; color: #0f172a; font-size: 12px; }
+    .reset-sub-btn { font-size: 11px; padding: 4px 6px; background: #e2e8f0; border: none; border-radius: 3px; cursor: pointer; color: #475569; }
+    .reset-sub-btn:hover { background: #cbd5e1; }
+
+    /* Цветная плашка подвыбора */
+    .color-select-box { background: #fef9c3; border: 1px solid #fde047; padding: 8px 10px; border-radius: 4px; margin-bottom: 6px; font-size: 12.5px; font-weight: 600; color: #713f12; }
+    .color-select-box select { width: 100%; margin-top: 4px; padding: 6px; border: 1px solid #ca8a04; border-radius: 4px; font-size: 13px; font-weight: 600; background: #fff; }
+
+    /* Блок Доставки */
+    .delivery-box { background: #1e293b; color: #fff; padding: 12px 14px; border-radius: 4px; font-weight: 700; margin-top: 8px; }
+    .delivery-calc-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+    .delivery-calc-row input, .delivery-calc-row select { width: 140px; padding: 5px 8px; border-radius: 4px; border: none; font-weight: 700; font-size: 12px; }
+    .delivery-calc-row input { text-align: right; width: 90px; }
+
+    /* Итог слева */
+    .total-box-left { background: #ea580c; color: #fff; padding: 12px 16px; border-radius: 4px; margin-top: 16px; font-size: 16px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
+    .tax-options { margin-top: 10px; display: flex; gap: 14px; font-size: 12px; font-weight: 600; }
+    .tax-options label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+
+    /* Правая панель (КП) */
+    .kp-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0f172a; padding-bottom: 10px; margin-bottom: 14px; }
+    .kp-logo-area { display: flex; align-items: center; gap: 10px; }
+    .kp-logo-img { max-height: 52px; max-width: 140px; object-fit: contain; }
+    .kp-logo-fallback { width: 42px; height: 42px; border-radius: 50%; border: 3px solid #16a34a; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; color: #16a34a; }
+    .kp-logo-text { font-size: 19px; font-weight: 900; color: #0f172a; }
+    .kp-contacts { text-align: right; font-size: 11.5px; color: #334155; line-height: 1.35; }
+    .kp-contacts strong { color: #0f172a; }
+
+    .kp-info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 10px 14px; margin-bottom: 14px; font-size: 12.5px; line-height: 1.5; }
+    .kp-info-box span { font-weight: 700; color: #0f172a; }
+
+    .kp-table { width: 100%; border-collapse: collapse; margin-bottom: 14px; }
+    .kp-table th { background: #f8fafc; padding: 8px 10px; font-weight: 700; text-align: left; border-bottom: 2px solid #cbd5e1; font-size: 12.5px; color: #334155; }
+    .kp-table td { padding: 10px; border-bottom: 1px solid #e2e8f0; font-size: 12.5px; vertical-align: top; line-height: 1.6; }
+    
+    .tech-sheet-title { font-weight: 800; font-size: 14px; color: #0f172a; margin-bottom: 6px; padding-left: 8px; border-left: 3px solid #2563eb; }
+    .tech-sheet-body { color: #334155; margin-bottom: 10px; }
+    .tech-sheet-body div { margin-bottom: 2px; }
+    
+    /* Блок особенностей комплектации после пароизоляции */
+    .tech-features-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; padding: 8px 12px; margin: 8px 0; color: #166534; font-size: 12px; }
+    .tech-features-box h5 { font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
+
+    .tech-payment-info { background: #f8fafc; border-top: 1px dashed #cbd5e1; padding-top: 10px; margin-top: 10px; color: #1e293b; font-size: 12px; line-height: 1.5; }
+
+    .kp-plan-preview { text-align: center; margin-bottom: 16px; border: 1px solid #e2e8f0; padding: 10px; border-radius: 4px; background: #fff; }
+    .kp-plan-preview h5 { font-size: 11.5px; text-transform: uppercase; color: #64748b; margin-bottom: 6px; }
+    .kp-plan-preview svg { max-height: 130px; width: 100%; max-width: 250px; }
+
+    .kp-total-banner { background: #1e3a8a; color: #fff; padding: 12px 18px; border-radius: 6px; font-size: 19px; font-weight: 900; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .kp-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    /* Модальное окно */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+    .modal-overlay.active { display: flex; }
+    .modal-window { background: #fff; width: 100%; max-width: 780px; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25); display: flex; flex-direction: column; max-height: 92vh; }
+    .modal-head-grid { display: grid; grid-template-columns: 120px 100px 1fr 140px 1fr; gap: 8px; padding: 12px 16px; background: #f1f5f9; border-bottom: 1px solid #cbd5e1; font-size: 11px; }
+    .modal-head-grid div { display: flex; flex-direction: column; gap: 3px; font-weight: 700; color: #475569; }
+    .modal-head-grid input { padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px; background: #fff; outline: none; }
+    .modal-body { padding: 14px 16px; overflow-y: auto; flex: 1; }
+    .modal-body textarea { width: 100%; height: 380px; padding: 12px; font-family: Consolas, Monaco, "Courier New", monospace; font-size: 12px; line-height: 1.5; border: 1px solid #cbd5e1; border-radius: 4px; resize: none; background: #f8fafc; color: #0f172a; outline: none; }
+    .modal-foot { padding: 10px 16px; background: #f8fafc; border-top: 1px solid #cbd5e1; display: flex; justify-content: flex-end; gap: 10px; }
+
+    .hide-prices .hideable-price { display: none !important; }
+
+    @media print {
+      body { background: #fff; }
+      .config-panel, .kp-actions, .modal-overlay { display: none !important; }
+      .app-container { box-shadow: none; max-width: 100%; }
+      .preview-panel { width: 100%; padding: 0; max-height: none; overflow: visible; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- ЛЕВАЯ ПАНЕЛЬ -->
+  <div class="config-panel">
+    <div class="top-header">
+      <h2>Настройка КП</h2>
+      <button class="btn btn-red" onclick="resetCalculator(true)">ОБНУЛИТЬ РАСЧЕТ</button>
+    </div>
+
+    <!-- Поля клиента -->
+    <div class="client-grid">
+      <div class="input-box"><input type="text" id="client_name" placeholder="ФИО Заказчика" oninput="updateKP()"></div>
+      <div class="input-box"><input type="text" id="client_phone" placeholder="Контактный номер" oninput="updateKP()"></div>
+      <div class="input-box"><input type="text" id="client_order" placeholder="Заказ (например, Для дачи)" oninput="updateKP()"></div>
+      <div class="input-box"><input type="text" id="client_addr" placeholder="Адрес объекта" oninput="updateKP()"></div>
+    </div>
+
+    <!-- 1. Размер конструкции -->
+    <div class="section-wrap" id="sec_size">
+      <div class="section-header" onclick="toggleSection('sec_size')">
+        <span>1. Размер конструкции</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="input-box" style="margin-bottom: 8px;">
+          <select id="size_select" onchange="onSizeChanged()">
+            <optgroup label="Бытовки деревянные">
+              <option value="wood_2">2 х 2.3 м</option>
+              <option value="wood_3" selected>3 х 2.3 м</option>
+              <option value="wood_4">4 х 2.3 м</option>
+              <option value="wood_5">5 х 2.3 м</option>
+              <option value="wood_6">6 х 2.3 м</option>
+              <option value="wood_7">7 х 2.3 м</option>
+            </optgroup>
+            <optgroup label="Блок-контейнеры (БК)">
+              <option value="bk_3">БК 3 х 2.4 м</option>
+              <option value="bk_4">БК 4 х 2.4 м</option>
+              <option value="bk_5">БК 5 х 2.4 м</option>
+              <option value="bk_6">БК 5.85 х 2.4 х 2.4 м</option>
+              <option value="bk_7">БК 7 х 2.4 м</option>
+            </optgroup>
+          </select>
+        </div>
+        <label style="display:flex; align-items:center; gap:8px; font-weight:600; cursor:pointer;">
+          <input type="checkbox" id="is_raspashonka" onchange="onRaspashonkaChange(this.checked)"> Бытовка РАСПАШОНКА (вход по центру, окна слева и справа)
+        </label>
+      </div>
+    </div>
+
+    <!-- 2. Планировка -->
+    <div class="section-wrap" id="sec_plan">
+      <div class="section-header" onclick="toggleSection('sec_plan')">
+        <span>2. Планировка</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="plan-grid" id="plan_grid"></div>
+        <button class="btn btn-dark btn-full" style="font-size:11px; padding:6px;" onclick="toggleMorePlans()" id="toggle_plan_btn">Показать остальные варианты</button>
+      </div>
+    </div>
+
+    <!-- 3. Варианты отделки снаружи -->
+    <div class="section-wrap" id="sec_outer">
+      <div class="section-header" onclick="toggleSection('sec_outer')">
+        <span>3. Варианты отделки снаружи</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div id="outer_finish_options"></div>
+      </div>
+    </div>
+
+    <!-- 4. Варианты отделки внутри -->
+    <div class="section-wrap" id="sec_inner">
+      <div class="section-header" onclick="toggleSection('sec_inner')">
+        <span>4. Варианты отделки внутри</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div id="inner_finish_options"></div>
+        <div style="margin-top:12px; margin-bottom:6px; font-weight:700; color:#334155;">Утепление (пол, стены, потолок):</div>
+        <div id="insulation_options"></div>
+      </div>
+    </div>
+
+    <!-- 5. Каркас -->
+    <div class="section-wrap" id="sec_frame">
+      <div class="section-header" onclick="toggleSection('sec_frame')">
+        <span>5. Каркас конструкции</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div id="frame_options"></div>
+      </div>
+    </div>
+
+    <!-- 6. Дополнительные опции по категориям -->
+    <div class="section-wrap" id="sec_extras">
+      <div class="section-header" onclick="toggleSection('sec_extras')">
+        <span>6. Дополнительные опции и услуги</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div id="extra_services"></div>
+      </div>
+    </div>
+
+    <!-- 7. Производство и Доставка -->
+    <div class="section-wrap" id="sec_delivery">
+      <div class="section-header" onclick="toggleSection('sec_delivery')">
+        <span>7. Доставка</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <label style="display:flex; align-items:center; gap:8px; font-weight:600; cursor:pointer; margin-bottom:8px;">
+          <input type="checkbox" id="delivery_included" checked onchange="updateKP()"> Включить доставку в расчет
+        </label>
+        <div class="delivery-box">
+          <div class="delivery-calc-row">
+            <span>Производство:</span>
+            <select id="delivery_region" onchange="onDeliveryParamsChanged()">
+              <option value="ramenskoe">Раменское (мин. 16 000 до 70 км, далее 120 р/км)</option>
+              <option value="ovrazhki">Овражки (мин. 14 500 до 50 км, далее 130 р/км)</option>
+              <option value="kraskovo">Красково (мин. 14 500 до 50 км, далее 130 р/км)</option>
+            </select>
+          </div>
+          <div class="delivery-calc-row">
+            <span>Расстояние от производства, км:</span>
+            <input type="number" id="delivery_km" value="0" min="0" oninput="onDeliveryParamsChanged()">
+          </div>
+          <div class="delivery-calc-row" style="margin-bottom:0; font-size:15px; margin-top:8px;">
+            <span>ДОСТАВКА ИТОГО:</span>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <input type="number" id="delivery_price" value="16000" oninput="onCustomDeliveryPrice()">
+              <span>руб.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Примечание для КП -->
+    <div class="section-wrap" id="sec_note">
+      <div class="section-header" onclick="toggleSection('sec_note')">
+        <span>8. Примечание для КП</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="section-body">
+        <div class="input-box">
+          <textarea id="kp_note" rows="2" placeholder="Эта информация будет видна заказчику..." oninput="updateKP()"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Итог -->
+    <div class="total-box-left">
+      <span>ИТОГО: <span id="left_total">0</span> РУБ.</span>
+    </div>
+
+    <!-- Налоги -->
+    <div class="tax-options">
+      <label><input type="checkbox" id="tax_13" onchange="toggleTax('13')"> Без НДС 13%: <span id="tax_13_val">0</span> р.</label>
+      <label><input type="checkbox" id="tax_22" onchange="toggleTax('22')"> С НДС 22%: <span id="tax_22_val">0</span> р.</label>
+    </div>
+
+    <button class="btn btn-dark btn-full" style="margin-top: 14px;" onclick="toggleHidePrices()">СКРЫТЬ ЦЕНЫ</button>
+    <button class="btn btn-red btn-full" onclick="resetCalculator(true)">ОБНУЛИТЬ РАСЧЕТ</button>
+    <button class="btn btn-green btn-full" onclick="window.print()">СКАЧАТЬ / ПЕЧАТЬ КП</button>
+  </div>
+
+  <!-- ПРАВАЯ ПАНЕЛЬ: БЛАНК КП -->
+  <div class="preview-panel" id="kp_preview_area">
+    <div class="kp-header">
+      <div class="kp-logo-area">
+        <img src="logo.jpg" alt="Логотип" class="kp-logo-img" onerror="this.style.display='none'; document.getElementById('logo_fallback').style.display='flex';">
+        <div id="logo_fallback" class="kp-logo-fallback" style="display:none;">⌂</div>
+        <div>
+          <div style="font-size:11px; text-transform:uppercase; color:#64748b; letter-spacing:1px; font-weight:700;">КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ</div>
+          <div class="kp-logo-text">АтомДомСтрой</div>
+        </div>
+      </div>
+      <div class="kp-contacts">
+        <div><strong>Тел:</strong> 7 (995) 904-81-01</div>
+        <div><strong>WhatsApp:</strong> 7 (995) 122-13-56</div>
+        <div><strong>E-mail:</strong> AtomDomStroy@yandex.ru</div>
+        <div><strong>Telegram:</strong> @AtomDomStroy</div>
+      </div>
+    </div>
+
+    <div class="kp-info-box">
+      <div><strong>Заказчик:</strong> <span id="kp_out_client">—</span></div>
+      <div><strong>Телефон:</strong> <span id="kp_out_phone">—</span></div>
+      <div><strong>Заказ:</strong> <span id="kp_out_order">—</span></div>
+      <div><strong>Адрес объекта:</strong> <span id="kp_out_addr">—</span></div>
+      <div><strong>Размер конструкции:</strong> <span id="kp_out_size">3 х 2.3 м</span> <strong style="margin-left:8px; color:#1e3a8a;">(размер внутри: <span id="kp_out_inner_dim">2,7 х 2,1 м</span>)</strong></div>
+      <div style="display:flex; justify-content:space-between; margin-top:4px;">
+        <span><strong>Номер КП:</strong> <span id="kp_out_num">КП-2160</span></span>
+        <span><strong>Дата:</strong> <span id="kp_out_date"></span></span>
+      </div>
+    </div>
+
+    <!-- Таблица КП -->
+    <table class="kp-table">
+      <thead>
+        <tr>
+          <th>Наименование позиции</th>
+          <th style="width:70px; text-align:center;">Кол-во</th>
+          <th class="hideable-price" style="width:115px; text-align:right;">Цена</th>
+        </tr>
+      </thead>
+      <tbody id="kp_table_body"></tbody>
+    </table>
+
+    <!-- Схема планировки -->
+    <div class="kp-plan-preview">
+      <h5>СХЕМА ПЛАНИРОВКИ: <span id="kp_plan_title">Без планировки</span></h5>
+      <div id="kp_plan_svg_render"></div>
+    </div>
+
+    <!-- Примечание -->
+    <div id="kp_note_block" style="display:none; margin-bottom:14px; font-size:12.5px; background:#fffbeb; border:1px solid #fef3c7; padding:10px 14px; border-radius:4px;">
+      <strong>Примечание:</strong> <span id="kp_note_text"></span>
+    </div>
+
+    <!-- Итого к оплате -->
+    <div class="kp-total-banner">
+      <span>ИТОГО К ОПЛАТЕ:</span>
+      <span id="kp_total_sum">0 руб.</span>
+    </div>
+
+    <!-- Кнопки заявок -->
+    <div class="kp-actions">
+      <button class="btn btn-green" onclick="openOrderModal('prod')">ЗАЯВКА ДЛЯ ПРОИЗВОДСТВА</button>
+      <button class="btn btn-orange" onclick="openOrderModal('client')">ЗАЯВКА ДЛЯ КЛИЕНТА</button>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО -->
+<div class="modal-overlay" id="order_modal">
+  <div class="modal-window">
+    <div class="modal-head-grid">
+      <div>
+        <span>Дата:</span>
+        <input type="text" id="m_head_date" value="" oninput="rebuildModalText()">
+      </div>
+      <div>
+        <span>Аванс:</span>
+        <input type="number" id="m_head_deposit" value="5000" oninput="rebuildModalText()">
+      </div>
+      <div>
+        <span>Заказчик:</span>
+        <input type="text" id="m_head_name" placeholder="ФИО Заказчика" oninput="rebuildModalText()">
+      </div>
+      <div>
+        <span>Телефон:</span>
+        <input type="text" id="m_head_phone" placeholder="Контактный номер" oninput="rebuildModalText()">
+      </div>
+      <div>
+        <span>Адрес:</span>
+        <input type="text" id="m_head_addr" placeholder="Адрес объекта" oninput="rebuildModalText()">
+      </div>
+    </div>
+    <div class="modal-body">
+      <textarea id="modal_text"></textarea>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-dark" onclick="closeOrderModal()">ОТМЕНА</button>
+      <button class="btn btn-green" id="modal_action_btn" onclick="copyOrderText()">СКОПИРОВАТЬ В БУФЕР</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* РАСЦЕНКИ РЕГИОНОВ ДОСТАВКИ */
+const DELIVERY_RATES = {
+  ramenskoe: { minPrice: 16000, baseKm: 70, extraKmPrice: 120, name: 'Раменское' },
+  ovrazhki:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'Овражки' },
+  kraskovo:  { minPrice: 14500, baseKm: 50, extraKmPrice: 130, name: 'Красково' }
+};
+
+/* СЛОВАРИ ДЛЯ ОТДЕЛКИ (ОТОБРАЖЕНИЕ) */
+const OUTER_NAMES = {
+  prof: { name: 'Профлист снаружи', isProf: true },
+  vagC: { name: 'Вагонка С снаружи', isWood: true },
+  vagB: { name: 'Вагонка В снаружи', isWood: true },
+  imit: { name: 'Имитация бруса класс С снаружи', isWood: true }
+};
+
+const INNER_OPTIONS_TEMPLATES = [
+  { id: 'in_org', name: 'Оргалит (ДВП)', priceProp: 'org_in' },
+  { id: 'in_osb', name: 'ОСБ внутри стены и потолок', priceProp: 'osb_in' },
+  { id: 'in_vagC', name: 'Вагонка С внутри', priceProp: 'vagC_in' },
+  { id: 'in_vagB', name: 'Вагонка В внутри', priceProp: 'vagB_in' },
+  { id: 'in_imit', name: 'Имитация бруса класс С внутри', priceProp: 'imit_in' },
+  { id: 'in_mdf', name: 'МДВ или ПВХ панели внутри', priceProp: 'mdf_in' },
+  { id: 'in_none', name: 'Без отделки и утепления', priceProp: 'none_in' }
+];
+
+/* БАЗА ТОВАРОВ И ЦЕН (БАЗА = СНАРУЖИ, ВНУТРИ = ДОП) */
+const PRODUCTS_DATA = {
+  wood_2: {
+    name: 'Бытовка 2 х 2.3 м (по крыше)', innerDim: '1,7 х 2,1 м', type: 'wood', blocksGift: 4, frameUpgradePrice: 9000,
+    outerPrices: { prof: 68000, vagC: 63000, vagB: 72000, imit: 69000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 7000, vagC_in: 9000, vagB_in: 28000, imit_in: 15000, mdf_in: 16500 },
+    insulationPrices: { ins50: 0, rock50: 10000 }
+  },
+  wood_3: {
+    name: 'Бытовка 3 х 2.3 м (по крыше)', innerDim: '2,7 х 2,1 м', type: 'wood', blocksGift: 4, frameUpgradePrice: 10000,
+    outerPrices: { prof: 81000, vagC: 76000, vagB: 87000, imit: 82000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 10000, vagC_in: 12000, vagB_in: 33000, imit_in: 20000, mdf_in: 22000 },
+    insulationPrices: { ins50: 0, rock50: 15000 }
+  },
+  wood_4: {
+    name: 'Бытовка 4 х 2.3 м (по крыше)', innerDim: '3,7 х 2,1 м', type: 'wood', blocksGift: 4, frameUpgradePrice: 11000,
+    outerPrices: { prof: 88000, vagC: 83000, vagB: 96000, imit: 89000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 13000, vagC_in: 15000, vagB_in: 38000, imit_in: 24000, mdf_in: 26000 },
+    insulationPrices: { ins50: 0, rock50: 18000 }
+  },
+  wood_5: {
+    name: 'Бытовка 5 х 2.3 м (по крыше)', innerDim: '4,7 х 2,1 м', type: 'wood', blocksGift: 6, frameUpgradePrice: 11000,
+    outerPrices: { prof: 96000, vagC: 91000, vagB: 106000, imit: 98000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 16000, vagC_in: 21000, vagB_in: 46000, imit_in: 28000, mdf_in: 34000 },
+    insulationPrices: { ins50: 0, rock50: 22000 }
+  },
+  wood_6: {
+    name: 'Бытовка 6 х 2.3 м (по крыше)', innerDim: '5,7 х 2,1 м', type: 'wood', blocksGift: 6, frameUpgradePrice: 12000,
+    outerPrices: { prof: 98000, vagC: 93000, vagB: 111000, imit: 99000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 18000, vagC_in: 22000, vagB_in: 50000, imit_in: 31000, mdf_in: 40000 },
+    insulationPrices: { ins50: 0, rock50: 24000 }
+  },
+  wood_7: {
+    name: 'Бытовка 7 х 2.3 м (по крыше)', innerDim: '6,7 х 2,1 м', type: 'wood', blocksGift: 8, frameUpgradePrice: 13000,
+    outerPrices: { prof: 122000, vagC: 117000, vagB: 132000, imit: 124000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 21000, vagC_in: 23000, vagB_in: 58000, imit_in: 33000, mdf_in: 40000 },
+    insulationPrices: { ins50: 0, rock50: 30000 }
+  },
+  bk_3: {
+    name: 'Блок-контейнер 3 х 2.4 м', innerDim: '2,8 х 2,2 м', type: 'bk', blocksGift: 4, frameUpgradePrice: 0,
+    outerPrices: { prof: 109000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 13000, vagC_in: 12000, vagB_in: 33000, imit_in: 20000, mdf_in: 22000 },
+    insulationPrices: { ins50: 0, rock50: 15000 }
+  },
+  bk_4: {
+    name: 'Блок-контейнер 4 х 2.4 м', innerDim: '3,8 х 2,2 м', type: 'bk', blocksGift: 4, frameUpgradePrice: 0,
+    outerPrices: { prof: 114000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 13000, vagC_in: 15000, vagB_in: 38000, imit_in: 24000, mdf_in: 26000 },
+    insulationPrices: { ins50: 0, rock50: 18000 }
+  },
+  bk_5: {
+    name: 'Блок-контейнер 5 х 2.4 м', innerDim: '4,8 х 2,2 м', type: 'bk', blocksGift: 6, frameUpgradePrice: 0,
+    outerPrices: { prof: 119000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 17000, vagC_in: 21000, vagB_in: 46000, imit_in: 28000, mdf_in: 34000 },
+    insulationPrices: { ins50: 0, rock50: 22000 }
+  },
+  bk_6: {
+    name: 'Блок-контейнер 5.85 х 2.4 х 2.4 м', innerDim: '5,65 х 2,2 м', type: 'bk', blocksGift: 6, frameUpgradePrice: 0,
+    outerPrices: { prof: 124000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 18000, vagC_in: 22000, vagB_in: 50000, imit_in: 31000, mdf_in: 40000 },
+    insulationPrices: { ins50: 0, rock50: 24000 }
+  },
+  bk_7: {
+    name: 'Блок-контейнер 7 х 2.4 м', innerDim: '6,8 х 2,2 м', type: 'bk', blocksGift: 8, frameUpgradePrice: 0,
+    outerPrices: { prof: 151000 },
+    innerPricesMap: { org_in: 0, none_in: -4000, osb_in: 23000, vagC_in: 23000, vagB_in: 58000, imit_in: 33000, mdf_in: 40000 },
+    insulationPrices: { ins50: 0, rock50: 30000 }
+  }
+};
+
+/* ЦВЕТА */
+const PROF_COLORS = ['Оцинкованный', 'Графит', 'Светло-серый', 'Коричневый', 'Зеленый', 'Бежевый', 'Синий', 'Свой вариант'];
+const THREE_COLORS = ['Желтый', 'Коричневый', 'Бесцветный'];
+/* ВСЕ 17 ПЛАНИРОВОК */
+const PLANS = [
+  { id: 'plan_0', name: 'Без планировки', num: 'HET', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#94a3b8" stroke-width="2"/><text x="100" y="45" text-anchor="middle" font-size="10" fill="#94a3b8">HET</text><text x="100" y="62" text-anchor="middle" font-size="11" font-weight="600" fill="#64748b">Без планировки</text>' },
+  { id: 'plan_1', name: 'Планировка №1', num: '1', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="140" y1="15" x2="140" y2="85" stroke="#334155" stroke-width="2"/><path d="M140 60 Q155 60 155 75" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="140" y1="60" x2="140" y2="75" stroke="#fff" stroke-width="2"/><line x1="35" y1="85" x2="65" y2="85" stroke="#16a34a" stroke-width="4"/><line x1="145" y1="85" x2="165" y2="85" stroke="#fff" stroke-width="3"/><path d="M145 85 Q145 100 160 100" fill="none" stroke="#2563eb" stroke-width="1.5"/><text x="170" y="45" font-size="16" font-weight="700" fill="#0f172a">1</text>' },
+  { id: 'plan_2', name: 'Планировка №2', num: '2', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="60" y1="15" x2="60" y2="85" stroke="#334155" stroke-width="2"/><line x1="20" y1="85" x2="45" y2="85" stroke="#fff" stroke-width="3"/><path d="M20 85 Q20 100 35 100" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="100" y1="15" x2="140" y2="15" stroke="#16a34a" stroke-width="4"/><text x="150" y="45" font-size="16" font-weight="700" fill="#0f172a">2</text>' },
+  { id: 'plan_3', name: 'Планировка №3', num: '3', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="15" y1="50" x2="15" y2="70" stroke="#fff" stroke-width="3"/><path d="M15 50 Q0 50 0 65" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="100" y1="15" x2="135" y2="15" stroke="#16a34a" stroke-width="4"/><text x="150" y="45" font-size="16" font-weight="700" fill="#0f172a">3</text>' },
+  { id: 'plan_4', name: 'Планировка №4', num: '4', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="15" y1="50" x2="15" y2="70" stroke="#fff" stroke-width="3"/><path d="M15 50 Q0 50 0 65" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="60" y1="85" x2="100" y2="85" stroke="#16a34a" stroke-width="4"/><text x="150" y="45" font-size="16" font-weight="700" fill="#0f172a">4</text>' },
+  { id: 'plan_5', name: 'Планировка №5', num: '5', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="15" y1="50" x2="15" y2="70" stroke="#fff" stroke-width="3"/><path d="M15 50 Q0 50 0 65" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="85" y1="15" x2="115" y2="15" stroke="#16a34a" stroke-width="4"/><text x="150" y="45" font-size="16" font-weight="700" fill="#0f172a">5</text>' },
+  { id: 'plan_6', name: 'Планировка №6', num: '6', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="25" y1="15" x2="25" y2="85" stroke="#334155" stroke-width="2"/><line x1="15" y1="50" x2="15" y2="70" stroke="#fff" stroke-width="3"/><path d="M15 50 Q0 50 0 65" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="80" y1="85" x2="110" y2="85" stroke="#16a34a" stroke-width="4"/><text x="150" y="45" font-size="16" font-weight="700" fill="#0f172a">6</text>' },
+  { id: 'plan_7', name: 'Планировка №7', num: '7', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="15" y1="35" x2="15" y2="55" stroke="#fff" stroke-width="3"/><path d="M15 35 Q0 35 0 50" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="60" y1="85" x2="90" y2="85" stroke="#16a34a" stroke-width="4"/><text x="150" y="45" font-size="16" font-weight="700" fill="#0f172a">7</text>' },
+  { id: 'plan_8', name: 'Планировка №8', num: '8', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="75" y1="85" x2="105" y2="85" stroke="#fff" stroke-width="3"/><path d="M75 85 Q75 100 90 100" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="130" y1="15" x2="160" y2="15" stroke="#16a34a" stroke-width="4"/><text x="140" y="55" font-size="16" font-weight="700" fill="#0f172a">8</text>' },
+  { id: 'plan_9', name: 'Планировка №9', num: '9', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="90" y1="85" x2="115" y2="85" stroke="#fff" stroke-width="3"/><path d="M90 85 Q90 100 105 100" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="25" y1="15" x2="55" y2="15" stroke="#16a34a" stroke-width="4"/><line x1="135" y1="15" x2="165" y2="15" stroke="#16a34a" stroke-width="4"/><text x="150" y="55" font-size="16" font-weight="700" fill="#0f172a">9</text>' },
+  { id: 'plan_10', name: 'Планировка №10', num: '10', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="100" y1="85" x2="125" y2="85" stroke="#fff" stroke-width="3"/><path d="M100 85 Q100 100 115 100" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="25" y1="15" x2="65" y2="15" stroke="#16a34a" stroke-width="4"/><text x="145" y="55" font-size="16" font-weight="700" fill="#0f172a">10</text>' },
+  { id: 'plan_11', name: 'Планировка №11', num: '11', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="15" y1="45" x2="15" y2="65" stroke="#fff" stroke-width="3"/><path d="M15 45 Q0 45 0 60" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="185" y1="35" x2="185" y2="65" stroke="#16a34a" stroke-width="4"/><text x="150" y="55" font-size="16" font-weight="700" fill="#0f172a">11</text>' },
+  { id: 'plan_12', name: 'Планировка №12', num: '12', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="60" y1="85" x2="85" y2="85" stroke="#fff" stroke-width="3"/><path d="M60 85 Q60 100 75 100" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="130" y1="15" x2="160" y2="15" stroke="#16a34a" stroke-width="4"/><text x="145" y="55" font-size="16" font-weight="700" fill="#0f172a">12</text>' },
+  { id: 'plan_13', name: 'Планировка №13', num: '13', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="65" y1="15" x2="65" y2="85" stroke="#334155" stroke-width="2"/><line x1="120" y1="15" x2="120" y2="85" stroke="#334155" stroke-width="2"/><line x1="65" y1="65" x2="65" y2="80" stroke="#fff" stroke-width="2"/><path d="M65 65 Q50 65 50 80" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="120" y1="65" x2="120" y2="80" stroke="#fff" stroke-width="2"/><path d="M120 65 Q135 65 135 80" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="90" y1="85" x2="105" y2="85" stroke="#fff" stroke-width="3"/><path d="M90 85 Q90 100 100 100" fill="none" stroke="#2563eb" stroke-width="1.5"/><text x="145" y="45" font-size="16" font-weight="700" fill="#0f172a">13</text>' },
+  { id: 'plan_14', name: 'Планировка №14', num: '14', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="75" y1="15" x2="75" y2="85" stroke="#334155" stroke-width="2"/><line x1="75" y1="60" x2="75" y2="78" stroke="#fff" stroke-width="2"/><path d="M75 60 Q60 60 60 75" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="90" y1="85" x2="110" y2="85" stroke="#fff" stroke-width="3"/><path d="M90 85 Q90 100 105 100" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="30" y1="85" x2="55" y2="85" stroke="#16a34a" stroke-width="3"/><line x1="125" y1="85" x2="155" y2="85" stroke="#16a34a" stroke-width="3"/><text x="150" y="45" font-size="16" font-weight="700" fill="#0f172a">14</text>' },
+  { id: 'plan_15', name: 'Планировка №15', num: '15', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="125" y1="15" x2="125" y2="85" stroke="#334155" stroke-width="2"/><line x1="125" y1="60" x2="125" y2="78" stroke="#fff" stroke-width="2"/><path d="M125 60 Q140 60 140 75" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="90" y1="85" x2="110" y2="85" stroke="#fff" stroke-width="3"/><path d="M90 85 Q90 100 105 100" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="45" y1="85" x2="75" y2="85" stroke="#16a34a" stroke-width="3"/><line x1="145" y1="85" x2="170" y2="85" stroke="#16a34a" stroke-width="3"/><text x="145" y="45" font-size="16" font-weight="700" fill="#0f172a">15</text>' },
+  { id: 'plan_16', name: 'Планировка №16', num: '16', svg: '<rect x="15" y="15" width="170" height="70" fill="#fff" stroke="#334155" stroke-width="2"/><line x1="45" y1="15" x2="45" y2="85" stroke="#334155" stroke-width="2"/><line x1="45" y1="60" x2="45" y2="78" stroke="#fff" stroke-width="2"/><path d="M45 60 Q60 60 60 75" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="15" y1="60" x2="15" y2="80" stroke="#fff" stroke-width="3"/><path d="M15 60 Q0 60 0 75" fill="none" stroke="#2563eb" stroke-width="1.5"/><line x1="110" y1="85" x2="145" y2="85" stroke="#16a34a" stroke-width="3"/><text x="145" y="45" font-size="16" font-weight="700" fill="#0f172a">16</text>' }
+];
+
+/* ВСЕ ДОПОЛНИТЕЛЬНЫЕ ОПЦИИ ИЗ ФАЙЛА, РАЗБИТЫЕ ПО КАТЕГОРИЯМ */
+const EXTRA_CATEGORIES = [
+  {
+    catId: 'windows',
+    catName: 'Окна и ставни',
+    items: [
+      { id: 'win_none', name: 'Без окон', price: 0 },
+      { id: 'win_wood_extra', name: 'Окно деревянное дополнительное', price: 4000 },
+      { id: 'win_wood_50', name: 'Окно деревянное 50х50', price: 3000 },
+      { id: 'win_pvc_50', name: 'Окно ПВХ 50х50 поворотное', price: 6000 },
+      { id: 'win_pvc_90', name: 'Окно ПВХ 90х60 поворотно-откидное', price: 10000 },
+      { id: 'win_pvc_100', name: 'Окно ПВХ 100х100 поворотно-откидное', price: 12000 },
+      { id: 'win_opening', name: 'Проем под окно', price: 3000 },
+      { id: 'win_shutters', name: 'Ставни на окна', price: 4500 }
+    ]
+  },
+  {
+    catId: 'doors',
+    catName: 'Двери и вход',
+    items: [
+      { id: 'door_metal_ru', name: 'Дверь металлическая заводская Россия', price: 16000, autoHeight: true },
+      { id: 'door_wood_extra', name: 'Дверь деревянная дополнительная', price: 3000 },
+      { id: 'door_mdf', name: 'Дверь деревянная МДФ, филенчатая', price: 12000 },
+      { id: 'height_increase', name: 'Увеличение высоты до 217 мм внутри (для метал. двери)', price: 11000 },
+      { id: 'gates_2door', name: 'Ворота в бытовке из 2 дверей', price: 5000 },
+      { id: 'door_opening', name: 'Проем под дверь', price: 3000 }
+    ]
+  },
+  {
+    catId: 'partitions',
+    catName: 'Перегородки (все с дверью 70 см)',
+    items: [
+      { id: 'wall_door_org', name: 'Перегородка (оргалит) в комплекте с дверью 70 см', price: 7000 },
+      { id: 'wall_door_osb', name: 'Перегородка (ОСБ) в комплекте с дверью 70 см', price: 8000 },
+      { id: 'wall_door_vagC', name: 'Перегородка (Вагонка С) в комплекте с дверью 70 см', price: 9000 },
+      { id: 'wall_door_vagB', name: 'Перегородка Вагонка В в комплекте с дверью 70 см', price: 12000 },
+      { id: 'wall_door_imit', name: 'Перегородка Имитация С с дверью 70 см', price: 11000 },
+      { id: 'wall_door_mdf', name: 'Перегородка МДФ с дверью МДФ 70 см', price: 26000 }
+    ]
+  },
+  {
+    catId: 'floors_protection',
+    catName: 'Полы, потолки и защита',
+    items: [
+      { id: 'solid_subfloor', name: 'Сплошной черновой пол', price: 7000 },
+      { id: 'osb_floor_12', name: 'ОСБ 12мм на пол', price: 6000 },
+      { id: 'osb_ceil_9', name: 'ОСБ 9мм на потолок', price: 6000 },
+      { id: 'linoleum', name: 'Полукоммерческий линолеум', price: 7000 },
+      { id: 'rodent_net', name: 'Сетка от грызунов', price: 10000 },
+      { id: 'metal_bottom', name: 'Закрыть дно металлическим листом', price: 6000 }
+    ]
+  },
+  {
+    catId: 'painting',
+    catName: 'Обработка и покраска',
+    items: [
+      { id: 'paint_antiseptic_bot', name: 'Покраска антисептиком дна бытовки', price: 4000 },
+      { id: 'paint_antiseptic_floor', name: 'Покраска антисептиком пола в бытовке', price: 4000 },
+      { id: 'paint_oil_all', name: 'Покраска масляной краской (1 слой) ВСЯ', price: 7000 },
+      { id: 'paint_oil_corners', name: 'Покраска масляной краской (1 слой) КОСЫНКИ', price: 2000 }
+    ]
+  },
+  {
+    catId: 'electric',
+    catName: 'Электрика и генераторы',
+    items: [
+      { id: 'electric_basic', name: 'Электрика (патрон, выключатель, розетка, автомат, коробка-распределитель)', price: 5000 },
+      { id: 'generator_site', name: 'Генератор на участок', price: 5000 }
+    ]
+  },
+  {
+    catId: 'roof_modules',
+    catName: 'Кровля, модули и террасы',
+    items: [
+      { id: 'roof_colored', name: 'Крыша цветная (не оцинкованная)', price: 4000 },
+      { id: 'roof_slope_length', name: 'Крыша скат по длине', price: 12000 },
+      { id: 'veranda_pm', name: 'Веранда за 1 погонный метр', price: 14000 },
+      { id: 'veranda_pm_podshiv', name: 'Веранда за 1 пог. метр с подшивом', price: 17000 },
+      { id: 'veranda_imit_pm', name: 'Веранда Имитация за 1 погонный метр', price: 16000 },
+      { id: 'veranda_imit_podshiv', name: 'Веранда Имитация за 1 пог. метр с подшивом', price: 19000 },
+      { id: 'join_modules_wood', name: 'Соединение модулей', price: 24000 },
+      { id: 'join_modules_bk', name: 'Соединение модулей БК', price: 30000 },
+      { id: 'assembly_site', name: 'Сборка на участке', price: 25000 }
+    ]
+  },
+  {
+    catId: 'furniture_sanitary',
+    catName: 'Мебель, ступени, блоки и сантехника',
+    items: [
+      { id: 'bed_1tier', name: 'Кровать 1 ярус (2х0.8 м)', price: 3000 },
+      { id: 'bed_2tier', name: 'Кровать 2 яруса (2х0.8 м)', price: 4000 },
+      { id: 'extra_steps', name: 'Дополнительные ступени', price: 2000 },
+      { id: 'extra_block_item', name: 'Дополнительные блоки (за 1 шт.)', price: 300 },
+      { id: 'ruberoide_block', name: 'Рубероид на бетонный блок (за 1 шт.)', price: 200 },
+      { id: 'wc_standard', name: 'Туалет 1х1х2 м', price: 14000 },
+      { id: 'wc_shower', name: 'Туалет-душ 1х2х2 м', price: 26000 },
+      { id: 'wc_prof', name: 'Туалет в профлисте 1х1х2 м', price: 19000 },
+      { id: 'wc_house_painted', name: 'Туалет домиком крашеный', price: 23000 },
+      { id: 'wc_shower_painted', name: 'Туалет-душ крашеный', price: 28000 }
+    ]
+  }
+];
+
+/* ПЛОСКИЙ СПИСОК ВСЕХ ДОПОВ */
+const ALL_EXTRAS = [];
+EXTRA_CATEGORIES.forEach(cat => cat.items.forEach(it => ALL_EXTRAS.push(it)));
+
+/* СОСТОЯНИЕ */
+let state = {
+  selectedSize: 'wood_3',
+  isRaspashonka: false,
+  selectedPlan: 'plan_0',
+  showAllPlans: false,
+  frameType: 'frame_50',
+  innerChoice: 'in_org', // Оргалит по умолчанию
+  outerChoice: 'prof',
+  insulation: 'ins50',
+  profColor: 'Оцинкованный',
+  cornersColor: 'Коричневый',
+  antisepticColor: 'Коричневый',
+  customPrices: {},
+  extrasChecked: {},
+  extrasQty: {},
+  deliveryIncluded: true,
+  deliveryRegion: 'ramenskoe',
+  deliveryKm: 0,
+  deliveryPrice: 16000,
+  taxMode: null,
+  currentModalType: 'prod'
+};
+
+/* Функция для получения сегодняшней даты (для КП и Заявок) */
+function getTodayString() {
+  const d = new Date();
+  const months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  return `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()} г.`;
+}
+
+function init() {
+  renderPlans();
+  renderDynamicOptions();
+  onDeliveryParamsChanged();
+  updateKP();
+}
+
+function getExtraPrice(id, defaultPrice) {
+  if (id === 'osb_floor_12' || id === 'osb_ceil_9') {
+    if (state.selectedSize.includes('_7')) return 7000;
+    if (state.selectedSize.includes('_6')) return 6000;
+    if (state.selectedSize.includes('_5')) return 6000;
+    if (state.selectedSize.includes('_4')) return 5000;
+    if (state.selectedSize === 'wood_3') return 4000;
+    if (state.selectedSize === 'bk_3') return 3000;
+    if (state.selectedSize === 'wood_2') return 3000;
+    return defaultPrice;
+  }
+  if (id === 'metal_bottom') {
+    if (state.selectedSize.includes('_7')) return 10000;
+    if (state.selectedSize.includes('_6')) return 9000;
+    if (state.selectedSize.includes('_5')) return 8000;
+    if (state.selectedSize.includes('_4')) return 7000;
+    if (state.selectedSize.includes('_3')) return 6000;
+    return 6000;
+  }
+  if (id === 'linoleum') {
+    if (state.selectedSize.includes('_7')) return 14000;
+    if (state.selectedSize.includes('_6')) return 12000;
+    if (state.selectedSize.includes('_5')) return 10000;
+    if (state.selectedSize.includes('_4')) return 8000;
+    if (state.selectedSize.includes('_3')) return 7000;
+    return 7000;
+  }
+  if (id === 'assembly_site' && PRODUCTS_DATA[state.selectedSize].type === 'bk') {
+    return -1; // специальный маркер для сборки БК
+  }
+  return defaultPrice;
+}
+
+function toggleSection(secId) {
+  const el = document.getElementById(secId);
+  if (el) el.classList.toggle('collapsed');
+}
+
+function onSizeChanged() {
+  state.selectedSize = document.getElementById('size_select').value;
+  state.customPrices = {};
+  state.frameType = 'frame_50';
+  state.outerChoice = 'prof';
+  state.innerChoice = 'in_org'; // Оргалит по умолчанию при смене размера
+  
+  const isBk = PRODUCTS_DATA[state.selectedSize].type === 'bk';
+  if (isBk) {
+    delete state.extrasChecked['height_increase'];
+    delete state.extrasQty['height_increase'];
+  }
+  renderDynamicOptions();
+  updateKP();
+}
+
+function onRaspashonkaChange(checked) {
+  state.isRaspashonka = checked;
+  // Если выбрали распашонку - добавляем окно
+  if (checked) {
+    state.extrasChecked['win_wood_extra'] = true;
+    state.extrasQty['win_wood_extra'] = Math.max(state.extrasQty['win_wood_extra'] || 1, 1);
+  } else {
+    // Если сняли распашонку - убираем дополнительное окно
+    if (state.extrasChecked['win_wood_extra'] && state.extrasQty['win_wood_extra'] === 1) {
+      delete state.extrasChecked['win_wood_extra'];
+    }
+  }
+  renderDynamicOptions();
+  updateKP();
+}
+
+function renderPlans() {
+  const grid = document.getElementById('plan_grid');
+  grid.innerHTML = '';
+  const plansToShow = state.showAllPlans ? PLANS : PLANS.slice(0, 4);
+  plansToShow.forEach(p => {
+    const card = document.createElement('div');
+    card.className = `plan-card ${state.selectedPlan === p.id ? 'active' : ''}`;
+    card.onclick = () => { state.selectedPlan = p.id; renderPlans(); updateKP(); };
+    card.innerHTML = `<svg viewBox="0 0 200 100">${p.svg}</svg><span>${p.name}</span>`;
+    grid.appendChild(card);
+  });
+  document.getElementById('toggle_plan_btn').textContent = state.showAllPlans ? 'Скрыть варианты' : 'Показать остальные варианты';
+}
+
+function toggleMorePlans() {
+  state.showAllPlans = !state.showAllPlans;
+  renderPlans();
+}
+
+/* ОПЦИИ ДИНАМИЧЕСКИЕ */
+function renderDynamicOptions() {
+  const prod = PRODUCTS_DATA[state.selectedSize];
+  const isBk = prod.type === 'bk';
+  const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
+
+  // 3. Внешняя отделка (БАЗОВАЯ ЦЕНА)
+  const outerBox = document.getElementById('outer_finish_options');
+  outerBox.innerHTML = '';
+  Object.keys(prod.outerPrices).forEach(optKey => {
+    const optData = OUTER_NAMES[optKey];
+    const defaultPrice = prod.outerPrices[optKey];
+    const priceVal = getP('out_' + optKey, defaultPrice);
+    const isChecked = state.outerChoice === optKey;
+
+    outerBox.innerHTML += `
+      <div class="option-row">
+        <div class="option-left">
+          <input type="radio" name="outer_radio" id="out_${optKey}" ${isChecked ? 'checked' : ''} onchange="setOuterChoice('${optKey}')">
+          <label for="out_${optKey}">${optData.name}</label>
+        </div>
+        <div class="option-right">
+          <input type="text" class="qty-input" value="1" readonly>
+          <input type="number" class="price-custom-input hideable-price" value="${priceVal}" oninput="setCustomPrice('out_${optKey}', this.value)">
+          <button class="reset-sub-btn" onclick="resetCustomPrice('out_${optKey}', ${defaultPrice})">сброс</button>
+        </div>
+      </div>
+    `;
+
+    // Цвет профлиста
+    if (isChecked && optData.isProf) {
+      let opts = PROF_COLORS.map(c => `<option value="${c}" ${state.profColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      outerBox.innerHTML += `
+        <div class="color-select-box">
+          <span>Цвет профлиста:</span>
+          <select onchange="state.profColor=this.value; updateKP();">${opts}</select>
+        </div>
+      `;
+    }
+
+    // Цвет уголков/косынок
+    if (isChecked && optData.isProf) {
+      let optsK = THREE_COLORS.map(c => `<option value="${c}" ${state.cornersColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      let kText = isBk ? 'Цвет уголков:' : 'Цвет косынок:';
+      outerBox.innerHTML += `
+        <div class="color-select-box">
+          <span>${kText}</span>
+          <select onchange="state.cornersColor=this.value; updateKP();">${optsK}</select>
+        </div>
+      `;
+    }
+
+    // Цвет антисептика
+    if (isChecked && optData.isWood) {
+      let optsA = THREE_COLORS.map(c => `<option value="${c}" ${state.antisepticColor === c ? 'selected' : ''}>${c}</option>`).join('');
+      outerBox.innerHTML += `
+        <div class="color-select-box">
+          <span>Цвет антисептика (в подарок):</span>
+          <select onchange="state.antisepticColor=this.value; updateKP();">${optsA}</select>
+        </div>
+      `;
+    }
+  });
+
+  // 4. Внутренняя отделка
+  const innerBox = document.getElementById('inner_finish_options');
+  innerBox.innerHTML = '';
+  INNER_OPTIONS_TEMPLATES.forEach(tpl => {
+    let defaultPrice = 0;
+    if (tpl.priceProp !== 0 && prod.innerPricesMap[tpl.priceProp]) {
+      defaultPrice = prod.innerPricesMap[tpl.priceProp];
+    } else if (tpl.id === 'in_none') {
+      defaultPrice = -4000;
+    }
+    const priceVal = getP(tpl.id, defaultPrice);
+    const isChecked = state.innerChoice === tpl.id;
+
+    innerBox.innerHTML += `
+      <div class="option-row">
+        <div class="option-left">
+          <input type="radio" name="inner_radio" id="${tpl.id}" ${isChecked ? 'checked' : ''} onchange="setInnerChoice('${tpl.id}')">
+          <label for="${tpl.id}">${tpl.name}</label>
+        </div>
+        <div class="option-right">
+          <input type="text" class="qty-input" value="1" readonly>
+          <input type="number" class="price-custom-input hideable-price" value="${priceVal}" oninput="setCustomPrice('${tpl.id}', this.value)">
+          <button class="reset-sub-btn" onclick="resetCustomPrice('${tpl.id}', ${defaultPrice})">сброс</button>
+        </div>
+      </div>
+    `;
+  });
+
+  // Утепление (100 мм - 20% от наружной базы)
+  const baseOutPrice = getP('out_' + state.outerChoice, prod.outerPrices[state.outerChoice]);
+  const calcIns100Price = Math.round(baseOutPrice * 0.2);
+  const insBox = document.getElementById('insulation_options');
+  
+  insBox.innerHTML = `
+    <div class="option-row">
+      <div class="option-left">
+        <input type="radio" name="ins_choice" id="ins_50" ${state.insulation === 'ins50' ? 'checked' : ''} onchange="onInsulationChange('ins50')">
+        <label for="ins_50">Утепление 50 мм минеральной ватой (в базе)</label>
+      </div>
+      <div class="option-right">
+        <input type="text" class="qty-input" value="1" readonly>
+        <span style="font-weight:700; width:80px; text-align:right;">0 р.</span>
+      </div>
+    </div>
+    <div class="option-row">
+      <div class="option-left">
+        <input type="radio" name="ins_choice" id="ins_100" ${state.insulation === 'ins100' ? 'checked' : ''} onchange="onInsulationChange('ins100')">
+        <label for="ins_100">Утепление 100 мм минеральной ватой</label>
+      </div>
+      <div class="option-right">
+        <input type="text" class="qty-input" value="1" readonly>
+        <input type="number" class="price-custom-input hideable-price" value="${getP('ins100', calcIns100Price)}" oninput="setCustomPrice('ins100', this.value)">
+        <button class="reset-sub-btn" onclick="resetCustomPrice('ins100', ${calcIns100Price})">сброс</button>
+      </div>
+    </div>
+    <div class="option-row">
+      <div class="option-left">
+        <input type="radio" name="ins_choice" id="ins_rock" ${state.insulation === 'rock50' ? 'checked' : ''} onchange="onInsulationChange('rock50')">
+        <label for="ins_rock">Каменная вата (плитами) 50мм пол, стены, потолок <span style="color:#16a34a; font-size:11px;">[авто: каркас 100х50]</span></label>
+      </div>
+      <div class="option-right">
+        <input type="text" class="qty-input" value="1" readonly>
+        <input type="number" class="price-custom-input hideable-price" value="${getP('rock50', prod.insulationPrices.rock50)}" oninput="setCustomPrice('rock50', this.value)">
+        <button class="reset-sub-btn" onclick="resetCustomPrice('rock50', ${prod.insulationPrices.rock50})">сброс</button>
+      </div>
+    </div>
+  `;
+
+  // 5. Каркас
+  const frameBox = document.getElementById('frame_options');
+  if (isBk) {
+    frameBox.innerHTML = `
+      <div class="option-row">
+        <div class="option-left">
+          <input type="radio" checked disabled>
+          <label>Металлокаркас: швеллер 100х50х3мм, стойки 63х63х3мм</label>
+        </div>
+      </div>
+    `;
+  } else {
+    const isRockWool = state.insulation === 'rock50';
+    frameBox.innerHTML = `
+      <div class="option-row ${isRockWool ? 'disabled' : ''}">
+        <div class="option-left">
+          <input type="radio" name="frame_sel" id="fr_50" ${state.frameType === 'frame_50' ? 'checked' : ''} ${isRockWool ? 'disabled' : ''} onchange="state.frameType='frame_50'; updateKP();">
+          <label for="fr_50">Каркас 50х50 из бруса (стандарт)</label>
+        </div>
+        <div class="option-right">
+          <input type="text" class="qty-input" value="1" readonly>
+          <span style="font-weight:700; width:80px; text-align:right;">0 р.</span>
+        </div>
+      </div>
+      <div class="option-row">
+        <div class="option-left">
+          <input type="radio" name="frame_sel" id="fr_100" ${state.frameType === 'frame_100' ? 'checked' : ''} onchange="state.frameType='frame_100'; updateKP();">
+          <label for="fr_100">Замена каркаса с 50х50 на 100х50 ${isRockWool ? '<span style="color:#16a34a; font-size:11px;">[Включено для каменной ваты]</span>' : ''}</label>
+        </div>
+        <div class="option-right">
+          <input type="text" class="qty-input" value="1" readonly>
+          <input type="number" class="price-custom-input hideable-price" value="${getP('frame_100', prod.frameUpgradePrice)}" oninput="setCustomPrice('frame_100', this.value)">
+          <button class="reset-sub-btn" onclick="resetCustomPrice('frame_100', ${prod.frameUpgradePrice})">сброс</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // 6. Дополнительные опции ПО КАТЕГОРИЯМ
+  const extraBox = document.getElementById('extra_services');
+  extraBox.innerHTML = '';
+  EXTRA_CATEGORIES.forEach(cat => {
+    let catHtml = `<div class="extra-category-title">${cat.catName}</div>`;
+    cat.items.forEach(srv => {
+      const isHeightOpt = srv.id === 'height_increase';
+      const isDisabled = isBk && isHeightOpt;
+      const isChecked = !isDisabled && !!state.extrasChecked[srv.id];
+      const qty = state.extrasQty[srv.id] !== undefined ? state.extrasQty[srv.id] : 1;
+      
+      const defaultP = getExtraPrice(srv.id, srv.price);
+      const isDynamicAssembly = defaultP === -1;
+      let inputHtml = '';
+      
+      if (isDynamicAssembly) {
+        inputHtml = `<input type="text" class="price-custom-input hideable-price" value="50% от суммы" disabled style="width:100px;">`;
+      } else {
+        const priceVal = getP(srv.id, defaultP);
+        inputHtml = `<input type="number" class="price-custom-input hideable-price" value="${priceVal}" ${isDisabled ? 'disabled' : ''} oninput="setCustomPrice('${srv.id}', this.value)">`;
+      }
+
+      const labelText = isDisabled 
+        ? `${srv.name} <span style="color:#64748b; font-size:11px;">[Не требуется для БК]</span>` 
+        : srv.name;
+
+      catHtml += `
+        <div class="option-row ${isDisabled ? 'disabled' : ''}">
+          <div class="option-left">
+            <input type="checkbox" id="chk_srv_${srv.id}" ${isChecked ? 'checked' : ''} ${isDisabled ? 'disabled' : ''} onchange="toggleExtraCheck('${srv.id}', this.checked)">
+            <label for="chk_srv_${srv.id}">${labelText}</label>
+          </div>
+          <div class="option-right">
+            <input type="number" min="1" max="50" class="qty-input" value="${qty}" ${isDisabled ? 'disabled' : ''} oninput="changeExtraQty('${srv.id}', this.value)">
+            ${inputHtml}
+            <button class="reset-sub-btn" ${isDisabled || isDynamicAssembly ? 'disabled' : ''} onclick="resetExtraOption('${srv.id}', ${defaultP})">сброс</button>
+          </div>
+        </div>
+      `;
+    });
+    extraBox.innerHTML += catHtml;
+  });
+}
+
+function onInsulationChange(mode) {
+  state.insulation = mode;
+  if (mode === 'rock50') {
+    state.frameType = 'frame_100';
+  }
+  renderDynamicOptions();
+  updateKP();
+}
+
+function setInnerChoice(val) {
+  state.innerChoice = val;
+  updateKP();
+}
+
+function setOuterChoice(id) {
+  state.outerChoice = id;
+  renderDynamicOptions();
+  updateKP();
+}
+
+function setCustomPrice(id, val) {
+  state.customPrices[id] = parseInt(val) || 0;
+  updateKP();
+}
+
+function resetCustomPrice(id, defaultPrice) {
+  delete state.customPrices[id];
+  renderDynamicOptions();
+  updateKP();
+}
+
+function toggleExtraCheck(id, checked) {
+  const isBk = PRODUCTS_DATA[state.selectedSize].type === 'bk';
+  if (checked) {
+    state.extrasChecked[id] = true;
+    if (!state.extrasQty[id]) state.extrasQty[id] = 1;
+
+    const srv = ALL_EXTRAS.find(x => x.id === id);
+    if (srv && srv.autoHeight && !isBk) {
+      state.extrasChecked['height_increase'] = true;
+      if (!state.extrasQty['height_increase']) state.extrasQty['height_increase'] = 1;
+      const chk = document.getElementById('chk_srv_height_increase');
+      if (chk) chk.checked = true;
+    }
+  } else {
+    delete state.extrasChecked[id];
+  }
+  updateKP();
+}
+
+function changeExtraQty(id, val) {
+  const q = parseInt(val) || 1;
+  state.extrasQty[id] = q;
+  if (!state.extrasChecked[id]) {
+    state.extrasChecked[id] = true;
+    const chk = document.getElementById(`chk_srv_${id}`);
+    if (chk) chk.checked = true;
+  }
+  updateKP();
+}
+
+function resetExtraOption(id, defaultPrice) {
+  delete state.extrasChecked[id];
+  delete state.extrasQty[id];
+  delete state.customPrices[id];
+  renderDynamicOptions();
+  updateKP();
+}
+
+/* ДОСТАВКА */
+function onDeliveryParamsChanged() {
+  const regKey = document.getElementById('delivery_region').value;
+  state.deliveryRegion = regKey;
+  const cfg = DELIVERY_RATES[regKey];
+  const km = parseInt(document.getElementById('delivery_km').value) || 0;
+  state.deliveryKm = km;
+
+  let price = cfg.minPrice;
+  if (km > cfg.baseKm) {
+    price = cfg.minPrice + (km - cfg.baseKm) * cfg.extraKmPrice;
+  }
+  
+  price = Math.ceil(price / 1000) * 1000;
+  
+  state.deliveryPrice = price;
+  document.getElementById('delivery_price').value = price;
+  updateKP();
+}
+
+function onCustomDeliveryPrice() {
+  state.deliveryPrice = parseInt(document.getElementById('delivery_price').value) || 0;
+  updateKP();
+}
+
+function toggleTax(mode) {
+  if (mode === '13') {
+    if (document.getElementById('tax_13').checked) {
+      state.taxMode = '13';
+      document.getElementById('tax_22').checked = false;
+    } else state.taxMode = null;
+  } else if (mode === '22') {
+    if (document.getElementById('tax_22').checked) {
+      state.taxMode = '22';
+      document.getElementById('tax_13').checked = false;
+    } else state.taxMode = null;
+  }
+  updateKP();
+}
+
+/* ГЛАВНЫЙ РАСЧЕТ И ОТРИСОВКА БЛАНКА КП */
+function updateKP() {
+  const prod = PRODUCTS_DATA[state.selectedSize];
+  const isBk = prod.type === 'bk';
+  const tbody = document.getElementById('kp_table_body');
+  tbody.innerHTML = '';
+
+  // Обновляем текущую дату в бланке КП
+  document.getElementById('kp_out_date').textContent = getTodayString();
+
+  let equipmentTotal = 0;
+  const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
+
+  // 3. Базовая бытовка (тянется от СНАРУЖИ)
+  const baseKey = 'out_' + state.outerChoice;
+  const baseCost = getP(baseKey, prod.outerPrices[state.outerChoice]);
+  equipmentTotal += baseCost;
+
+  // 4. Отделка внутри
+  const innerTpl = INNER_OPTIONS_TEMPLATES.find(t => t.id === state.innerChoice);
+  let innerCost = 0;
+  if (innerTpl.priceProp !== 0) {
+    innerCost = getP(innerTpl.id, prod.innerPricesMap[innerTpl.priceProp] || 0);
+  } else if (innerTpl.id === 'in_none') {
+    innerCost = getP(innerTpl.id, -4000);
+  }
+  equipmentTotal += innerCost;
+
+  // 5. Каркас
+  let frameDesc = 'Каркас 50х50 из бруса естественной влажности';
+  let frameCost = 0;
+  if (!isBk && state.frameType === 'frame_100') {
+    frameCost = getP('frame_100', prod.frameUpgradePrice);
+    equipmentTotal += frameCost;
+    frameDesc = 'Каркас 100х50 из бруса (усиленный)';
+  } else if (isBk) {
+    frameDesc = 'Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм';
+  }
+
+  // Утепление
+  let insulCost = 0;
+  let insulDesc = '50 мм минеральной ватой';
+  
+  if (state.insulation === 'ins100') {
+    const calcIns100Price = Math.round(prod.outerPrices[state.outerChoice] * 0.2);
+    insulCost = getP('ins100', calcIns100Price);
+    insulDesc = '100 мм минеральной ватой';
+  } else if (state.insulation === 'rock50') {
+    insulCost = getP('rock50', prod.insulationPrices.rock50);
+    insulDesc = 'Каменная вата (плитами) 50 мм';
+  }
+
+  if (state.innerChoice === 'in_none') {
+    insulDesc = 'Без утепления';
+  }
+  equipmentTotal += insulCost;
+
+  // Тексты отделки
+  const optData = OUTER_NAMES[state.outerChoice];
+  let outerDesc = optData.name;
+  if (optData.isProf) {
+    outerDesc += ` (Цвет: ${state.profColor}), ${isBk ? 'цвет уголков' : 'цвет косынок'}: ${state.cornersColor}`;
+  }
+  if (optData.isWood) {
+    outerDesc += ` [Антисептик: ${state.antisepticColor}]`;
+  }
+  const innerDesc = innerTpl.name;
+
+  // Считаем допы
+  const chosenFeaturesList = [];
+  ALL_EXTRAS.forEach(srv => {
+    if (srv.id === 'height_increase' && isBk) return;
+    if (srv.id === 'assembly_site') return; 
+    if (state.extrasChecked[srv.id]) {
+      const q = state.extrasQty[srv.id] || 1;
+      chosenFeaturesList.push(`<span style="color:red; font-weight:bold;">❗</span> ${srv.name} — ${q} шт.`);
+      equipmentTotal += getP(srv.id, getExtraPrice(srv.id, srv.price)) * q;
+    }
+  });
+
+  // Расчет сборки
+  let assemblyPrice = 0;
+  if (state.extrasChecked['assembly_site']) {
+    if (isBk) {
+      assemblyPrice = Math.round(equipmentTotal * 0.5);
+    } else {
+      assemblyPrice = getP('assembly_site', getExtraPrice('assembly_site', 25000));
+    }
+    equipmentTotal += assemblyPrice;
+    chosenFeaturesList.push(`<span style="color:red; font-weight:bold;">❗</span> Сборка на участке — 1 шт.`);
+  }
+
+  let chosenFeaturesHtml = '';
+  if (chosenFeaturesList.length > 0) {
+    chosenFeaturesHtml = `
+      <div class="tech-features-box">
+        <h5>Особенности комплектации:</h5>
+        ${chosenFeaturesList.map(f => `<div>${f}</div>`).join('')}
+      </div>
+    `;
+  }
+
+  // Окна
+  let hasPVC = state.extrasChecked['win_pvc_50'] || state.extrasChecked['win_pvc_90'] || state.extrasChecked['win_pvc_100'];
+  let noWindows = state.extrasChecked['win_none'];
+  let windowText = "";
+  if (noWindows) {
+      windowText = "Без окон";
+  } else if (hasPVC) {
+      windowText = "ПВХ (согласно выбранным допам)";
+  } else {
+      windowText = "75х75 см деревянное с двойным остеклением" + (!isBk ? ", открывающееся" : "") + " (1 шт.)";
+  }
+
+  // Спецификация КП
+  let mainItemHtml = '';
+  if (!isBk) {
+    mainItemHtml = `
+      <div class="tech-sheet-title">Новая ${prod.name} ${document.getElementById('is_raspashonka').checked ? '(РАСПАШОНКА)' : ''}</div>
+      <div class="tech-sheet-body">
+        <div><strong>Внутренний размер:</strong> ${prod.innerDim}</div>
+        <div><strong>Каркас:</strong> ${frameDesc}</div>
+        <div><strong>Внешняя отделка:</strong> ${outerDesc}</div>
+        <div><strong>Внутренняя отделка:</strong> ${innerDesc}</div>
+        <div><strong>Кровля:</strong> Двускатная, оцинкованный профлист 0,3 мм (односкатная по запросу)</div>
+        <div><strong>Высота:</strong> 2 м</div>
+        <div><strong>Утепление:</strong> ${insulDesc}</div>
+        <div><strong>Окно:</strong> ${windowText}</div>
+        <div><strong>Пол:</strong> Двойной (доска + ОСБ)</div>
+        <div><strong>Дверь входная:</strong> Каркасная деревянная 1,80х80 см (1 шт.)</div>
+        <div><strong>Пароизоляция:</strong> Пароизоляция (пол, стены, потолок)</div>
+      </div>
+      ${chosenFeaturesHtml}
+      <div style="margin-top: 8px;">
+        <strong>В комплекте:</strong><br>
+        • Фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.<br>
+        • Ступени для входа
+        ${state.deliveryRegion === 'ovrazhki' ? '<br>• Электрика: розетка, выключатель, патрон и провод для соединения (без подключения)' : ''}
+      </div>
+    `;
+  } else {
+    mainItemHtml = `
+      <div class="tech-sheet-title">Новый ${prod.name}</div>
+      <div class="tech-sheet-body">
+        <div><strong>Внутренний размер:</strong> ${prod.innerDim}</div>
+        <div><strong>Каркас:</strong> ${frameDesc}</div>
+        <div><strong>Внешняя отделка:</strong> ${outerDesc}</div>
+        <div><strong>Внутренняя отделка:</strong> ${innerDesc}</div>
+        <div><strong>Кровля:</strong> Листовая сталь толщиной 0,6 мм (всегда прямая)</div>
+        <div><strong>Высота:</strong> Позволяет установку металлической двери без увеличения высоты</div>
+        <div><strong>Утепление:</strong> ${insulDesc}</div>
+        <div><strong>Окно:</strong> ${windowText}</div>
+        <div><strong>Пол:</strong> Двойной (доска + ОСБ)</div>
+        <div><strong>Дверь входная:</strong> Деревянная 1,90х80 см (1 шт.)</div>
+        <div><strong>Пароизоляция:</strong> Пароизоляция (пол, стены, потолок)</div>
+      </div>
+      ${chosenFeaturesHtml}
+      <div style="margin-top: 8px;">
+        <strong>В комплекте:</strong><br>
+        • Фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.<br>
+        • Ступени для входа
+        ${state.deliveryRegion === 'ovrazhki' ? '<br>• Электрика: розетка, выключатель, патрон и провод для соединения (без подключения)' : ''}
+      </div>
+    `;
+  }
+
+  const trBase = document.createElement('tr');
+  trBase.innerHTML = `
+    <td>${mainItemHtml}</td>
+    <td style="text-align:center; font-weight:700;">1</td>
+    <td class="hideable-price" style="text-align:right; font-weight:700; white-space:nowrap;">${equipmentTotal.toLocaleString('ru-RU')} руб.</td>
+  `;
+  tbody.appendChild(trBase);
+
+  // Доставка
+  let total = equipmentTotal;
+  const isDeliv = document.getElementById('delivery_included').checked;
+  const delivVal = state.deliveryPrice;
+  if (isDeliv) {
+    total += delivVal;
+    const trDel = document.createElement('tr');
+    trDel.innerHTML = `
+      <td style="font-weight:600;">Доставка на манипуляторе включена в стоимость</td>
+      <td style="text-align:center; font-weight:700;">1</td>
+      <td class="hideable-price" style="text-align:right; font-weight:700; white-space:nowrap;">включено</td>
+    `;
+    tbody.appendChild(trDel);
+  }
+
+  // Налоги
+  const tax13Val = Math.round(total * 1.13);
+  const tax22Val = Math.round(total * 1.22);
+  document.getElementById('tax_13_val').textContent = tax13Val.toLocaleString('ru-RU');
+  document.getElementById('tax_22_val').textContent = tax22Val.toLocaleString('ru-RU');
+
+  let finalTotal = total;
+  if (state.taxMode === '13') finalTotal = tax13Val;
+  if (state.taxMode === '22') finalTotal = tax22Val;
+
+  // Оплата
+  const depositVal = 5000;
+  const balanceToDriver = Math.max(0, finalTotal - depositVal);
+  const trSummary = document.createElement('tr');
+  trSummary.innerHTML = `
+    <td colspan="3" class="tech-payment-info">
+      <div><strong>Стоимость бытовки:</strong> ${equipmentTotal.toLocaleString('ru-RU')} руб.</div>
+      <div><strong>Итого:</strong> ${finalTotal.toLocaleString('ru-RU')} руб.</div>
+      <div style="margin-top:6px;"><strong>Предоплата:</strong> ${depositVal.toLocaleString('ru-RU')} руб.</div>
+      <div>тел. +7 (985) 128-33-85</div>
+      <div>Ольга К. Т-Банк</div>
+      <div style="color:#dc2626; font-weight:700; margin: 4px 0;">Сообщение о назначении платежа указывать не нужно!</div>
+      <div style="font-weight:700;">${balanceToDriver.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ</div>
+    </td>
+  `;
+  tbody.appendChild(trSummary);
+
+  document.getElementById('kp_out_client').textContent = document.getElementById('client_name').value || '—';
+  document.getElementById('kp_out_phone').textContent = document.getElementById('client_phone').value || '—';
+  document.getElementById('kp_out_order').textContent = document.getElementById('client_order').value || '—';
+  document.getElementById('kp_out_addr').textContent = document.getElementById('client_addr').value || '—';
+  document.getElementById('kp_out_size').textContent = prod.name;
+  document.getElementById('kp_out_inner_dim').textContent = prod.innerDim;
+
+  const currentPlan = PLANS.find(p => p.id === state.selectedPlan) || PLANS[0];
+  document.getElementById('kp_plan_title').textContent = currentPlan.name;
+  document.getElementById('kp_plan_svg_render').innerHTML = `<svg viewBox="0 0 200 100" style="max-height:130px; width:100%;">${currentPlan.svg}</svg>`;
+
+  const noteVal = document.getElementById('kp_note').value.trim();
+  const noteBox = document.getElementById('kp_note_block');
+  if (noteVal) {
+    noteBox.style.display = 'block';
+    document.getElementById('kp_note_text').textContent = noteVal;
+  } else {
+    noteBox.style.display = 'none';
+  }
+
+  document.getElementById('left_total').textContent = finalTotal.toLocaleString('ru-RU');
+  document.getElementById('kp_total_sum').textContent = `${finalTotal.toLocaleString('ru-RU')} руб.`;
+}
+
+function toggleHidePrices() {
+  document.body.classList.toggle('hide-prices');
+}
+
+function resetCalculator(ask) {
+  if (ask && !confirm('Очистить все данные расчёта?')) return;
+  document.getElementById('client_name').value = '';
+  document.getElementById('client_phone').value = '';
+  document.getElementById('client_order').value = '';
+  document.getElementById('client_addr').value = '';
+  document.getElementById('kp_note').value = '';
+  
+  const chkRasp = document.getElementById('is_raspashonka');
+  if (chkRasp) chkRasp.checked = false;
+  
+  document.getElementById('delivery_included').checked = true;
+  document.getElementById('delivery_region').value = 'ramenskoe';
+  document.getElementById('delivery_km').value = '0';
+  document.getElementById('delivery_price').value = '16000';
+  document.getElementById('tax_13').checked = false;
+  document.getElementById('tax_22').checked = false;
+
+  state = {
+    selectedSize: 'wood_3',
+    isRaspashonka: false,
+    selectedPlan: 'plan_0',
+    showAllPlans: false,
+    frameType: 'frame_50',
+    innerChoice: 'in_org',
+    outerChoice: 'prof',
+    insulation: 'ins50',
+    profColor: 'Оцинкованный',
+    cornersColor: 'Коричневый',
+    antisepticColor: 'Коричневый',
+    customPrices: {},
+    extrasChecked: {},
+    extrasQty: {},
+    deliveryIncluded: true,
+    deliveryRegion: 'ramenskoe',
+    deliveryKm: 0,
+    deliveryPrice: 16000,
+    taxMode: null,
+    currentModalType: 'prod'
+  };
+  document.getElementById('size_select').value = 'wood_3';
+  renderPlans();
+  renderDynamicOptions();
+  onDeliveryParamsChanged();
+  updateKP();
+}
+
+/* ЗАЯВКИ */
+function openOrderModal(type) {
+  state.currentModalType = type;
+  document.getElementById('m_head_name').value = document.getElementById('client_name').value || '';
+  document.getElementById('m_head_phone').value = document.getElementById('client_phone').value || '';
+  document.getElementById('m_head_addr').value = document.getElementById('client_addr').value || '';
+  document.getElementById('m_head_deposit').value = '5000';
+  document.getElementById('m_head_date').value = getTodayString();
+
+  rebuildModalText();
+  document.getElementById('order_modal').classList.add('active');
+}
+
+function rebuildModalText() {
+  const type = state.currentModalType;
+  const prod = PRODUCTS_DATA[state.selectedSize];
+  const isBk = prod.type === 'bk';
+  const dateVal = document.getElementById('m_head_date').value || getTodayString();
+  const deposit = parseInt(document.getElementById('m_head_deposit').value) || 0;
+  const cName = document.getElementById('m_head_name').value || '';
+  const cPhone = document.getElementById('m_head_phone').value || '';
+  const cAddr = document.getElementById('m_head_addr').value || '';
+
+  const getP = (key, defaultP) => (state.customPrices[key] !== undefined ? state.customPrices[key] : defaultP);
+  
+  // База от СНАРУЖИ
+  let equipmentTotal = getP('out_' + state.outerChoice, prod.outerPrices[state.outerChoice]);
+
+  // Каркас
+  if (!isBk && state.frameType === 'frame_100') {
+    equipmentTotal += getP('frame_100', prod.frameUpgradePrice);
+  }
+  
+  // ВНУТРИ
+  const innerTpl = INNER_OPTIONS_TEMPLATES.find(t => t.id === state.innerChoice);
+  if (innerTpl.priceProp !== 0) {
+    equipmentTotal += getP(innerTpl.id, prod.innerPricesMap[innerTpl.priceProp] || 0);
+  } else if (innerTpl.id === 'in_none') {
+    equipmentTotal += getP(innerTpl.id, -4000);
+  }
+
+  // УТЕПЛЕНИЕ
+  if (state.insulation === 'ins100') {
+    const calcIns100Price = Math.round(prod.outerPrices[state.outerChoice] * 0.2);
+    equipmentTotal += getP('ins100', calcIns100Price);
+  } else if (state.insulation === 'rock50') {
+    equipmentTotal += getP('rock50', prod.insulationPrices.rock50);
+  }
+
+  ALL_EXTRAS.forEach(srv => {
+    if (srv.id === 'height_increase' && isBk) return;
+    if (srv.id === 'assembly_site') return;
+    if (state.extrasChecked[srv.id]) {
+      const q = state.extrasQty[srv.id] || 1;
+      equipmentTotal += getP(srv.id, getExtraPrice(srv.id, srv.price)) * q;
+    }
+  });
+
+  if (state.extrasChecked['assembly_site']) {
+    let assemblyPrice = isBk ? Math.round(equipmentTotal * 0.5) : getP('assembly_site', getExtraPrice('assembly_site', 25000));
+    equipmentTotal += assemblyPrice;
+  }
+
+  let total = equipmentTotal;
+  let deliveryCost = 0;
+  if (document.getElementById('delivery_included').checked) {
+    deliveryCost = state.deliveryPrice;
+    total += deliveryCost;
+  }
+
+  if (state.taxMode === '13') total = Math.round(total * 1.13);
+  if (state.taxMode === '22') total = Math.round(total * 1.22);
+
+  const balance = Math.max(0, total - deposit);
+  
+  const optData = OUTER_NAMES[state.outerChoice];
+  let outerDescText = optData.name;
+  if (optData.isProf) {
+    outerDescText += ` (Цвет: ${state.profColor}), ${isBk ? 'цвет уголков' : 'косынки'}: ${state.cornersColor}`;
+  }
+  if (optData.isWood) {
+    outerDescText += ` [Антисептик: ${state.antisepticColor}]`;
+  }
+
+  let text = '';
+  let hasPVC = state.extrasChecked['win_pvc_50'] || state.extrasChecked['win_pvc_90'] || state.extrasChecked['win_pvc_100'];
+  let noWindows = state.extrasChecked['win_none'];
+  let windowText = noWindows ? "Без окон" : (hasPVC ? "ПВХ (согласно выбранным допам)" : "75х75 см деревянное с двойным остеклением (1 шт.)");
+
+  let insulText = (state.insulation === 'rock50') ? 'Каменная вата (плитами) 50 мм' : ((state.insulation === 'ins100') ? '100 мм' : '50 мм');
+  if (state.innerChoice === 'in_none') insulText = 'Без утепления';
+
+  if (type === 'prod') {
+    text += `Заявка на ${dateVal}\n`;
+    text += `Тег:\nЛид от:\n`;
+    const regName = DELIVERY_RATES[state.deliveryRegion].name;
+    
+    if (document.getElementById('delivery_included').checked) {
+      text += `Доставка: Производство ${regName}\n\n`;
+    } else {
+      text += `Доставка: самовывоз\n\n`;
+    }
+    
+    text += `Новая ${prod.name}\n`;
+    text += `Внутренний размер: ${prod.innerDim}\n\n`;
+
+    if (!isBk) {
+      text += `Комплектация бытовки:\n`;
+      text += `1. Отделка снаружи: ${outerDescText}\n`;
+      text += `2. Пароизоляция: Пароизоляция (пол, стены, потолок)\n`;
+      text += `3. Каркас: ${state.frameType === 'frame_100' ? '100х50 из бруса (усиленный)' : '50х50 из бруса, естественной влажности'}\n`;
+      text += `4. Утепление: ${insulText} (пол, стены, потолок)\n`;
+      text += `5. Внутренняя отделка: ${innerTpl.name}\n`;
+      text += `6. Пол: Двойной (доска + ОСБ)\n`;
+      text += `7. Крыша: двускатная, оцинкованный профлист 0,3 мм\n`;
+      text += `8. Окна: ${windowText}\n`;
+      text += `9. Дверь входная: 1,80х80 см деревянная каркасная (1 шт.)\n\n`;
+    } else {
+      text += `Характеристики стандартного блок-контейнера:\n`;
+      text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм\n`;
+      text += `• Внешняя отделка: ${outerDescText}\n`;
+      text += `• Внутренняя отделка: ${innerTpl.name}\n`;
+      text += `• Пол: Двойной (доска + ОСБ)\n`;
+      text += `• Крыша всегда прямая: листовая сталь толщиной 0,6 мм\n`;
+      text += `• Окно: ${windowText}\n`;
+      text += `• Дверь деревянная 1,90х80 см (1 шт.)\n`;
+      text += `• Утепление: ${insulText}\n`;
+      text += `• Пароизоляция: Пароизоляция (пол, стены, потолок)\n\n`;
+    }
+
+    let extrasList = [];
+    ALL_EXTRAS.forEach(s => {
+      if (s.id === 'height_increase' && isBk) return;
+      if (state.extrasChecked[s.id]) {
+        extrasList.push(`❗ ${s.name} — ${state.extrasQty[s.id] || 1} шт.`);
+      }
+    });
+    if (extrasList.length > 0) {
+      text += `Особенности комплектации (допы):\n` + extrasList.join('\n') + `\n\n`;
+    }
+
+    text += `В комплекте:\n- фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n- ступени для входа\n`;
+    if (state.deliveryRegion === 'ovrazhki') {
+      text += `- электрика: розетка, выключатель, патрон и провод\n`;
+    }
+    text += `\n`;
+
+    text += `---\n`;
+    text += `Стоимость бытовки: ${equipmentTotal.toLocaleString('ru-RU')} руб.\n`;
+    text += `Стоимость доставки: ${deliveryCost.toLocaleString('ru-RU')} руб.\n`;
+    text += `Итого: ${total.toLocaleString('ru-RU')} руб.\n\n`;
+    text += `Предоплата ${deposit.toLocaleString('ru-RU')} руб.\n`;
+    text += `${balance.toLocaleString('ru-RU')} руб. оплата водителю НАЛИЧНЫМИ\n\n`;
+    
+    text += `Заказчик: ${cName ? cName : '—'}\n`;
+    text += `Телефон: ${cPhone ? cPhone : '—'}\n`;
+    text += `Адрес объекта: ${cAddr ? cAddr : '—'}\n\n`;
+    
+    text += `Планировка: подтверждена и прилагается\n`;
+    text += `Заезд: свободный со слов клиента. Фото и видео прилагается\n\n`;
+    text += `Ответственный менеджер:`;
+
+  } else {
+    /* ЗАЯВКА ДЛЯ КЛИЕНТА */
+    text += `Заявка на ${dateVal}\n\n`;
+    text += `Новая ${prod.name}\n`;
+    text += `Внутренний размер: ${prod.innerDim}\n\n`;
+
+    if (!isBk) {
+      text += `Комплектация деревянного каркаса:\n`;
+      text += `1. Отделка снаружи: ${outerDescText}\n`;
+      text += `2. Пароизоляция: Пароизоляция (пол, стены, потолок)\n`;
+      text += `3. Каркас: ${state.frameType === 'frame_100' ? '100х50 из бруса (усиленный)' : '50х50 из бруса, естественной влажности'}\n`;
+      text += `4. Утепление: ${insulText} (пол, стены, потолок)\n`;
+      text += `5. Внутренняя отделка: ${innerTpl.name}\n`;
+      text += `6. Пол: Двойной (доска + ОСБ)\n`;
+      text += `7. Крыша: двускатная, оцинкованный профлист 0,3 мм (односкатная по запросу)\n`;
+      text += `8. Окна: ${windowText}\n`;
+      text += `9. Дверь входная: 1,80х80 см деревянная каркасная (1 шт.)\n\n`;
+    } else {
+      text += `Характеристики стандартного блок-контейнера:\n`;
+      text += `• Каркас сварной: швеллер 100х50х3мм, стойки - уголок 63х63х3мм\n`;
+      text += `• Внешняя отделка: ${outerDescText}\n`;
+      text += `• Внутренняя отделка: ${innerTpl.name}\n`;
+      text += `• Пол: Двойной (доска + ОСБ)\n`;
+      text += `• Крыша всегда прямая: листовая сталь толщиной 0,6 мм\n`;
+      text += `• Окно: ${windowText}\n`;
+      text += `• Дверь деревянная 1,90х80 см (1 шт.)\n`;
+      text += `• Утепление: ${insulText}\n`;
+      text += `• Пароизоляция: Пароизоляция (пол, стены, потолок)\n\n`;
+    }
+
+    let extrasList = [];
+    ALL_EXTRAS.forEach(s => {
+      if (s.id === 'height_increase' && isBk) return;
+      if (state.extrasChecked[s.id]) {
+        extrasList.push(`❗ ${s.name} — ${state.extrasQty[s.id] || 1} шт.`);
+      }
+    });
+    if (extrasList.length > 0) {
+      text += `Особенности комплектации (допы):\n` + extrasList.join('\n') + `\n\n`;
+    }
+
+    text += `В комплекте:\n- фундаментные блоки 20х20х40 см — ${prod.blocksGift} шт.\n- ступени для входа\n`;
+    if (state.deliveryRegion === 'ovrazhki') {
+      text += `- электрика: розетка, выключатель, патрон и провод\n`;
+    }
+    text += `\n`;
+
+    text += `---\n`;
+    text += `Итого: ${total.toLocaleString('ru-RU')} руб.\n\n`;
+    text += `Предоплата ${deposit.toLocaleString('ru-RU')} руб.\n`;
+    text += `тел. +7 (985) 128-33-85\n`;
+    text += `Ольга К. Т-Банк\n\n`;
+    text += `Сообщение о назначении платежа указывать не нужно!\n`;
+  }
+
+  document.getElementById('modal_text').value = text;
+}
+
+function closeOrderModal() {
+  document.getElementById('order_modal').classList.remove('active');
+}
+
+function copyOrderText() {
+  const area = document.getElementById('modal_text');
+  area.select();
+  navigator.clipboard.writeText(area.value).then(() => {
+    alert('Текст скопирован в буфер обмена!');
+    closeOrderModal();
+  });
+}
+
+window.onload = init;
+</script>
+</body>
+</html>
